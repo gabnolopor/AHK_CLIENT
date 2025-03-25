@@ -7,7 +7,7 @@ import ComingSoon from './pages/ComingSoon';
 import Design from './components/Design';
 import Biography from './pages/Biography';
 import Credits from './pages/Credits';
-import PhotoRoom from './pages/Photoroom';
+import PhotoRoom from './pages/PhotoRoom';
 import ArtRoom from './pages/ArtRoom';
 import Writings from './pages/Writings';
 import Admin from './pages/Admin';
