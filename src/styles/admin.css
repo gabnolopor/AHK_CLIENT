@@ -958,3 +958,14 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px var(--shadowly-maroon);
 }
+.file-count {
+  font-size: 0.8em;
+  margin-left: 10px;
+  color: #666;
+  font-weight: normal;
+}
+
+.add-new-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:3000/api';
+const API_URL = import.meta.env.VITE_API_URL;
 
 const handleApiError = (error) => {
     console.error('API Error:', error);
@@ -18,6 +18,8 @@ const endpointMap = {
 };
 
 export const apiService = {
+    
+
     // Writings
     getAllWritings: async () => {
         try {

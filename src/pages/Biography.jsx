@@ -1,35 +1,38 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { apiService } from '../services/api';
+import { useApi } from '../hooks/useApi';
 import '../styles/bio.css';
 import { Link } from 'react-router-dom';
 
 const Biography = () => {
     const [biography, setBiography] = useState({ title: '', text: '' });
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const { loading, error, handleRequest } = useApi();
 
     useEffect(() => {
         const fetchBiography = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/biography');
-                const cleanText = response.data.text.replace(/\\n/g, '\n');
+                const response = await handleRequest(apiService.getAllBiography);
+                
+                // If the response is an array, take the first item
+                const bioData = Array.isArray(response) ? response[0] : response;
+                
+                // Clean the text by replacing escaped newlines
+                const cleanText = bioData.text.replace(/\\n/g, '\n');
+                
                 setBiography({ 
-                    title: response.data.title,
+                    title: bioData.title,
                     text: cleanText
                 });
-                setLoading(false);
             } catch (error) {
                 console.error('Error fetching biography:', error);
-                setError('Error loading biography');
-                setLoading(false);
             }
         };
 
         fetchBiography();
-    }, []);
+    }, [handleRequest]);
 
     if (loading) return <div>Loading...</div>;
-    if (error) return <div>{error}</div>;
+    if (error) return <div>Error loading biography: {error}</div>;
 
     return (
         <div className="bio__container">

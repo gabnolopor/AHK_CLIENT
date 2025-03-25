@@ -15,6 +15,8 @@ function TestApi() {
 
     useEffect(() => {
         const fetchAllData = async () => {
+            console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
+
             try {
                 const [writings, paintings, photography, music, designs, biography] = await Promise.all([
                     handleRequest(apiService.getAllWritings),
@@ -35,6 +37,15 @@ function TestApi() {
                 });
             } catch (err) {
                 console.error('Failed to fetch data:', err);
+                if (err.response) {
+                    console.error('Response data:', err.response.data);
+                    console.error('Response status:', err.response.status);
+                    console.error('Response headers:', err.response.headers);
+                } else if (err.request) {
+                    console.error('Request data:', err.request);
+                } else {
+                    console.error('Error message:', err.message);
+                }
             }
         };
 

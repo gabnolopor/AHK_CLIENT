@@ -73,7 +73,14 @@ function Admin() {
   });
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
- 
+  // Add this constant for file limits
+  const CONTENT_LIMITS = {
+    photo: 15,
+    artwork: 15,
+    writing: 50,
+    music: 30,
+    design: 15
+  };
 
   // Fetch all content from database
   useEffect(() => {
@@ -235,6 +242,12 @@ function Admin() {
   };
 
   const handleAddNew = (type) => {
+    // Check if we've reached the limit for this content type
+    if (CONTENT_LIMITS[type] && dbContent[type].length >= CONTENT_LIMITS[type]) {
+      toast.error(`Maximum limit of ${CONTENT_LIMITS[type]} ${type} files reached. Please delete some existing files first.`);
+      return;
+    }
+    
     setModalType(type);
     setSelectedFile({ id: null, type });
     setFormData({
@@ -475,16 +488,25 @@ function Admin() {
       return null;
     }
 
+    // Calculate if we've reached the limit for this content type
+    const hasReachedLimit = CONTENT_LIMITS[type] && dbContent[type].length >= CONTENT_LIMITS[type];
+
     return (
       <>
         <div className="section-header">
           <h2 className="section-title">
             {type.charAt(0).toUpperCase() + type.slice(1)}
+            {CONTENT_LIMITS[type] && (
+              <span className="file-count">
+                {dbContent[type].length}/{CONTENT_LIMITS[type]}
+              </span>
+            )}
           </h2>
           <button
             className="add-new-button"
             onClick={() => handleAddNew(type)}
-            disabled={isLoading}
+            disabled={isLoading || hasReachedLimit}
+            title={hasReachedLimit ? `Maximum limit of ${CONTENT_LIMITS[type]} files reached` : ""}
           >
             <FiPlus /> Add New
           </button>
