@@ -1,0 +1,960 @@
+/* Define the font face for Vidaloka-Regular */
+@font-face {
+  font-family: 'Vidaloka-Regular';
+  src: url('/fonts/Vidaloka-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Main Container Styles */
+.admin-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--dark-black) 0%, var(--dark-wine) 80%);
+}
+
+/* Login View Styles */
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+}
+
+.login-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-title {
+  text-align: center;
+  color: var(--full-wine);
+  margin-bottom: 2rem;
+  font-family: 'Anton-Regular';
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.login-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.login-form-icon {
+  position: absolute;
+  left: 1rem;
+  color: var(--dark-wine);
+}
+
+.login-form-input {
+  width: 100%;
+  padding: 0.75rem;
+  padding-left: 3rem;
+  border: 2px solid var(--shadowly-maroon);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.login-form-input:focus {
+  outline: none;
+  border-color: var(--full-wine);
+  box-shadow: 0 0 0 2px var(--shadowly-maroon);
+}
+
+.password-toggle-button {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--dark-wine);
+  cursor: pointer;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-button {
+  background: linear-gradient(
+    270deg,
+    var(--full-wine),
+    var(--full-red),
+    var(--dark-wine),
+    var(--full-wine)
+  );
+  background-size: 300% 100%;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  font-family: 'Anton-Regular';
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.login-button:hover:not(:disabled) {
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Dashboard Styles */
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
+  padding: 2rem;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px var(--shadowly-darkMaroon);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dashboard-title {
+  font-family: 'Vidaloka-Regular';
+  font-size: 2.5rem;
+  color: black;
+  letter-spacing: 2px;
+}
+
+/* Content Card Styles */
+.content-card {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px var(--shadowly-darkMaroon);
+  font-family: 'Anton-Regular';
+  letter-spacing: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+/* Content Section Layout */
+.content-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px var(--shadowly-maroon);
+  margin-bottom: 2rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.section-title {
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.8rem;
+  color: black;
+  margin-bottom: 1rem;
+  letter-spacing: 1.5px;
+}
+
+.section-content {
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.1rem;
+  color: black;
+  letter-spacing: 1px;
+  line-height: 1.6;
+}
+
+/* Dashboard Grid Layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+  padding: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.grid-item {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px var(--shadowly-maroon);
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.grid-item:hover {
+  transform: translateY(-5px);
+}
+
+
+/* Stats Card */
+.stats-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px var(--shadowly-maroon);
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-number {
+  font-family: 'Vidaloka-Regular';
+  font-size: 2.5rem;
+  color: black;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.stats-label {
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.1rem;
+  color: black;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+/* Animation Classes */
+.fade-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Toast Notification Styles */
+.toast-notification {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: white;
+  box-shadow: 0 4px 12px var(--shadowly-darkMaroon);
+  z-index: 1000;
+  font-family: 'Anton-Regular';
+  letter-spacing: 1px;
+}
+
+.toast-success {
+  border-left: 4px solid var(--full-orange);
+}
+
+.toast-error {
+  border-left: 4px solid var(--full-red);
+}
+
+/* Loading Animation */
+.loading-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top: 2px solid var(--full-orange);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Add these new styles to your existing Admin.css */
+
+.upload-form {
+  background: rgba(255, 255, 255, 0.98);
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+}
+
+.form-label {
+  display: block;
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.1rem;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.form-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-family: 'Anton-Regular';
+  letter-spacing: 1px;
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  resize: none;
+  height: 100px;
+  overflow-y: auto;
+}
+
+.file-input-wrapper {
+  position: relative;
+  padding: 2rem;
+  border: 2px dashed var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.file-input-wrapper:hover {
+  border-color: var(--full-orange);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.file-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.file-previewImage {
+  max-width: 100%;
+  max-height: 100px;
+  object-fit: contain;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.file-previewImage img {
+  max-height: 120px;
+}
+
+.file-previewImage p, .file-previewText p, .file-previewAudio p {
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+  color: var(--full-wine);
+}
+
+.file-previewText,
+.file-previewAudio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  color: var(--full-wine);
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+}
+
+.file-previewText svg,
+.file-previewAudio svg {
+  margin-right: 0.5rem;
+  font-size: 1.5rem;
+}
+
+.file-input-text {
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* File List Styles */
+.file-list {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 0.5rem;
+  border: 1px solid var(--shadowly-maroon);
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+.file-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.file-list-item.selected {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.file-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  color: var(--full-wine);
+}
+
+.file-details {
+  flex: 1;
+}
+
+.file-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.file-date {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+
+.add-new-button svg {
+  font-size: 1.2rem;
+}
+
+.upload-form {
+  display: none;
+}
+
+.upload-form.visible {
+  display: block;
+  animation: slideDown 0.3s ease forwards;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  padding: 2rem;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  position: relative;
+  animation: modalSlideIn 0.3s ease;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.modal-title {
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.8rem;
+  color: var(--full-wine);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--full-wine);
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.modal-close:hover {
+  transform: rotate(90deg);
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form Styles */
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-family: 'Vidaloka-Regular';
+  font-size: 1.1rem;
+  color: var(--full-wine);
+}
+
+.form-input, .form-textarea {
+  padding: 0.75rem;
+  border: 2px solid var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  font-family: 'Anton-Regular';
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.form-input:focus, .form-textarea:focus {
+  outline: none;
+  border-color: var(--full-orange);
+  box-shadow: 0 0 0 3px var(--shadowly-maroon);
+}
+
+/* File Preview Styles */
+.file-preview-container {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+
+
+.preview-icon {
+  font-size: 3rem;
+  color: var(--full-wine);
+}
+
+.file-preview-container span {
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+  color: var(--full-wine);
+}
+
+.file-name {
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+  color: var(--full-wine);
+  margin-top: 0.5rem;
+  text-align: center;
+  word-break: break-word;
+}
+
+/* Style Settings Button */
+.dashboard-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.style-settings-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(
+    270deg,
+    var(--full-wine),
+    var(--full-red),
+    var(--dark-wine),
+    var(--full-wine)
+  );
+  background-size: 300% 100%;
+  background-position: 0% 50%;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-family: 'Anton-Regular';
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.style-settings-button:hover {
+  background-position: 100% 50%;
+}
+
+/* Style Modal */
+.style-modal {
+  max-width: 450px;
+}
+
+.style-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.style-button {
+  flex: 1;
+  padding: 0.75rem;
+  border: 2px solid var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  background: white;
+  color: var(--full-wine);
+  font-family: 'Anton-Regular';
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.style-button.active {
+  background: var(--full-wine);
+  color: white;
+  border-color: var(--full-wine);
+}
+
+.gradient-controls {
+  display: flex;
+  gap: 1rem;
+}
+
+.color-input {
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  border: 2px solid var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+/* Update container backgrounds */
+.dashboard-container,
+.login-container {
+  transition: background 0.3s ease;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}
+
+/* Background Upload Styles */
+.background-upload-wrapper {
+  position: relative;
+  padding: 2rem;
+  border: 2px dashed var(--shadowly-maroon);
+  border-radius: 0.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.background-upload-wrapper:hover {
+  border-color: var(--full-orange);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.background-upload-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.upload-icon {
+  font-size: 2rem;
+  color: var(--full-wine);
+}
+
+.background-upload-text span {
+  font-family: 'Anton-Regular';
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.background-preview-container {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.background-preview-image {
+  max-width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  border: 2px solid var(--shadowly-maroon);
+}
+
+.background-file-name {
+  font-family: 'Anton-Regular';
+  font-size: 0.8rem;
+  color: var(--full-wine);
+  text-align: center;
+  word-break: break-word;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .dashboard-header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    justify-content: center;
+  }
+  .section-header {
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+}
+
+/* Add to your existing styles */
+
+.file-preview {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.file-list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.file-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.file-list-item.selected {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.file-details {
+  flex: 1;
+}
+
+.file-title {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.file-date {
+  font-size: 0.8em;
+  opacity: 0.7;
+}
+.delete-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--full-wine);
+}
+
+/* Common button styles */
+.action-button,
+.add-new-button,
+.delete-button,
+.logout-button,
+.change-password-button {
+    background: linear-gradient(
+        270deg,
+        var(--full-wine),
+        var(--full-red),
+        var(--dark-wine),
+        var(--full-wine)
+    );
+    background-size: 300% 100%;
+    background-position: 0% 50%;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-family: 'Anton-Regular';
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Common hover effect */
+.action-button:hover,
+.add-new-button:hover,
+.delete-button:hover,
+.logout-button:hover,
+.change-password-button:hover {
+    background-position: 100% 50%;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadowly-maroon);
+}
+
+/* Keep existing specific button sizes and padding */
+.action-button {
+    /* Keep existing size/padding */
+    margin: 0.5rem;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    padding: 0.75rem 1.5rem;
+}
+
+.add-new-button {
+    /* Keep existing size/padding */
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.delete-button {
+    /* Keep existing size/padding */
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logout-button,
+.change-password-button {
+    /* Keep existing size/padding */
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Disabled state */
+.action-button:disabled,
+.add-new-button:disabled,
+.delete-button:disabled,
+.logout-button:disabled,
+.change-password-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.form-select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--shadowly-maroon);
+    border-radius: 8px;
+    font-family: 'Anton-Regular';
+    font-size: 1rem;
+    background-color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    appearance: none; /* Removes default arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23800020' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: var(--full-wine);
+    box-shadow: 0 0 0 2px var(--shadowly-maroon);
+}
+
+.form-select:hover {
+    border-color: var(--full-wine);
+}
+
+.form-select option {
+    padding: 0.75rem;
+    font-family: 'Anton-Regular';
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px var(--shadowly-maroon);
+}

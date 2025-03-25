@@ -1,0 +1,91 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-primary: #000000;
+    --color-secondary: #f0f0f0;
+    /*Full Color*/
+    --full-yellow: #F2CB07;
+    --full-orange: #F28705;
+    --full-red: #D90404;
+    --full-wine:#8C0303;
+    --full-maroon: #400101;
+    --goldish-brown: #60450c;
+    --shadowly-maroon: #4001019b;
+
+    /*Dark Colors*/
+    --dark-blue: #150140;
+    --dark-red: #8C0303;
+    --dark-wine: #590202;
+    --dark-maroon: #260101;
+    --dark-black: #0D0000;
+    --goldish-dark-brown: #322302;
+
+    --color-blue: #0C06BF;   
+   --dark-blue: #090673;
+   --color-beige: #B2BF80;
+   --color-brown: #8C4D16;
+   --x-move: 0px;
+   --y-move: 0px;
+
+}
+
+@font-face {
+    font-family: Monserrat;
+    src: url('../fonts/Anton-Regular.ttf')
+}
+  
+
+.encabezado {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.encabezado__contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 2rem;
+}
+
+.encabezado__titulo {
+    position: relative;
+    font-size: 10rem;
+    color: #000;
+    font-family: Monserrat;
+    cursor: pointer;
+}
+
+
+.encabezado__texto {
+    display: block;
+    transition: 
+        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, opacity;
+    letter-spacing: 0.5rem;
+    text-transform: uppercase;
+}
+
+.encabezado__texto--entrada {
+    transform: translateY(0) rotateX(0);
+    opacity: 1;
+}
+
+.encabezado__texto--salida {
+    transform: translateY(100%) rotateX(15deg);
+    opacity: 0;
+}
+
+
+
