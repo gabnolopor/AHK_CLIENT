@@ -12,7 +12,7 @@ import {
   FiMusic,
   FiFile,
 } from "react-icons/fi";
-import "../styles/Admin.css";
+import "../styles/admin.css";
 import { apiService } from "../services/api";
 import { useApi } from "../hooks/useApi";
 import { Link } from "react-router-dom";
