@@ -14,6 +14,8 @@ import Admin from './pages/Admin';
 import PrivateRoute from './components/PrivateRoute';
 import TextContentPage from "./components/TextContentPage";
 
+import NotFound from './pages/NotFound';
+
 function App() {
   return (
     <Router>
@@ -39,6 +41,8 @@ function App() {
           } 
         />
        <Route path="/text-content" element={<TextContentPage />} />
+
+       <Route path="*" element={<NotFound />} />
 
 
       </Routes>
