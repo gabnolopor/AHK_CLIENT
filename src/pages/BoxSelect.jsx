@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/boxStyles.css';
@@ -9,6 +9,7 @@ function BoxSelect() {
   const [isMobile, setIsMobile] = useState(false);
   const [lastTouchedBox, setLastTouchedBox] = useState(null);
   const [selectedBox, setSelectedBox] = useState(null);
+  const timeoutRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,23 +52,6 @@ function BoxSelect() {
     }
   };
 
-  const handleTouchMove = (e) => {
-    if (isMobile) {
-      const touch = e.touches[0];
-      const elements = document.elementsFromPoint(touch.clientX, touch.clientY);
-      const boxSector = elements.find(el => el.classList.contains('box__sector'));
-      
-      if (boxSector) {
-        const boxIndex = parseInt(boxSector.dataset.index);
-        if (boxIndex !== lastTouchedBox) {
-          setLastTouchedBox(boxIndex);
-          setIsHovering(true);
-          document.querySelector('.video-container').classList.add('blur-active');
-        }
-      }
-    }
-  };
-
   const handleTouchStart = (e, boxId, text) => {
     e.stopPropagation();
     
@@ -79,6 +63,22 @@ function BoxSelect() {
         setLastTouchedBox(boxId);
         document.querySelector('.video-container').classList.add('blur-active');
       }
+      
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (isMobile) {
+      timeoutRef.current = setTimeout(() => {
+        if (!selectedBox) {
+          setIsHovering(false);
+          setLastTouchedBox(null);
+          document.querySelector('.video-container').classList.remove('blur-active');
+        }
+      }, 500);
     }
   };
 
@@ -105,14 +105,14 @@ function BoxSelect() {
   return (
     <div 
       className="box__wrapper"
-      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div className="video-container">
         <video autoPlay muted loop playsInline className="background-video">
           <source src="/bgPremier.mp4" type="video/mp4" />
         </video>
         <img src="/newframe.png" className="frame-overlay" alt="decorative frame" />
-       <Link to="/"> <img src="/black-logo.png" className="logo" alt="logo" id='logobox' /></Link>
+        <Link to="/"> <img src="/black-logo.png" className="logo" alt="logo" id='logobox' /></Link>
       </div>
 
       <div className="boxes__grid">
@@ -123,7 +123,7 @@ function BoxSelect() {
           <div 
             key={index}
             data-index={index}
-            className={`box__sector ${selectedBox === index ? 'selected-box' : ''}`}
+            className={`box__sector ${selectedBox === index ? 'selected-box' : ''} ${lastTouchedBox === index ? 'touch-active' : ''}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onTouchStart={(e) => handleTouchStart(e, index, text)}

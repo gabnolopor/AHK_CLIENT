@@ -110,7 +110,7 @@
     font-size: 2.5rem;
     font-family: Monserrat;
     letter-spacing: 0.5rem;
-    
+    transition: opacity 2s ease, visibility 2s ease;
     opacity: 0;
     visibility: hidden;
     z-index: 2;
@@ -370,7 +370,7 @@
     }
   
     .hover-modalBooks::after {
-  
+     
       margin-top: 2px;
     }
   
@@ -433,5 +433,12 @@
   
     .book-author {
       font-size: 0.7rem;
+    }
+  }
+
+  /* Ocultar el texto "Tap again for art" en dispositivos de escritorio */
+  @media (min-width: 1025px) {
+    .hover-modalBooks::after {
+      display: none;
     }
   }
