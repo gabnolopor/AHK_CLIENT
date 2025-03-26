@@ -8,6 +8,7 @@ function BoxSelect() {
   const [isHovering, setIsHovering] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [lastTouchedBox, setLastTouchedBox] = useState(null);
+  const [selectedBox, setSelectedBox] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,8 +20,22 @@ function BoxSelect() {
 
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+    
+    const handleOutsideTap = (e) => {
+      if (isMobile && selectedBox !== null && !e.target.closest('.box__sector')) {
+        setSelectedBox(null);
+        setLastTouchedBox(null);
+        document.querySelector('.video-container').classList.remove('blur-active');
+      }
+    };
+    
+    document.addEventListener('touchstart', handleOutsideTap);
+    
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      document.removeEventListener('touchstart', handleOutsideTap);
+    };
+  }, [isMobile, selectedBox]);
 
   const handleMouseEnter = () => {
     if (!isMobile) {
@@ -53,42 +68,38 @@ function BoxSelect() {
     }
   };
 
-  const handleTouchStart = (boxId) => {
+  const handleTouchStart = (e, boxId, text) => {
+    e.stopPropagation();
+    
     if (isMobile) {
-      setIsHovering(true);
-      setLastTouchedBox(boxId);
-      document.querySelector('.video-container').classList.add('blur-active');
+      if (selectedBox === boxId) {
+        handleBoxClick(text);
+      } else {
+        setSelectedBox(boxId);
+        setLastTouchedBox(boxId);
+        document.querySelector('.video-container').classList.add('blur-active');
+      }
     }
   };
 
   const handleBoxClick = (text) => {
     if (text === 'Music') {
       navigate('/music');
-    }
-   
-    if (text === 'Soon') {
+    } else if (text === 'Soon') {
       navigate('/comingsoon');
-    } 
-      if (text === 'Design') {
+    } else if (text === 'Design') {
       navigate('/design');
-    } 
-    if (text === 'Biography') {
+    } else if (text === 'Biography') {
       navigate('/biography');
-    }  
-    if (text === 'Credits') {
+    } else if (text === 'Credits') {
       navigate('/credits');
-    } 
-    if (text === 'Photos') {
+    } else if (text === 'Photos') {
       navigate('/photoroom');
-    } 
-    if (text === 'Art') {
+    } else if (text === 'Art') {
       navigate('/artroom');
-    }  
-    if (text === 'Writing') {
+    } else if (text === 'Writing') {
       navigate('/writing');
-    }  
-    
-    
+    }
   };
 
   return (
@@ -112,13 +123,15 @@ function BoxSelect() {
           <div 
             key={index}
             data-index={index}
-            className={`box__sector ${lastTouchedBox === index ? 'touch-active' : ''}`}
+            className={`box__sector ${selectedBox === index ? 'selected-box' : ''}`}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
-            onTouchStart={() => handleTouchStart(index)}
-            onClick={() => handleBoxClick(text)}
+            onTouchStart={(e) => handleTouchStart(e, index, text)}
+            onClick={() => !isMobile && handleBoxClick(text)}
           >
-            <div className="hover-modal">{text}</div>
+            <div className={`hover-modal ${selectedBox === index ? 'selected-visible' : ''}`}>
+              {text}
+            </div>
           </div>
         ))}
       </div>

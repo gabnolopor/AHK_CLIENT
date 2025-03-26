@@ -97,14 +97,14 @@ function ShelfBg() {
             <div 
               key={index}
               data-index={index}
-              className={`shelf__sector ${lastTouchedBox === index ? 'touch-active' : ''} ${index === 4 ? 'no-interaction no-frame' : ''}`}
+              className={`shelf__sector ${lastTouchedBox === index ? 'touch-activeBooks' : ''} ${index === 4 ? 'no-interaction' : ''}`}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
               onTouchStart={() => handleTouchStart(index)}
               onTouchEnd={handleTouchEnd}
             >
               <div 
-                className="hover-modal" 
+                className="hover-modalBooks" 
                 onClick={() => handleClick(text, index)}
               >
                 {text}

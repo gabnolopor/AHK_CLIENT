@@ -50,7 +50,7 @@
     -webkit-user-select: none;
     user-select: none;
     transition: box-shadow 0.3s ease;
-    overflow: hidden;
+    
   }
   
   .shelf__sector::before {
@@ -70,6 +70,15 @@
     background: rgba(0, 0, 0, 0.4);
   }
   
+  .shelf__sector.touch-activeBooks::before {
+    background: rgba(0, 0, 0, 0.4);
+    transition: background 0.3s ease;
+  }
+  
+  .shelf__sector:not(.touch-activeBooks)::before {
+    background: rgba(0, 0, 0, 0);
+  }
+  
   .shelf__sector.no-interaction {
     border: none;
     box-shadow: none;
@@ -79,22 +88,29 @@
     pointer-events: none;
   }
   
-  .shelf__sector.no-interaction .hover-modal {
+  .shelf__sector.no-interaction .hover-modalBooks {
     display: none;
   }
   
-  .hover-modal {
+  .shelf__sector:not(.touch-activeBooks) .hover-modalBooks {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease, visibility 2s ease;
+  }
+  
+  .hover-modalBooks {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%);
     background-color: transparent;
     padding: 0;
     text-align: center;
     text-transform: uppercase;
     font-size: 2.5rem;
     font-family: Monserrat;
-    transition: all 2s ease;
+    letter-spacing: 0.5rem;
+    
     opacity: 0;
     visibility: hidden;
     z-index: 2;
@@ -109,12 +125,26 @@
     -webkit-tap-highlight-color: transparent;
   }
   
-  .shelf__sector:hover .hover-modal {
+  .hover-modalBooks::after {
+    content: "Tap again for art";
+    display: block;
+    font-size: 0.5em;
+    margin-top: 5px;
+    opacity: 0.8;
+    letter-spacing: 0.1rem;
+    font-weight: normal;
+    text-transform: none;
+  }
+  
+  .shelf__sector:hover .hover-modalBooks {
     opacity: 1;
     visibility: visible;
-    transform: translate(-50%, -50%) scale(1.2);
-    letter-spacing: 0.8rem;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  }
+  
+  .shelf__sector.touch-activeBooks .hover-modalBooks {
+    opacity: 1;
+    visibility: visible;
   }
   
   .book-modal-overlay {
@@ -250,16 +280,16 @@
       padding-bottom: 5%;
       padding: 0 0.5rem;
     }
-    .hover-modal {
+    .hover-modalBooks {
       font-size: 2rem;
     }
-    .shelf__sector:hover .hover-modal {
+    .shelf__sector:hover .hover-modalBooks {
       opacity: 0;
       visibility: hidden;
       transform: translate(-50%, -50%) scale(0);
     }
   
-    .shelf__sector.touch-active .hover-modal {
+    .shelf__sector.touch-activeBooks .hover-modalBooks {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1.2);
@@ -267,7 +297,7 @@
       transition: all 2s ease;
     }
   
-    .hover-modal {
+    .hover-modalBooks {
       font-size: 2rem;
     }
   }
@@ -286,8 +316,13 @@
       padding-bottom: 15%;
     }
   
-    .hover-modal {
+    .hover-modalBooks {
       font-size: 1.4rem;
+      letter-spacing: 0.2rem;
+    }
+    .hover-modalBooks::after {
+      font-size: 0.6em;
+      margin-top: 3px;
     }
     .books-grid {
       padding: 1.5rem 0;
@@ -307,25 +342,46 @@
       transform: scale(0.8);
     }
   
-    .shelf__sector.touch-active::before {
+    .shelf__sector.touch-activeBooks::before {
       background: rgba(0, 0, 0, 0.4);
     }
     
-    .shelf__sector.touch-active .hover-modal {
+    .shelf__sector.Books .hover-modalBooks {
       opacity: 1;
       visibility: visible;
       transform: translate(-50%, -50%) scale(1.2);
       letter-spacing: 0.5rem;
     }
+  
+    .shelf__sector:hover .hover-modalBooks {
+      letter-spacing: 0.2rem;
+    }
+  
+    .shelf__sector.touch-activeBooks .hover-modalBooks {
+      letter-spacing: 0.2rem;
+      transform: translate(-50%, -50%);
+    }
   }
   
   @media (max-width: 480px) {
-    .hover-modal {
+    .hover-modalBooks {
       font-size: 1.2rem;
+      letter-spacing: 0.1rem;
+    }
+  
+    .hover-modalBooks::after {
+  
+      margin-top: 2px;
     }
   
     .book-cover-container .book-cover {
       transform: scale(0.7);
+    }
+  
+    .shelf__sector:hover .hover-modalBooks,
+    .shelf__sector.touch-activeBooks .hover-modalBooks {
+      letter-spacing: 0.1rem;
+      transform: translate(-50%, -50%);
     }
   }
   
