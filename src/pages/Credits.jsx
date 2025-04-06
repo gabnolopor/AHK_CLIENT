@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import '../styles/credits.css'
+import { Link } from 'react-router-dom';
 
 function Credits() {
   const [isAnimationComplete, setIsAnimationComplete] = useState(false);
@@ -23,38 +24,38 @@ function Credits() {
 
   return (
     <div className="simulation__wrapper">
+      <Link to="/boxselect" className="logo-link">
+        <img src="/black-logo.png" alt="Logo" className="logo" />
+      </Link>
+
       <div className="simulation__content">
         <div className="header">
           <h1>CREDITS</h1>
-          <p style={{fontSize: '1.5rem', marginBottom: '0rem'}}>TO</p>
-          <h2>THE DIGITAL FRONTIER</h2>
+          <p className="plus-symbol">+</p>
+          <h2>THANX</h2>
         </div>
+        
         <div className="column">
-          <p>
-            In a digital realm far beyond traditional boundaries, 
-            a new era of artistic expression emerges...
+          <p className="credit-item">Art Direction</p>
+          <p className="credit-item">Andrew H. King</p>
+          <p className="credit-item">All Art is created</p>
+          <p className="credit-item">By</p>
+          <p className="credit-item">Andrew H. King</p>
+          <p className="credit-text">
+            Suspended somewhere between the digital and analog realms, lives the Art & Music of ZigZag aka Andrew H. King. Contact: andrew@zigzagworx.com
           </p>
-          <p>
-            Through the vast expanse of virtual space,
-            creators and innovators push the boundaries
-            of what's possible in digital art and design.
-          </p>
-          <p>
+        </div>
+
+        <div className="column">
+          <p className="credit-text">
             This is where tradition meets innovation,
-            where the physical and digital worlds
             converge to create something entirely new...
           </p>
-          <br />
-        </div>
-        <div className="column">
-          <p>
+          <p className="credit-text">
             Software Development by Judith Rios & Gabino López.
           </p>
-          <br />
-          <p>All art is created by Andrew H. King.</p>
-          <br />
-          <p>
-            The website is hosted on your <ion-icon name="heart"></ion-icon>.
+          <p className="credit-text">
+            &copy; 2025 ZigZag        
           </p>
         </div>
       </div>
