@@ -85,16 +85,16 @@ function BoxSelect() {
   const handleBoxClick = (text) => {
     if (text === 'Music') {
       navigate('/music');
-    } else if (text === 'Soon') {
-      navigate('/comingsoon');
+    } else if (text === 'Photos') {
+      navigate('/photoroom');
     } else if (text === 'Design') {
       navigate('/design');
-    } else if (text === 'Biography') {
+    } else if (text === 'Bio') {
       navigate('/biography');
     } else if (text === 'Credits') {
       navigate('/credits');
-    } else if (text === 'Photos') {
-      navigate('/photoroom');
+    } else if (text === 'Digital Art') {
+      navigate('/digitalart');
     } else if (text === 'Art') {
       navigate('/artroom');
     } else if (text === 'Writing') {
@@ -117,8 +117,8 @@ function BoxSelect() {
 
       <div className="boxes__grid">
         {[
-          'Music', 'Photos', 'Art', 'Writing',
-          'Design', 'Credits', 'Biography', 'Soon'
+          'Art', 'Digital Art', 'Music', 'Photos',
+          'Design', 'Writing', 'Bio', 'Credits'
         ].map((text, index) => (
           <div 
             key={index}
