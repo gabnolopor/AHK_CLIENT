@@ -13,9 +13,11 @@ function ShelfBg() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(('ontouchstart' in window) || 
+      const mobile = ('ontouchstart' in window) || 
                  (navigator.maxTouchPoints > 0) || 
-                 (navigator.msMaxTouchPoints > 0));
+                 (navigator.msMaxTouchPoints > 0) ||
+                 window.innerWidth <= 768;
+      setIsMobile(mobile);
     };
 
     checkMobile();
@@ -78,7 +80,11 @@ function ShelfBg() {
   const handleClick = (text, index) => {
     if (index !== 4) {
       console.log(`Clicked: ${text}`);
-      setSelectedSection(text);
+      if (isMobile && text === 'Poems & Lyrics') {
+        setSelectedSection('Poems');
+      } else {
+        setSelectedSection(text);
+      }
       setIsBookModalOpen(true);
     }
   };
@@ -89,28 +95,52 @@ function ShelfBg() {
         <img src="/black-logo.png" className="logo" alt="logo" />
       </Link>
       <div className='shelf-bg' onTouchMove={handleTouchMove}>
-        <div className='shelf-box'>
-          {[
-            'Scripts', 'Poems', 'Lyrics',
-            'Philosophy', '', 'Treatments'
-          ].map((text, index) => (
-            <div 
-              key={index}
-              data-index={index}
-              className={`shelf__sector ${lastTouchedBox === index ? 'touch-activeBooks' : ''} ${index === 4 ? 'no-interaction' : ''}`}
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(index)}
-              onTouchStart={() => handleTouchStart(index)}
-              onTouchEnd={handleTouchEnd}
-            >
+        <div className={`shelf-box ${isMobile ? 'mobile-grid' : ''}`}>
+          {isMobile ? 
+            [
+              'Scripts', 'Philosophy',
+              'Poems & Lyrics', 'Treatments'
+            ].map((text, index) => (
               <div 
-                className="hover-modalBooks" 
-                onClick={() => handleClick(text, index)}
+                key={index}
+                data-index={index}
+                className={`shelf__sector ${lastTouchedBox === index ? 'touch-activeBooks' : ''}`}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                onTouchStart={() => handleTouchStart(index)}
+                onTouchEnd={handleTouchEnd}
               >
-                {text}
+                <div 
+                  className="hover-modalBooks" 
+                  onClick={() => handleClick(text, index)}
+                >
+                  {text}
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+            :
+            [
+              'Scripts', 'Poems', 'Lyrics',
+              'Philosophy', '', 'Treatments'
+            ].map((text, index) => (
+              <div 
+                key={index}
+                data-index={index}
+                className={`shelf__sector ${lastTouchedBox === index ? 'touch-activeBooks' : ''} ${index === 4 ? 'no-interaction' : ''}`}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+                onTouchStart={() => handleTouchStart(index)}
+                onTouchEnd={handleTouchEnd}
+              >
+                <div 
+                  className="hover-modalBooks" 
+                  onClick={() => handleClick(text, index)}
+                >
+                  {text}
+                </div>
+              </div>
+            ))
+          }
         </div>
       </div>
       <BookSelect 

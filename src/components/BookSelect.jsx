@@ -10,6 +10,7 @@ function BookSelect({ isOpen, onClose, section }) {
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState(new Set());
   const [isMobile, setIsMobile] = useState(false);
+  const [displayTitle, setDisplayTitle] = useState(section);
   const navigate = useNavigate();
 
   const coverImages = [
@@ -34,11 +35,28 @@ function BookSelect({ isOpen, onClose, section }) {
       setLoading(true);
       setLoadedImages(new Set());
 
+      // Set the display title
+      if (isMobile && (section === 'Poems' || section === 'Lyrics')) {
+        setDisplayTitle('Poems & Lyrics');
+      } else {
+        setDisplayTitle(section);
+      }
+
       // Fetch writings from the API
       const fetchWritings = async () => {
         try {
-          const response = await apiService.getAllWritings(); // Adjust this to your actual API call
-          const filteredWritings = response.filter(writing => writing.genre === section);
+          const response = await apiService.getAllWritings();
+          let filteredWritings;
+          
+          // Handle the combined "Poems & Lyrics" section or when on mobile and section is Poems or Lyrics
+          if (section === 'Poems & Lyrics' || (isMobile && (section === 'Poems' || section === 'Lyrics'))) {
+            filteredWritings = response.filter(writing => 
+              writing.genre === 'Poems' || writing.genre === 'Lyrics'
+            );
+          } else {
+            filteredWritings = response.filter(writing => writing.genre === section);
+          }
+          
           setWritings(filteredWritings);
         } catch (error) {
           console.error('Error fetching writings:', error);
@@ -49,7 +67,7 @@ function BookSelect({ isOpen, onClose, section }) {
 
       fetchWritings();
     }
-  }, [isOpen, section]);
+  }, [isOpen, section, isMobile]);
 
   const handleImageLoad = (index) => {
     setLoadedImages(prev => {
@@ -89,7 +107,7 @@ function BookSelect({ isOpen, onClose, section }) {
       <div className="book-modal-content" onClick={(e) => e.stopPropagation()}>
         <button className="close-button" onClick={onClose}>&times;</button>
         
-        <h2 className="modal-genre-title">{section}</h2>
+        <h2 className="modal-genre-title">{displayTitle}</h2>
         
         {loading && (
           <div className="loader-container">
@@ -105,11 +123,11 @@ function BookSelect({ isOpen, onClose, section }) {
           {writings.map((writing, index) => (
             <div key={writing._id} className="book-cover-container" onClick={() => handleBookClick(writing)}>
               <BookCover 
-                height={isMobile ? 200 : 240} 
-                width={isMobile ? 110 : 140} 
+                height={isMobile ? 140 : 220} 
+                width={isMobile ? 80 : 130} 
                 rotate={30} 
                 pagesOffset={4} 
-                thickness={35} 
+                thickness={isMobile ? 20 : 30} 
                 bgColor="#400101"
               >
                 <div className="book-cover">
