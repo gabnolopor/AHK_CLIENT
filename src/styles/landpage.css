@@ -1,9 +1,6 @@
-
-
-
 @font-face {
     font-family: Monserrat;
-    src: url('../fonts/Anton-Regular.ttf')
+    src: url('../fonts/Anton-Regular.ttf');
 }
 
 .encabezado {
@@ -11,12 +8,12 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: white;
+    background-color: #D9D9D9;
 }
 
 .imagen-container {
     position: relative;
-    width: 400px;
+    width: 300px;
 }
 
 .encabezado__imagen {
@@ -29,14 +26,14 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-47%, -430%);
+    transform: translate(-47%, -400%);
     width: 100%;
     text-align: center;
     z-index: 10;
 }
 
 .encabezado__texto {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-family: Monserrat;
     color: #61482e;
     text-transform: uppercase;
@@ -45,26 +42,41 @@
     mix-blend-mode: multiply;
 }
 
-.encabezado::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('/parallax.png');
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transform: translateY(100%);
-    transition: all 0.5s ease-out;
-    z-index: 0;
-    pointer-events: none;
+/* Mantener el parallax solo para dispositivos con mouse */
+@media (hover: hover) and (pointer: fine) {
+    .encabezado::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url('/newparallax.png');
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transform: translateY(100%);
+        transition: all 0.5s ease-out;
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    .encabezado:hover::before {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.encabezado:hover::before {
-    opacity: 1;
-    transform: translateY(0);
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+    .encabezado::before {
+        display: none;
+    }
+
+    .parallax-layer-1,
+    .parallax-layer-2,
+    .parallax-layer-3 {
+        display: none;
+    }
 }
 
 .encabezado__texto--entrada {
@@ -115,6 +127,67 @@
     font-size: 1.2rem;
   }
 
+  .parallax-layer-1,
+  .parallax-layer-2,
+  .parallax-layer-3 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      transition: transform 0.1s ease-out;
+  }
+  
+  .parallax-layer-1 { transform: translateZ(-10px); }
+  .parallax-layer-2 { transform: translateZ(-20px); }
+  .parallax-layer-3 { transform: translateZ(-30px); }
+  
+  .works-static {
+      position: absolute;
+      top: 2%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Clarendon', 'Egyptian Bold', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      color: #D4B78F; 
+      text-transform: uppercase;
+      -webkit-text-stroke: 1px #61482E;
+      text-shadow: 
+          -1px -1px 0 #FFFFFF,
+          1px -1px 0 #FFFFFF,
+          -1px 1px 0 #FFFFFF,
+          1px 1px 0 #FFFFFF,
+          2px 2px 0 #61482E,
+          3px 3px 0 #61482E,
+          4px 4px 0 #61482E,
+          5px 5px 0 #61482E,
+          6px 6px 8px rgba(97, 72, 46, 0.4);
+  }
+  
+  .works-static::before {
+      content: 'WORX';
+      position: absolute;
+      left: -1px;
+      top: -1px;
+      color: #E5C9A5; 
+      -webkit-text-stroke: 1px #FFFFFF; 
+      text-shadow: none;
+      z-index: -1;
+  }
+  
+  .frame__overlay--header {
+      position: fixed;
+      top: 48%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: 80vh;
+      z-index: 2;
+      pointer-events: none;
+  }
+  
+
 /*Responsive Design*/
 
 
@@ -138,168 +211,191 @@
 
 /* Laptops y pantallas medianas */
 @media screen and (max-width: 1024px) {
-    .encabezado__imagen {
-        width: 350px;
+    .frame__overlay--header{
+        width: 100%;
+        height: 80%;
+        top: 45%;
+        left: 50%;
+        transform: translate(-48%, -50%);
     }
 
-    .encabezado__titulo {
-        transform: translate(-47%, -400%);
+    .encabezado__imagen {
+        width: 22rem;
+        height: 100%;
+        margin: 0rem 3rem 0 0;
+       
     }
+
+    .encabezado__texto {
+        margin: 2rem 0 0 3.5rem;;
+        font-size: 2rem;
+    } 
 
     .works-static {
-        font-size: 2rem;
+        font-size: 4rem;
+        letter-spacing: 0.15rem;
+        top: 0%;
+        margin: 0 0 0 1.5rem;
     }
 }
 
 /* Tablets grandes (iPad Pro, etc.) */
 
 @media screen and (max-width: 1024px) and (min-width: 821px) {
-    .encabezado__imagen {
-        width: 450px;
+    .frame__overlay--header{
+        width: 100%;
+        height: 80%;
+        top: 45%;
+        left: 50%;
+        transform: translate(-48%, -50%);
     }
 
-    .encabezado__titulo {
-        font-size: 2.2rem;
-        margin-left: 40px;
+    .encabezado__imagen {
+        width: 22rem;
+        height: 100%;
+        margin: 0rem 3rem 0 0;
+       
     }
 
     .encabezado__texto {
-        font-size: 2.5rem;
-        margin-right: 20px;
-    }   
-
+        margin: 2rem 0 0 3.5rem;;
+        font-size: 2rem;
+    } 
     .works-static {
-        font-size: 2.3rem;
-        top: 10%;
-        margin-left: 20px;
+        font-size: 4rem;
+        letter-spacing: 0.15rem;
+        top: 0%;
+        margin: 0 0 0 1.5rem;
     }
 }
 
 /* Tablets medianas y pequeñas */
 @media screen and (max-width: 820px) and (min-width: 577px) {
-    .encabezado__imagen {
-        width: 420px;
-    }
 
-    .encabezado__titulo {
-        font-size: 2rem;
-        letter-spacing: 0.3rem;
-        transform: translate(-47%, -380%);
+    .frame__overlay--header{
+        width: 100%;
+        height: 80%;
+        top: 45%;
+        left: 50%;
+        transform: translate(-48%, -50%);
+    }
+    .encabezado__imagen {
+        width: 21.5rem;
+        height: 100%;
+        margin: 0rem 3rem 0 0;
+       
     }
 
     .encabezado__texto {
-        font-size: 2.5rem;
-        margin-left: 10px;
+        margin: 2rem 0 0 2.2rem;;
+        font-size: 2rem;
     }   
 
     .works-static {
-        font-size: 1.7rem;
-        top: 8%;
+        font-size: 3.5rem;
+        letter-spacing: 0.15rem;
+        top: 0%;
+        margin: 0 0 0 1rem;
     }
 }
 
 
 /* Móviles medianos (iPhone 6/7/8 Plus) */
 @media screen and (max-width: 480px) {
+
+    .frame__overlay--header{
+        width: 183%;
+        height: 111%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
     .encabezado__imagen {
-        width: 400px;
-        
+        width: 20rem;
+        height: 100%;
+        margin: 10rem 3rem 0 0;
+       
     }
 
-    .encabezado__titulo {
-        font-size: 1.5rem;
-        letter-spacing: 0.18rem;
-        top: 64%;
-        left: 51%;
-    }
-    
     .encabezado__texto {
-        font-size: 2.2rem;
-        letter-spacing: 0.18rem;
-        top: 50%;
-        left: 51%;
+        margin: 3rem 0 0 1rem;;
+        font-size: 2rem;
     }
 
     .works-static {
-        font-size: 1.5rem;
-        letter-spacing: 0.2rem;
-        top: 6%;
+        font-size: 3.5rem;
+        letter-spacing: 0.15rem;
+        top: 20%;
     }
 }
 
 /* Móviles pequeños (iPhone 6/7/8/X) */
 @media screen and (max-width: 375px) {
-    .encabezado__imagen {
-        width: 380px;
+
+    .frame__overlay--header{
+        width: 183%;
+        height: 111%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
     }
 
-    .encabezado__titulo {
-        font-size: 1.2rem;
-        letter-spacing: 0.15rem;
-        top: 63%;
-        left: 50%;
+    .encabezado__imagen {
+        width: 19.5rem;
+        height: 100%;
+        margin: 10rem 3rem 0 0;
+       
+    }
+
+    .encabezado__texto {
+        margin: 3rem 0 0 0;;
+        font-size: 2rem;
     }
 
     .works-static {
-        font-size: 1.1rem;
+        font-size: 3.5rem;
         letter-spacing: 0.15rem;
-        top: 5%;
+        top: 20%;
     }
 }
 
 /* Móviles muy pequeños (iPhone 5/SE) */
 @media screen and (max-width: 320px) {
+
+    .frame__overlay--header{
+        width: 183%;
+        height: 111%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
     .encabezado__imagen {
-        width: 320px;
-        margin-top: 60px;
+        width: 18rem;
+        margin: 4.5rem 0 0 0;
+        
     }
 
-    .encabezado__titulo {
+     .encabezado__titulo {
+        position: absolute;
         font-size: 1rem;
         letter-spacing: 0.1rem;
-        top: 62%;
+        top: 50%;
+        left: 50%;
+        transform: translate(-47%, -400%);  
     }
 
     .encabezado__texto {
-        margin-top: 20px;
+        margin-top: 50px;
         font-size: 2rem;
     }
 
     .works-static {
-        font-size: 1rem;
+        font-size: 2.2rem;
         letter-spacing: 0.1rem;
-        margin-top: 30px;
+        top: 17%;   
     }
+
+    
 }
 
-.parallax-layer-1,
-.parallax-layer-2,
-.parallax-layer-3 {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    transition: transform 0.1s ease-out;
-}
-
-.parallax-layer-1 { transform: translateZ(-10px); }
-.parallax-layer-2 { transform: translateZ(-20px); }
-.parallax-layer-3 { transform: translateZ(-30px); }
-
-.works-static {
-    position: absolute;
-    top: 10%;
-    left: 53%;
-    transform: translateX(-50%);
-    font-family: Monserrat;
-    font-size: 2.5rem;
-    color: #61482e;
-    z-index: 10;
-    text-transform: uppercase;
-    letter-spacing: 0.5rem;
-    font-weight: bold;
-    mix-blend-mode: multiply;
-    text-shadow: 
-        3px 3px 0 rgba(139, 69, 19, 0.5),
-        4px 4px 5px rgba(0, 0, 0, 0.2);
-}
