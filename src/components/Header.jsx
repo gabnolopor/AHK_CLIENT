@@ -52,8 +52,9 @@ const Header = () => {
     return (
         <div className="encabezado">
             <div className="imagen-container">
-                <h1 className="works-static">WORKS</h1>
-                <img src="/landpage.png" className="encabezado__imagen" alt="background" />
+                <img src="/newframe.png" className="frame__overlay--header" alt="frame" />
+                <h1 className="works-static">WORX</h1>
+                <img src="/newlandpage.png" className="encabezado__imagen" alt="background" />
                 <h1 className="encabezado__titulo">
                     <span 
                         className="encabezado__texto"
