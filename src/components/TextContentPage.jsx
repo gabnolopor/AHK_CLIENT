@@ -2,8 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/writingsStyles.css";
-// Import rtf.js library
-import * as rtfToHTML from 'rtf.js/dist/rtf.min.js';
+import { parse } from 'rtf-parser';
 
 function TextContentPage() {
   const location = useLocation();
@@ -33,20 +32,36 @@ function TextContentPage() {
   useEffect(() => {
     // Check if content is RTF
     if (textContent && typeof textContent === 'string' && textContent.trim().startsWith("{\\rtf")) {
-      // Use rtf.js to convert RTF to HTML
-      const blob = new Blob([textContent], { type: 'text/rtf' });
-      const reader = new rtfToHTML.DocumentReader();
-      
-      reader.addEventListener('read-complete', (event) => {
-        const doc = reader.getDocument();
-        // Extract plain text from the HTML content
-        const div = document.createElement('div');
-        div.innerHTML = doc.innerHTML;
-        const plainText = div.textContent || div.innerText || '';
+      // Use rtf-parser to convert RTF to plain text
+      parse(textContent, (err, document) => {
+        if (err) {
+          console.error("Error parsing RTF:", err);
+          setParsedContent(textContent);
+          return;
+        }
+        
+        // Extract text content from the parsed document
+        let plainText = '';
+        const extractText = (content) => {
+          if (!content) return;
+          
+          content.forEach(item => {
+            if (typeof item === 'string') {
+              plainText += item;
+            } else if (item.content) {
+              extractText(item.content);
+            }
+            
+            // Add newlines for paragraphs
+            if (item.style && item.style.paragraph) {
+              plainText += '\n';
+            }
+          });
+        };
+        
+        extractText(document.content);
         setParsedContent(plainText.trim());
       });
-      
-      reader.read(blob);
     } else {
       // If it's not RTF, use the original content
       setParsedContent(textContent);
