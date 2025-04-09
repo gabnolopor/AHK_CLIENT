@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/writingsStyles.css";
-import { parse } from 'rtf-parser';
 
 function TextContentPage() {
   const location = useLocation();
@@ -32,36 +31,69 @@ function TextContentPage() {
   useEffect(() => {
     // Check if content is RTF
     if (textContent && typeof textContent === 'string' && textContent.trim().startsWith("{\\rtf")) {
-      // Use rtf-parser to convert RTF to plain text
-      parse(textContent, (err, document) => {
-        if (err) {
-          console.error("Error parsing RTF:", err);
-          setParsedContent(textContent);
-          return;
-        }
+      // Custom RTF parser
+      const parseRTF = (rtf) => {
+        let text = rtf;
         
-        // Extract text content from the parsed document
-        let plainText = '';
-        const extractText = (content) => {
-          if (!content) return;
-          
-          content.forEach(item => {
-            if (typeof item === 'string') {
-              plainText += item;
-            } else if (item.content) {
-              extractText(item.content);
-            }
-            
-            // Add newlines for paragraphs
-            if (item.style && item.style.paragraph) {
-              plainText += '\n';
-            }
-          });
-        };
+        // Remove RTF headers and commands
+        text = text.replace(/{\\rtf1[^{}]*/, '');
+        text = text.replace(/{\\fonttbl[^{}]*}/, '');
+        text = text.replace(/{\\colortbl[^{}]*}/, '');
+        text = text.replace(/{\\\\?\\expandedcolortbl[^{}]*}/, '');
         
-        extractText(document.content);
-        setParsedContent(plainText.trim());
-      });
+        // Handle special characters
+        text = text.replace(/\\'92/g, "'");  // Apostrophe
+        text = text.replace(/\\'93/g, '"');  // Left double quote
+        text = text.replace(/\\'94/g, '"');  // Right double quote
+        text = text.replace(/\\'85/g, "…");  // Ellipsis
+        text = text.replace(/\\'a0/g, " ");  // Non-breaking space
+        
+        // Handle other escaped characters
+        text = text.replace(/\\'([0-9a-fA-F]{2})/g, (match, hex) => {
+          try {
+            return String.fromCharCode(parseInt(hex, 16));
+          } catch (e) {
+            return '';
+          }
+        });
+        
+        // Replace newlines and formatting
+        text = text.replace(/\\par\s*/g, '\n');
+        text = text.replace(/\\line\s*/g, '\n');
+        text = text.replace(/\\tab\s*/g, '\t');
+        
+        // Remove specific RTF control words that appear in your content
+        text = text.replace(/\\deftab\d+/g, '');
+        text = text.replace(/\\tightenfactor\d+/g, '');
+        text = text.replace(/\\margl\d+/g, '');
+        text = text.replace(/\\margr\d+/g, '');
+        text = text.replace(/\\vieww\d+/g, '');
+        text = text.replace(/\\viewh\d+/g, '');
+        text = text.replace(/\\viewkind\d+/g, '');
+        text = text.replace(/\\sa\d+/g, '');
+        text = text.replace(/\\sl\d+/g, '');
+        
+        // Remove other RTF commands
+        text = text.replace(/\\[a-zA-Z]+\d*/g, '');
+        text = text.replace(/\\[^a-zA-Z0-9]/g, '');
+        
+        // Remove remaining braces
+        text = text.replace(/{/g, '');
+        text = text.replace(/}/g, '');
+        
+        // Clean up whitespace
+        text = text.replace(/\s+/g, ' ');
+        text = text.replace(/^\s+|\s+$/g, '');
+        
+        // Restore paragraph breaks
+        text = text.replace(/\\f\d+\\fs\d+\s/g, '\n\n');
+        text = text.replace(/\\b0\\fs\d+\s/g, '\n');
+        
+        return text;
+      };
+      
+      const plainText = parseRTF(textContent);
+      setParsedContent(plainText);
     } else {
       // If it's not RTF, use the original content
       setParsedContent(textContent);
