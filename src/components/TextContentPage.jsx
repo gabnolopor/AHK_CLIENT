@@ -34,10 +34,8 @@ function TextContentPage() {
       // Simple RTF to plain text conversion
       let plainText = textContent;
       
-      // Remove RTF control sequences and headers
-      plainText = plainText.replace(/\{[^{}]*\}|\\\w+|\\\d+|\\[^a-zA-Z0-9]|\\bin\d+/g, "");
-      
-      // Replace escaped characters
+      // Replace common RTF escaped characters
+      plainText = plainText.replace(/\\'92/g, "'"); // Fix apostrophes
       plainText = plainText.replace(/\\'([0-9a-fA-F]{2})/g, (match, hex) => 
         String.fromCharCode(parseInt(hex, 16))
       );
@@ -46,8 +44,12 @@ function TextContentPage() {
       plainText = plainText.replace(/\\par\s*/g, "\n");
       plainText = plainText.replace(/\\line\s*/g, "\n");
       
-      // Clean up any remaining RTF artifacts
+      // Remove RTF control sequences and headers
+      plainText = plainText.replace(/\{\\rtf[^{}]*\}|\{[^{}]*\}|\\\w+|\\\d+|\\[^a-zA-Z0-9]|\\bin\d+/g, "");
+      
+      // Clean up any remaining RTF artifacts and extra braces
       plainText = plainText.replace(/^\s+|\s+$/g, "");
+      plainText = plainText.replace(/\{|\}/g, ""); // Remove remaining braces
       
       setParsedContent(plainText);
     } else {
