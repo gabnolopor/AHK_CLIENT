@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/writingsStyles.css";
+// Import rtf.js library
+import * as rtfToHTML from 'rtf.js/dist/rtf.min.js';
 
 function TextContentPage() {
   const location = useLocation();
@@ -29,29 +31,22 @@ function TextContentPage() {
   }, []);
 
   useEffect(() => {
-    // Only parse if it looks like RTF content
+    // Check if content is RTF
     if (textContent && typeof textContent === 'string' && textContent.trim().startsWith("{\\rtf")) {
-      // Simple RTF to plain text conversion
-      let plainText = textContent;
+      // Use rtf.js to convert RTF to HTML
+      const blob = new Blob([textContent], { type: 'text/rtf' });
+      const reader = new rtfToHTML.DocumentReader();
       
-      // Replace common RTF escaped characters
-      plainText = plainText.replace(/\\'92/g, "'"); // Fix apostrophes
-      plainText = plainText.replace(/\\'([0-9a-fA-F]{2})/g, (match, hex) => 
-        String.fromCharCode(parseInt(hex, 16))
-      );
+      reader.addEventListener('read-complete', (event) => {
+        const doc = reader.getDocument();
+        // Extract plain text from the HTML content
+        const div = document.createElement('div');
+        div.innerHTML = doc.innerHTML;
+        const plainText = div.textContent || div.innerText || '';
+        setParsedContent(plainText.trim());
+      });
       
-      // Replace newline control sequences with actual newlines
-      plainText = plainText.replace(/\\par\s*/g, "\n");
-      plainText = plainText.replace(/\\line\s*/g, "\n");
-      
-      // Remove RTF control sequences and headers
-      plainText = plainText.replace(/\{\\rtf[^{}]*\}|\{[^{}]*\}|\\\w+|\\\d+|\\[^a-zA-Z0-9]|\\bin\d+/g, "");
-      
-      // Clean up any remaining RTF artifacts and extra braces
-      plainText = plainText.replace(/^\s+|\s+$/g, "");
-      plainText = plainText.replace(/\{|\}/g, ""); // Remove remaining braces
-      
-      setParsedContent(plainText);
+      reader.read(blob);
     } else {
       // If it's not RTF, use the original content
       setParsedContent(textContent);
