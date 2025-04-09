@@ -12,6 +12,7 @@ function TextContentPage() {
   };
   const [isMobile, setIsMobile] = useState(false);
   const [isTablet, setIsTablet] = useState(false);
+  const [parsedContent, setParsedContent] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,6 +27,34 @@ function TextContentPage() {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
+
+  useEffect(() => {
+    // Only parse if it looks like RTF content
+    if (textContent && typeof textContent === 'string' && textContent.trim().startsWith("{\\rtf")) {
+      // Simple RTF to plain text conversion
+      let plainText = textContent;
+      
+      // Remove RTF control sequences and headers
+      plainText = plainText.replace(/\{[^{}]*\}|\\\w+|\\\d+|\\[^a-zA-Z0-9]|\\bin\d+/g, "");
+      
+      // Replace escaped characters
+      plainText = plainText.replace(/\\'([0-9a-fA-F]{2})/g, (match, hex) => 
+        String.fromCharCode(parseInt(hex, 16))
+      );
+      
+      // Replace newline control sequences with actual newlines
+      plainText = plainText.replace(/\\par\s*/g, "\n");
+      plainText = plainText.replace(/\\line\s*/g, "\n");
+      
+      // Clean up any remaining RTF artifacts
+      plainText = plainText.replace(/^\s+|\s+$/g, "");
+      
+      setParsedContent(plainText);
+    } else {
+      // If it's not RTF, use the original content
+      setParsedContent(textContent);
+    }
+  }, [textContent]);
 
   const handleBackClick = () => {
     navigate(-1);
@@ -128,7 +157,7 @@ function TextContentPage() {
             {writingName}
           </h1>
           <pre style={styles.bookPageText}>
-            {textContent}
+            {parsedContent}
           </pre>
         </div>
       </div>
