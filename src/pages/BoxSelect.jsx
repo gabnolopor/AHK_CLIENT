@@ -99,6 +99,8 @@ function BoxSelect() {
       navigate('/artroom');
     } else if (text === 'Writing') {
       navigate('/writing');
+    } else if (text === 'Digital Art') {
+      navigate('/digitalart');
     }
   };
 

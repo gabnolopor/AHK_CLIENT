@@ -13,7 +13,7 @@ import Writings from './pages/Writings';
 import Admin from './pages/Admin';
 import PrivateRoute from './components/PrivateRoute';
 import TextContentPage from "./components/TextContentPage";
-
+import DigitalArt from './pages/DigitalArt';
 import NotFound from './pages/NotFound';
 
 function App() {
@@ -31,6 +31,7 @@ function App() {
         <Route path="/photoroom" element={<PhotoRoom />} />
         <Route path="/artroom" element={<ArtRoom />} />
         <Route path="/writing" element={<Writings />} />
+        <Route path="/digitalart" element={<DigitalArt />} />
         <Route path="/admin/login" element={<Admin />} />
         <Route 
           path="/admin" 

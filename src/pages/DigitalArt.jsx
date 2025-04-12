@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
-import { useApi } from '../hooks/useApi';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FiX } from 'react-icons/fi';
 import '../styles/digital.css';
 
 const DigitalArt = () => {
     const [digitalArts, setDigitalArts] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
-    const { loading, error, handleRequest } = useApi();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
-        const loadDigitalArts = async () => {
+        const fetchDigitalArts = async () => {
             try {
-                const data = await handleRequest(apiService.getAllDigitalArt);
+                const data = await apiService.getAllDigitalArt();
                 setDigitalArts(data);
-            } catch (err) {
-                console.error('Error:', err);
+            } catch (error) {
+                console.error('Error fetching digital art:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        loadDigitalArts();
-    }, [handleRequest]);
+        fetchDigitalArts();
+    }, []);
 
     const slideVariants = {
         enter: (direction) => ({
@@ -51,9 +54,16 @@ const DigitalArt = () => {
         setCurrentIndex((prevIndex) => (prevIndex + newDirection + digitalArts.length) % digitalArts.length);
     };
 
-    if (loading) return <div className="loading">Cargando...</div>;
-    if (error) return <div className="error">{error}</div>;
-    if (digitalArts.length === 0) return null;
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
+    if (isLoading) return <div className="loading">Loading...</div>;
+    if (digitalArts.length === 0) return <div className="no-content">No digital art available</div>;
 
     const currentArt = digitalArts[currentIndex];
 
@@ -92,11 +102,12 @@ const DigitalArt = () => {
                     >
                         <div className="digital-card">
                             <img 
-                                src={`https://res.cloudinary.com/andrewking/image/upload/${currentArt.filename}`}
+                                src={currentArt.imageUrl}
                                 alt={currentArt.name}
                                 className="digital-image"
+                                onClick={openModal}
                                 onError={(e) => {
-                                    console.log('Error loading image:', currentArt.filename);
+                                    console.log('Error loading image:', currentArt.imageUrl);
                                     e.target.onerror = null;
                                     e.target.src = '/placeholder.png';
                                 }}
@@ -129,6 +140,22 @@ const DigitalArt = () => {
                     ))}
                 </div>
             </div>
+
+            {/* Modal for full-size image with digital-specific classes */}
+            {isModalOpen && (
+                <div className="digital-modalOverlay open" onClick={closeModal}>
+                    <div className="digital-modal" onClick={(e) => e.stopPropagation()}>
+                        <button className="digital-close-button" onClick={closeModal}>
+                            <FiX size={24} />
+                        </button>
+                        <img 
+                            src={currentArt.imageUrl} 
+                            alt={currentArt.name} 
+                            className="digital-modalImage" 
+                        />
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

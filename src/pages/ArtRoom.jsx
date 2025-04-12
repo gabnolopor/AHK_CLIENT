@@ -9,6 +9,7 @@ function ArtRoom() {
   const [paintings, setPaintings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     const fetchPaintings = async () => {
@@ -26,11 +27,31 @@ function ArtRoom() {
   }, []);
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % paintings.length);
+    if (isTransitioning) return;
+    
+    if (currentSlide === paintings.length - 1) {
+      // If at the last slide, disable transition and jump to first
+      setIsTransitioning(true);
+      setCurrentSlide(0);
+      setTimeout(() => setIsTransitioning(false), 50);
+    } else {
+      // Normal transition to next slide
+      setCurrentSlide((prev) => prev + 1);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + paintings.length) % paintings.length);
+    if (isTransitioning) return;
+    
+    if (currentSlide === 0) {
+      // If at the first slide, disable transition and jump to last
+      setIsTransitioning(true);
+      setCurrentSlide(paintings.length - 1);
+      setTimeout(() => setIsTransitioning(false), 50);
+    } else {
+      // Normal transition to previous slide
+      setCurrentSlide((prev) => prev - 1);
+    }
   };
 
   const openModal = () => {
@@ -58,7 +79,8 @@ function ArtRoom() {
         <div 
           className="carousel-track"
           style={{
-            transform: `translateX(-${currentSlide * 100}%)`
+            transform: `translateX(-${currentSlide * 100}%)`,
+            transition: isTransitioning ? 'none' : 'transform 0.5s ease-in-out'
           }}
         >
           {paintings.map((painting) => (
@@ -66,7 +88,7 @@ function ArtRoom() {
               <div className="painting-container" onClick={openModal}>
                 <img 
                   src={painting.imageUrl} 
-                  alt={painting.title} 
+                  alt={painting.name} 
                   className="painting" 
                 />
                 <img 
@@ -102,7 +124,7 @@ function ArtRoom() {
             </button>
             <img 
               src={paintings[currentSlide].imageUrl} 
-              alt={paintings[currentSlide].title} 
+              alt={paintings[currentSlide].name} 
               className="painting-modalImage" 
             />
           </div>

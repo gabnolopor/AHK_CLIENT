@@ -53,6 +53,7 @@ function Admin() {
     writing: [],
     biography: [],
     design: [],
+    digitalArt: []
   });
 
   const [formData, setFormData] = useState({
@@ -62,6 +63,7 @@ function Admin() {
     writing: { title: "", description: "", genre: "" },
     biography: { id: "", title: "", text: "" },
     design: { title: "", description: "" },
+    digitalArt: { title: "", description: "" }
   });
 
   const { loading: apiLoading, error: apiError, handleRequest } = useApi();
@@ -79,7 +81,8 @@ function Admin() {
     artwork: 15,
     writing: 50,
     music: 30,
-    design: 15
+    design: 15,
+    digitalArt: 15
   };
 
   // Fetch all content from database
@@ -88,12 +91,13 @@ function Admin() {
       if (isAuthenticated) {
         // Only fetch if authenticated
         try {
-          const [artwork, music, photos, writings, design] = await Promise.all([
+          const [artwork, music, photos, writings, design, digitalArt] = await Promise.all([
             handleRequest(() => apiService.getAllPaintings()),
             handleRequest(() => apiService.getAllMusic()),
             handleRequest(() => apiService.getAllPhotography()),
             handleRequest(() => apiService.getAllWritings()),
             handleRequest(() => apiService.getAllDesigns()),
+            handleRequest(() => apiService.getAllDigitalArt())
           ]);
 
           setDbContent({
@@ -102,6 +106,7 @@ function Admin() {
             photo: photos || [],
             writing: writings || [],
             design: design || [],
+            digitalArt: digitalArt || []
           });
         } catch (error) {
           console.error("Error fetching content:", error);
@@ -164,6 +169,7 @@ function Admin() {
     photo: { accepts: ".png,.jpg,.jpeg" },
     writing: { accepts: ".txt, .rtf" },
     design: { accepts: ".png,.jpg,.jpeg" },
+    digitalArt: { accepts: ".png,.jpg,.jpeg" }
   };
 
   const handleInputChange = (section, field, value) => {
@@ -202,12 +208,12 @@ function Admin() {
       const formDataToSend = new FormData();
       const title = formData[type].title;
       formDataToSend.append("name", title);
-
+      
       // Handle different content types
       if (type === "writing" || type === "music") {
         // Append genre for both writing and music types
         formDataToSend.append("genre", formData[type].genre);
-      } else if (type === "photo" || type === "artwork" || type === "design") {
+      } else if (type === "photo" || type === "artwork" || type === "design" || type === "digitalArt") {
         formDataToSend.append("description", formData[type].description || "");
       }
 
@@ -370,7 +376,8 @@ function Admin() {
     const showDescription =
       modalType === "photo" ||
       modalType === "artwork" ||
-      modalType === "design";
+      modalType === "design" ||
+      modalType === "digitalArt";
 
     return (
       <div className="modal-overlay" onClick={() => setShowModal(false)}>
@@ -704,6 +711,7 @@ function Admin() {
           <div className="content-section">{renderFileList("photo")}</div>
           <div className="content-section">{renderFileList("writing")}</div>
           <div className="content-section">{renderFileList("design")}</div>
+          <div className="content-section">{renderFileList("digitalArt")}</div>
           <div className="content-section">{renderBiography()}</div>
         </div>
 

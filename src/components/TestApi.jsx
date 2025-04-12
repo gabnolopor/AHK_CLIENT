@@ -9,7 +9,8 @@ function TestApi() {
         photography: [],
         music: [],
         designs: [],
-        biography: []
+        biography: [],
+        digitalArt: []
     });
     const { loading, error, handleRequest } = useApi();
 
@@ -18,13 +19,14 @@ function TestApi() {
             console.log('VITE_API_URL:', import.meta.env.VITE_API_URL);
 
             try {
-                const [writings, paintings, photography, music, designs, biography] = await Promise.all([
+                const [writings, paintings, photography, music, designs, biography, digitalArt] = await Promise.all([
                     handleRequest(apiService.getAllWritings),
                     handleRequest(apiService.getAllPaintings),
                     handleRequest(apiService.getAllPhotography),
                     handleRequest(apiService.getAllMusic),
                     handleRequest(apiService.getAllDesigns),
-                    handleRequest(apiService.getAllBiography)
+                    handleRequest(apiService.getAllBiography),
+                    handleRequest(apiService.getAllDigitalArt)
                 ]);
 
                 setData({
@@ -33,7 +35,8 @@ function TestApi() {
                     photography,
                     music,
                     designs,
-                    biography
+                    biography,
+                    digitalArt
                 });
             } catch (err) {
                 console.error('Failed to fetch data:', err);
@@ -112,6 +115,11 @@ function TestApi() {
             <section>
                 <h3>Biography ({data.biography.length})</h3>
                 <pre>{JSON.stringify(data.biography, null, 2)}</pre>
+            </section>
+
+            <section>
+                <h3>Digital Art ({data.digitalArt.length})</h3>
+                <pre>{JSON.stringify(data.digitalArt, null, 2)}</pre>
             </section>
         </div>
     );

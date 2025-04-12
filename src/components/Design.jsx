@@ -93,11 +93,11 @@ const Design = () => {
                         <div className="design-card">
                             <img 
                                 src={currentDesign.imageUrl} 
-                                alt={currentDesign.title}
+                                alt={currentDesign.name}
                                 className="design-image"
                             />
                             <div className="design-info">
-                                <h2>{currentDesign.title}</h2>
+                                <h2>{currentDesign.name}</h2>
                                 <p>{currentDesign.description}</p>
                             </div>
                         </div>
