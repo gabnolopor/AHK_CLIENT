@@ -1,0 +1,265 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.digital-container {
+    width: 100%;
+    height: 100vh;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/digitalbackground.webp');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.logo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 100;
+    width: 80px;
+    height: auto;
+}
+
+.carousel {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.carousel-slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.digital-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 20px;
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.digital-image {
+    width: 100%;
+    height: 75%;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.digital-info {
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+}
+
+.digital-info h2 {
+    font-family: 'Montserrat', sans-serif;   
+    font-size: 2rem;
+    margin: 0 0 10px 0;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 1.5px;
+}
+
+.digital-info p {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    line-height: 1.4;
+    margin: 0;
+    font-family: 'system-ui', sans-serif;   
+}
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.nav-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.prev {
+    left: 20px;
+}
+
+.next {
+    right: 20px;
+}
+
+.dots-container {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: white;
+    transform: scale(1.2);
+}
+
+@media screen and (max-width: 1024px) {
+    .logo {
+        width: 60px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .logo {
+        width: 60px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .logo {
+        width: 60px;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .logo {
+        width: 60px;
+    }
+}
+
+@media screen and (max-width: 320px) {
+    .logo {
+        width: 60px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .carousel {
+        width: 95%;
+        height: 85vh;
+    }
+
+    .digital-card {
+        width: 85%;
+        height: 85%;
+    }
+
+    .digital-info h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .digital-container {
+        padding: 10px;
+    }
+
+    .carousel {
+        width: 100%;
+        height: 80vh;
+    }
+
+    .digital-card {
+        width: 90%;
+        height: 90%;
+        padding: 15px;
+    }
+
+    .digital-image {
+        height: 70%;
+    }
+
+    .digital-info h2 {
+        font-size: 1.5rem;
+    }
+
+    .digital-info p {
+        font-size: 1rem;
+    }
+
+    .dots-container {
+        bottom: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel {
+        height: 75vh;
+    }
+
+    .digital-card {
+        width: 95%;
+        height: 95%;
+        padding: 10px;
+    }
+
+    .digital-info h2 {
+        font-size: 1.3rem;
+    }
+
+    .dots-container {
+        bottom: 40px;
+    }
+}
+
+@media (max-height: 480px) and (orientation: landscape) {
+    .digital-card {
+        flex-direction: row;
+        gap: 15px;
+    }
+
+    .digital-image {
+        width: 60%;
+        height: 100%;
+        margin-bottom: 0;
+    }
+
+    .digital-info {
+        width: 40%;
+    }
+}
+
