@@ -18,7 +18,18 @@ const endpointMap = {
 };
 
 export const apiService = {
-    
+
+    // Digital Art
+    getAllDigitalArt: async () => {
+        try {
+            const response = await fetch(`${API_URL}/digitalart`);
+            if (!response.ok) throw new Error('Failed to fetch digital art');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
+    },
+
 
     // Writings
     getAllWritings: async () => {
