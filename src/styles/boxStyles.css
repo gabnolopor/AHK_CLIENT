@@ -180,7 +180,6 @@ box component
 @media (max-width: 480px) {
   .boxes__grid {
     width: 100%;
-    position: fixed;
     top: 0;
     height: 90vh;
     padding: 2rem 3rem;
