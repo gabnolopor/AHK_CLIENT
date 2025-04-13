@@ -231,6 +231,9 @@ box component
 @media screen and (max-width: 768px) and (orientation: portrait) {
   @supports (-webkit-touch-callout: none) {
     /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
+    .boxes__grid {
+      position: fixed;
+    }
     
     .box__sector {
       min-height: 70px;
