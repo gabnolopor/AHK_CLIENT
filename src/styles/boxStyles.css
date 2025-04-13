@@ -246,13 +246,9 @@ box component
 /* Específicamente para iPhone */
 @media screen and (max-width: 480px) and (orientation: portrait) {
   @supports (-webkit-touch-callout: none) {
-    .boxes__grid {
-      width: 85%;
-      height: 70vh;
-    }
-    
+   
     .background-video {
-      transform: translate(-50%, -50%) scale(0.7);
+      transform: translate(-50%, -50%);
     }
   }
 }
