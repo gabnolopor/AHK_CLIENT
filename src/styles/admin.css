@@ -396,25 +396,61 @@
 }
 
 /* File List Styles */
-.file-list {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 0.5rem;
+.file-list-container {
+  height: 300px; /* Altura fija para todas las secciones */
+  overflow-y: auto; /* Habilita el desplazamiento vertical */
   border: 1px solid var(--shadowly-maroon);
+  border-radius: 6px;
+  background-color: rgba(255, 255, 255, 0.9);
   margin-bottom: 1.5rem;
-  overflow: hidden;
   flex-grow: 1;
 }
 
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  margin-bottom: 0;
+}
+
+/* Estiliza la barra de desplazamiento para navegadores webkit */
+.file-list-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.file-list-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.file-list-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.file-list-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Mantener los estilos existentes para file-list-item */
 .file-list-item {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 10px;
-  border-radius: 8px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
   cursor: pointer;
-  transition: all 0.3s ease;
 }
 
 .file-list-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   background-color: rgba(255, 255, 255, 0.1);
 }
 

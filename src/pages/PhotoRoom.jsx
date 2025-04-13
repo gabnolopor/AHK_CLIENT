@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/photoStyles.css';
 import { apiService } from '../services/api';
 import { FiX } from 'react-icons/fi';
+import LoadingFallback from '../components/LoadingFallback';
 
 function PhotoRoom() {
   const [photos, setPhotos] = useState([]);
@@ -42,7 +43,7 @@ function PhotoRoom() {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return <LoadingFallback />;
   }
 
   if (photos.length === 0) {

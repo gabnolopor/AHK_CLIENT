@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { BookCover } from "book-cover-3d";
-import { PulseLoader } from "react-spinners";
 import { useNavigate } from 'react-router-dom';
-import { apiService } from '../services/api'; // Import your API service
-
+import { apiService } from '../services/api';
+import Lottie from 'lottie-react';
+import loadingAnimation from '../assets/hand-loading.json';
 
 function BookSelect({ isOpen, onClose, section }) {
   const [writings, setWritings] = useState([]);
@@ -110,8 +110,16 @@ function BookSelect({ isOpen, onClose, section }) {
         <h2 className="modal-genre-title">{displayTitle}</h2>
         
         {loading && (
-          <div className="loader-container">
-            <PulseLoader color="#60450c" size={15} />
+          <div className="modal-loading-container">
+            <Lottie 
+              animationData={loadingAnimation}
+              loop={true}
+              autoplay={true}
+              style={{ 
+                width: 200,
+                height: 200
+              }}
+            />
           </div>
         )}
         
@@ -120,7 +128,7 @@ function BookSelect({ isOpen, onClose, section }) {
         )}
 
         <div className={`books-grid ${loading ? 'loading' : 'loaded'}`}>
-          {writings.map((writing, index) => (
+          {!loading && writings.map((writing, index) => (
             <div key={writing._id} className="book-cover-container" onClick={() => handleBookClick(writing)}>
               <BookCover 
                 height={isMobile ? 140 : 220} 

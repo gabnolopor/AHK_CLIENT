@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiService } from '../services/api';
 import { useApi } from '../hooks/useApi';
+import LoadingFallback from './LoadingFallback';
 
 function TestApi() {
     const [data, setData] = useState({
@@ -56,7 +57,7 @@ function TestApi() {
     }, [handleRequest]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <LoadingFallback />;
     }
 
     if (error) {

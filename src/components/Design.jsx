@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
 import { useApi } from '../hooks/useApi'; // Import the useApi hook
 import { motion, AnimatePresence } from 'framer-motion';
+import LoadingFallback from './LoadingFallback';
 import '../styles/design.css';
 
 const Design = () => {
@@ -51,7 +52,7 @@ const Design = () => {
         setCurrentIndex((prevIndex) => (prevIndex + newDirection + designs.length) % designs.length);
     };
 
-    if (loading) return <div className="loading">Cargando...</div>;
+    if (loading) return <LoadingFallback />;
     if (error) return <div className="error">{error}</div>;
     if (designs.length === 0) return null;
 

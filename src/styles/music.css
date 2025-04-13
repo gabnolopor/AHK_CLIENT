@@ -73,7 +73,7 @@
   flex-direction: column;
   gap: 8px;
   width: 370px;
-  height: 300px;
+  height: 285px;
   overflow-y: auto;
   z-index: 2;
 }
@@ -84,7 +84,7 @@
   padding: 7px 4px;
   width: 100%;
   transition: all 0.3s ease;
-  cursor: pointer;
+  cursor: default;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -147,6 +147,25 @@
   letter-spacing: 1px;
   text-align: center;
   margin-top: 5px;
+}
+
+/* Añadir estilos específicos para los botones de control de música */
+.music__control-button {
+  background-color: #ff0000;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  border-radius: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.music__control-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
 /* Pantallas grandes y 4K (>1920px) */
@@ -314,6 +333,7 @@
     display: none !important;
   }
 }
+
 
 
 

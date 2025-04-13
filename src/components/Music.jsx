@@ -1,15 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause, IoIosRefresh } from 'react-icons/io';
 import '../styles/music.css';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
 import { useApi } from '../hooks/useApi';
-
+import LoadingFallback from './LoadingFallback';
 
 const Music = () => {
     const [genres, setGenres] = useState([
         'Electro',
-        'Pop-rock',
+        'Pop',
+        'Rock',
         'Film-TV',
         'Experimental'
     ]);
@@ -22,7 +23,8 @@ const Music = () => {
 
     const genreColors = {
         'Electro': '#8B4513',          // Marrón
-        'Pop-rock': '#B8860B',         // Dorado
+        'Pop': '#B8860B',              // Dorado
+        'Rock': '#8B4513',             // Marrón
         'Film-TV': '#8B4513',          // Marrón
         'Experimental': '#B8860B',     // Dorado
     };
@@ -74,6 +76,16 @@ const Music = () => {
         }
     };
 
+    const handleRestart = (song) => {
+        if (currentSong && currentSong._id === song._id) {
+            audioRef.current.currentTime = 0;
+            if (!isPlaying) {
+                audioRef.current.play();
+                setIsPlaying(true);
+            }
+        }
+    };
+
     useEffect(() => {
         if (currentSong) {
             audioRef.current.src = `https://res.cloudinary.com/andrewking/video/upload/f_mp3/${currentSong.filename}.mp4`;
@@ -83,57 +95,74 @@ const Music = () => {
 
     return (
         <div className="music">
-            <img 
-                src="/newjukebox.png" 
-                alt="Jukebox" 
-                className="music__jukebox"
-            />
-            <div className="music__nav-container">
-                <button 
-                    onClick={prevGenre} 
-                    className="music__nav-button"
-                    style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
-                    disabled={genres.length <= 1}
-                >
-                    <IoIosArrowBack size={24} />
-                </button>
-                
-                <h2 className="music__genre" style={{ color: '#FFFFFF' }}>
-                    {currentGenre}
-                </h2>
-                
-                <button 
-                    onClick={nextGenre} 
-                    className="music__nav-button"
-                    style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
-                    disabled={genres.length <= 1}
-                >
-                    <IoIosArrowForward size={24} />
-                </button>
-            </div>
-            <div className="music__grid">
-                {filteredSongs.map((song, index) => (
-                    <div 
-                        key={index} 
-                        className="music__strip"
-                    >
-                        <div className="music__line-box">
-                            <div className="music__line" style={{ backgroundColor: getCurrentColor() }}>
-                                <div className="music__white-space" style={{ borderColor: getCurrentColor() }}>
-                                    <p className="music__song-title" style={{ color: getCurrentColor() }}>{song.name}</p>
+            {loading ? (
+                <LoadingFallback />
+            ) : (
+                <>
+                    <img 
+                        src="/newjukebox.png" 
+                        alt="Jukebox" 
+                        className="music__jukebox"
+                    />
+                    <div className="music__nav-container">
+                        <button 
+                            onClick={prevGenre} 
+                            className="music__nav-button"
+                            style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
+                            disabled={genres.length <= 1}
+                        >
+                            <IoIosArrowBack size={24} />
+                        </button>
+                        
+                        <h2 className="music__genre" style={{ color: '#FFFFFF' }}>
+                            {currentGenre}
+                        </h2>
+                        
+                        <button 
+                            onClick={nextGenre} 
+                            className="music__nav-button"
+                            style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
+                            disabled={genres.length <= 1}
+                        >
+                            <IoIosArrowForward size={24} />
+                        </button>
+                    </div>
+                    <div className="music__grid">
+                        {filteredSongs.map((song, index) => (
+                            <div 
+                                key={index} 
+                                className="music__strip"
+                            >
+                                <div className="music__line-box">
+                                    <div className="music__line" style={{ backgroundColor: getCurrentColor() }}>
+                                        <div className="music__white-space" style={{ borderColor: getCurrentColor() }}>
+                                            <p className="music__song-title" style={{ color: getCurrentColor() }}>{song.name}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'}}>
+                                    <button 
+                                        onClick={() => handlePlayPause(song)} 
+                                        className="music__control-button"
+                                        style={{ backgroundColor: getCurrentColor() }}
+                                    >
+                                        {isPlaying && currentSong && currentSong._id === song._id ? <IoIosPause size={24} /> : <IoIosPlay size={24} />}
+                                    </button>
+                                    <button 
+                                        onClick={() => handleRestart(song)} 
+                                        className="music__control-button"
+                                        style={{ backgroundColor: getCurrentColor() }}
+                                    >
+                                        <IoIosRefresh size={24} />
+                                    </button>
                                 </div>
                             </div>
-                        </div>
-                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                            <button onClick={() => handlePlayPause(song)} style={{ backgroundColor: getCurrentColor(), color: '#FFFFFF', border: 'none', padding: '8px 15px', cursor: 'pointer', borderRadius: '10%', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                                {isPlaying && currentSong && currentSong._id === song._id ? <IoIosPause size={24} /> : <IoIosPlay size={24} />}
-                            </button>
-                        </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <audio ref={audioRef} controls style={{ display: 'none' }} />
-            <Link to="/boxselect"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
+                    <audio ref={audioRef} controls style={{ display: 'none' }} />
+                    <Link to="/boxselect"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
+                </>
+            )}
         </div>
     );
 };

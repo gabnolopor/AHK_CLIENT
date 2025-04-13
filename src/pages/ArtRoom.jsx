@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/artStyle.css';
 import { apiService } from '../services/api';
 import { FiX } from 'react-icons/fi';
+import LoadingFallback from '../components/LoadingFallback';
 
 function ArtRoom() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -63,7 +64,7 @@ function ArtRoom() {
   };
 
   if (isLoading) {
-    return <div className="loading">Loading...</div>;
+    return <LoadingFallback />;
   }
 
   if (paintings.length === 0) {

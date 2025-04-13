@@ -25,6 +25,8 @@ function ShelfBg() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
+
+
   const handleMouseEnter = (index) => {
     if (!isMobile && index !== 4) {
       setIsHovering(true);
@@ -89,6 +91,7 @@ function ShelfBg() {
     }
   };
     
+
   return (
     <>
       <Link to="/boxselect" className="logo-link">

@@ -16,6 +16,7 @@ import "../styles/admin.css";
 import { apiService } from "../services/api";
 import { useApi } from "../hooks/useApi";
 import { Link } from "react-router-dom";
+import LoadingFallback from "../components/LoadingFallback";
 
 // Constants
 const WRITING_GENRES = [
@@ -269,17 +270,37 @@ function Admin() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
-      await apiService.loginAdmin({
-        username: loginData.username,
-        password: loginData.password,
-      });
-      setIsAuthenticated(true);
-      localStorage.setItem("isAdminAuthenticated", "true");
-      toast.success("Login successful!");
+      const response = await handleRequest(() => 
+        apiService.loginAdmin({
+          username: loginData.username,
+          password: loginData.password,
+        })
+      );
+      
+      if (response && response.token) {
+        localStorage.setItem('token', response.token);
+        setIsAuthenticated(true);
+        toast.success('Login successful!');
+        
+      } else {
+        toast.error('Invalid credentials');
+      }
     } catch (error) {
-      console.error("Login error:", error);
-      toast.error(error.message || "Login failed");
+      console.error('Login error:', error);
+      
+      // Detectar errores de CORS
+      if (error.message && (
+          error.message.includes('NetworkError') || 
+          error.message.includes('CORS') || 
+          error.message.includes('Failed to fetch') ||
+          error.message.includes('Network request failed')
+        )) {
+        toast.error('Network error: CORS policy might be blocking the request. Please check your connection or contact support.');
+      } else {
+        toast.error('Login failed: ' + (error.message || 'Invalid username or password'));
+      }
     } finally {
       setIsLoading(false);
     }
@@ -519,38 +540,40 @@ function Admin() {
           </button>
         </div>
 
-        <div className="file-list">
-          {dbContent[type].map((item) => (
-            <div key={item._id} className="file-list-item">
-              <div
-                className="file-details"
-                onClick={() => handleEditClick(item, type)}
-              >
-                {type === "music" ? (
-                  <FiMusic className="file-icon" />
-                ) : type === "writing" ? (
-                  <FiFile className="file-icon" />
-                ) : item.imageUrl ? (
-                  <img
-                    src={item.imageUrl}
-                    alt={item.name}
-                    className="file-preview"
-                  />
-                ) : null}
-                <span className="file-title">{item.name}</span>
+        <div className="file-list-container">
+          <div className="file-list">
+            {dbContent[type].map((item) => (
+              <div key={item._id} className="file-list-item">
+                <div
+                  className="file-details"
+                  onClick={() => handleEditClick(item, type)}
+                >
+                  {type === "music" ? (
+                    <FiMusic className="file-icon" />
+                  ) : type === "writing" ? (
+                    <FiFile className="file-icon" />
+                  ) : item.imageUrl ? (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="file-preview"
+                    />
+                  ) : null}
+                  <span className="file-title">{item.name}</span>
+                </div>
+                <button
+                  className="delete-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(item._id, type);
+                  }}
+                  disabled={isLoading}
+                >
+                  <FiTrash2 />
+                </button>
               </div>
-              <button
-                className="delete-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleDelete(item._id, type);
-                }}
-                disabled={isLoading}
-              >
-                <FiTrash2 />
-              </button>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </>
     );
@@ -689,6 +712,11 @@ function Admin() {
     );
   };
 
+  // Add this for loading state when fetching content
+  if (isAuthenticated && apiLoading) {
+    return <LoadingFallback />;
+  }
+
   if (isAuthenticated) {
     return (
       <div className="dashboard-container">
@@ -726,6 +754,7 @@ function Admin() {
 
   return (
     <div className="login-container">
+      <Toaster position="top-right" />
       <div className="login-card">
         <h1 className="login-title">Admin Login</h1>
         <form onSubmit={handleLogin} className="login-form">
