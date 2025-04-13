@@ -233,7 +233,6 @@ box component
     /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
     .boxes__grid {
       width: 90%;
-      height: 80vh;
       top: 50%;
     }
     
@@ -248,7 +247,7 @@ box component
   @supports (-webkit-touch-callout: none) {
    
     .background-video {
-      transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%) scale(0.7);
     }
   }
 }
