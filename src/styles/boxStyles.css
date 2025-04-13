@@ -231,9 +231,6 @@ box component
 @media screen and (max-width: 768px) and (orientation: portrait) {
   @supports (-webkit-touch-callout: none) {
     /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
-    .boxes__grid {
-      width: 90%;
-    }
     
     .box__sector {
       min-height: 70px;
@@ -246,7 +243,7 @@ box component
   @supports (-webkit-touch-callout: none) {
    
     .background-video {
-      transform: translate(-50%, -50%) scale(0.7);
+      transform: translate(-50%, -50%) scale(0.6);
     }
   }
 }
