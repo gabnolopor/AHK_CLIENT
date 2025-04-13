@@ -233,6 +233,7 @@ box component
     /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
     .boxes__grid {
       position: fixed;
+      top: 0;
     }
     
     .box__sector {
