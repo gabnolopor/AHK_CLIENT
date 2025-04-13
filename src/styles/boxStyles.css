@@ -233,7 +233,6 @@ box component
     /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
     .boxes__grid {
       width: 90%;
-      top: 50%;
     }
     
     .box__sector {
