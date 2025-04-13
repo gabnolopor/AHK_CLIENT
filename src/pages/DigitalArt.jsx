@@ -4,6 +4,7 @@ import { apiService } from '../services/api';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FiX } from 'react-icons/fi';
 import '../styles/digital.css';
+import LoadingFallback from '../components/LoadingFallback';
 
 const DigitalArt = () => {
     const [digitalArts, setDigitalArts] = useState([]);
@@ -62,7 +63,7 @@ const DigitalArt = () => {
         setIsModalOpen(false);
     };
 
-    if (isLoading) return <div className="loading">Loading...</div>;
+    if (isLoading) return <LoadingFallback />;
     if (digitalArts.length === 0) return <div className="no-content">No digital art available</div>;
 
     const currentArt = digitalArts[currentIndex];

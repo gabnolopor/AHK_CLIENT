@@ -4,12 +4,19 @@ import '../styles/photoStyles.css';
 import { apiService } from '../services/api';
 import { FiX } from 'react-icons/fi';
 import LoadingFallback from '../components/LoadingFallback';
+import { motion, AnimatePresence } from 'framer-motion';
 
 function PhotoRoom() {
   const [photos, setPhotos] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  const [direction, setDirection] = useState(0);
+  
+  // Mínima distancia requerida para un swipe
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     const fetchPhotos = async () => {
@@ -27,11 +34,37 @@ function PhotoRoom() {
   }, []);
 
   const handleNext = () => {
+    setDirection(1);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % photos.length);
   };
 
   const handlePrev = () => {
+    setDirection(-1);
     setCurrentIndex((prevIndex) => (prevIndex - 1 + photos.length) % photos.length);
+  };
+
+  // Funciones para manejar eventos táctiles
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      handleNext();
+    } else if (isRightSwipe) {
+      handlePrev();
+    }
   };
 
   const openModal = () => {
@@ -40,6 +73,22 @@ function PhotoRoom() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  // Variantes de animación para el deslizamiento
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? '100%' : '-100%',
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction) => ({
+      x: direction < 0 ? '100%' : '-100%',
+      opacity: 0
+    })
   };
 
   if (isLoading) {
@@ -57,19 +106,38 @@ function PhotoRoom() {
       <Link to="/boxselect" className="logo-link">
         <img src="/black-logo.png" className="logo" alt="logo" />
       </Link>
-      <div className="photo-container">
-        <div className="photo-text">
-          <div className="photo-title-container">
-            <h2 className="photo-title">{currentPhoto.name}</h2>
+      
+      <AnimatePresence initial={false} custom={direction} mode="wait">
+        <motion.div
+          key={currentIndex}
+          custom={direction}
+          variants={slideVariants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{
+            x: { type: "spring", stiffness: 300, damping: 30 },
+            opacity: { duration: 0.2 }
+          }}
+          className="photo-container"
+          onTouchStart={onTouchStart}
+          onTouchMove={onTouchMove}
+          onTouchEnd={onTouchEnd}
+        >
+          <div className="photo-text">
+            <div className="photo-title-container">
+              <h2 className="photo-title">{currentPhoto.name}</h2>
+            </div>
+            <div className="photo-description-container">
+              <p className="photo-description">{currentPhoto.description}</p>
+            </div>
           </div>
-          <div className="photo-description-container">
-            <p className="photo-description">{currentPhoto.description}</p>
+          <div className="photo-image">
+            <img src={currentPhoto.imageUrl} alt={currentPhoto.name} onClick={openModal} />
           </div>
-        </div>
-        <div className="photo-image">
-          <img src={currentPhoto.imageUrl} alt={currentPhoto.name} onClick={openModal} />
-        </div>
-      </div>
+        </motion.div>
+      </AnimatePresence>
+      
       <div className="photo-navigation">
         <button onClick={handlePrev} className="photo-nav-button">←</button>
         <button onClick={handleNext} className="photo-nav-button">→</button>

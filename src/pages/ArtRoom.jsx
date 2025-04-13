@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/artStyle.css';
 import { apiService } from '../services/api';
@@ -11,6 +11,11 @@ function ArtRoom() {
   const [isLoading, setIsLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState(null);
+  const [touchEnd, setTouchEnd] = useState(null);
+  
+  // Mínima distancia requerida para un swipe
+  const minSwipeDistance = 50;
 
   useEffect(() => {
     const fetchPaintings = async () => {
@@ -55,6 +60,30 @@ function ArtRoom() {
     }
   };
 
+  // Funciones para manejar eventos táctiles
+  const onTouchStart = (e) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      nextSlide();
+    } else if (isRightSwipe) {
+      prevSlide();
+    }
+  };
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -76,7 +105,12 @@ function ArtRoom() {
       <Link to="/boxselect" className="logo-link">
         <img src="/black-logo.png" className="logo" alt="logo" />
       </Link>
-      <div className="carousel-wrapper">
+      <div 
+        className="carousel-wrapper"
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
         <div 
           className="carousel-track"
           style={{

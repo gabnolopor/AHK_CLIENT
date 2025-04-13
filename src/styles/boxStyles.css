@@ -226,3 +226,33 @@ box component
   visibility: visible;
   transform: translate(-50%, -50%);
 }
+
+/* Fix específico para Safari en dispositivos iOS (iPhone/iPad) */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+  @supports (-webkit-touch-callout: none) {
+    /* Solo se aplica a dispositivos con soporte para -webkit-touch-callout (iOS) */
+    .boxes__grid {
+      width: 90%;
+      height: 80vh;
+      top: 50%;
+    }
+    
+    .box__sector {
+      min-height: 70px;
+    }
+  }
+}
+
+/* Específicamente para iPhone */
+@media screen and (max-width: 480px) and (orientation: portrait) {
+  @supports (-webkit-touch-callout: none) {
+    .boxes__grid {
+      width: 85%;
+      height: 70vh;
+    }
+    
+    .background-video {
+      transform: translate(-50%, -50%) scale(0.7);
+    }
+  }
+}
