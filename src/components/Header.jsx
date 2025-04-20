@@ -3,10 +3,10 @@ import '../styles/landpage.css';
 import { useNavigate } from 'react-router-dom';
 import { FiSettings } from 'react-icons/fi';
 
-
 const Header = () => {
     const navigate = useNavigate();
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
+    const [imagesLoaded, setImagesLoaded] = useState(false);
 
     const palabras = [
         'Works',    // English
@@ -20,6 +20,16 @@ const Header = () => {
 
     const [indice, setIndice] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
+
+    useEffect(() => {
+        const landpageImage = new Image();
+        
+        landpageImage.onload = () => {
+            setImagesLoaded(true);
+        };
+
+        landpageImage.src = '/landpagefinal.png';
+    }, []);
 
     useEffect(() => {
         const changeWord = () => {
@@ -52,9 +62,12 @@ const Header = () => {
     return (
         <div className="encabezado">
             <div className="imagen-container">
-                <img src="/newframe.png" className="frame__overlay--header" alt="frame" />
-                <h1 className="works-static">WORX</h1>
-                <img src="/newlandpage.png" className="encabezado__imagen" alt="background" />
+                {!imagesLoaded && <div className="loading-placeholder"></div>}
+                <img 
+                    src="/landpagefinal.png" 
+                    className={`encabezado__imagen ${imagesLoaded ? 'loaded' : ''}`}
+                    alt="background with frame" 
+                />
                 <h1 className="encabezado__titulo">
                     <span 
                         className="encabezado__texto"
@@ -64,13 +77,13 @@ const Header = () => {
                     </span>
                 </h1>
                 {isAuthenticated && (
-                <button 
-                    className="control-panel-button"
-                    onClick={() => navigate('/admin')}
-                >
-                    <FiSettings /> Control Panel
-                </button>
-            )}
+                    <button 
+                        className="control-panel-button"
+                        onClick={() => navigate('/admin')}
+                    >
+                        <FiSettings /> Control Panel
+                    </button>
+                )}
             </div>
         </div>
     );
