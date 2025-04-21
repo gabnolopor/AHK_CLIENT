@@ -41,53 +41,5 @@
 }
   
 
-.encabezado {
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.encabezado__contenedor {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 2rem;
-}
-
-.encabezado__titulo {
-    position: relative;
-    font-size: 10rem;
-    color: #000;
-    font-family: Monserrat;
-    cursor: pointer;
-}
-
-
-.encabezado__texto {
-    display: block;
-    transition: 
-        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-        opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
-    will-change: transform, opacity;
-    letter-spacing: 0.5rem;
-    text-transform: uppercase;
-}
-
-.encabezado__texto--entrada {
-    transform: translateY(0) rotateX(0);
-    opacity: 1;
-}
-
-.encabezado__texto--salida {
-    transform: translateY(100%) rotateX(15deg);
-    opacity: 0;
-}
-
 
 
