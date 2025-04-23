@@ -113,13 +113,13 @@ function BoxSelect() {
         <video autoPlay muted loop playsInline className="background-video">
           <source src="/bgPremier.mp4" type="video/mp4" />
         </video>
-        <img src="/newframe.png" className="frame-overlay" alt="decorative frame" />
+        <img src="/framenuevo.png" className="frame-overlay" alt="decorative frame" />
         <Link to="/"> <img src="/black-logo.png" className="logo" alt="logo" id='logobox' /></Link>
       </div>
 
       <div className="boxes__grid">
         {[
-          'Art', 'Digital Art', 'Music', 'Photos',
+          'Art', 'Digital', 'Music', 'Photos',
           'Design', 'Writing', 'Bio', 'Credits'
         ].map((text, index) => (
           <div 
