@@ -109,7 +109,7 @@ function BoxSelect() {
     >
       <div className="video-container">
         <video autoPlay muted loop playsInline className="background-video">
-          <source src="/bgPremier_optimized.mp4" type="video/mp4" />
+          <source src="/bgPremier.mp4" type="video/mp4" />
         </video>
         <img src="/framenuevo.png" className="frame-overlay" alt="decorative frame" />
         <Link to="/"> <img src="/black-logo.png" className="logo" alt="logo" id='logobox' /></Link>
