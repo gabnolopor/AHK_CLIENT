@@ -113,7 +113,7 @@ box component
   opacity: 0;
   visibility: hidden;
   z-index: 3;
-  color: gray;
+  color: var(--full-orange);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   pointer-events: none;
   letter-spacing: 0.5rem;
