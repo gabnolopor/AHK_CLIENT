@@ -93,13 +93,11 @@ function BoxSelect() {
       navigate('/biography');
     } else if (text === 'Credits') {
       navigate('/credits');
-    } else if (text === 'Digital Art') {
-      navigate('/digitalart');
     } else if (text === 'Art') {
       navigate('/artroom');
     } else if (text === 'Writing') {
       navigate('/writing');
-    } else if (text === 'Digital Art') {
+    } else if (text === 'Digital') {
       navigate('/digitalart');
     }
   };
