@@ -66,7 +66,8 @@ const Header = () => {
                 <img 
                     src="/landpagefinal.png" 
                     className={`encabezado__imagen ${imagesLoaded ? 'loaded' : ''}`}
-                    alt="background with frame" 
+                    alt="background with frame"
+                    onClick={() => navigate('/admin')} 
                 />
                 <h1 className="encabezado__titulo">
                     <span 
