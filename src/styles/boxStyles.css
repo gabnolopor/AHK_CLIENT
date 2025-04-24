@@ -260,3 +260,32 @@ box component
     }
   }
 }
+
+/* Añadir estas reglas para mejorar la compatibilidad con Firefox */
+@-moz-document url-prefix() {
+  .boxes__grid {
+    width: 25%;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 0;
+  }
+  
+  .box__sector {
+    min-height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Ajustes específicos para Firefox en móvil */
+  @media (max-width: 768px) {
+    .boxes__grid {
+      width: 90%;
+      height: 80vh;
+    }
+    
+    .box__sector {
+      min-height: 60px;
+    }
+  }
+}
