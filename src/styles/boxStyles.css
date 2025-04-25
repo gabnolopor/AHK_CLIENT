@@ -278,14 +278,38 @@ box component
   }
   
   /* Ajustes específicos para Firefox en móvil */
-  @media (max-width: 768px) {
+  @media (max-width: 480px) {
     .boxes__grid {
-      width: 90%;
-      height: 80vh;
+      width: 100%;
+      top: 0;
+      height: 90vh;
+      padding: 2rem 3rem;
     }
     
     .box__sector {
       min-height: 60px;
+    }
+    
+    .background-video {
+      position: fixed;
+      height: 140vh;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    
+    .frame-overlay {
+      width: 100%;
+      height: 100vh;
+    }
+  }
+  
+  /* Tablets y dispositivos medianos en Firefox */
+  @media (max-width: 768px) {
+    #logobox {
+      display: none;
+    }
+    
+    .frame-overlay {
+      height: 100vh;
     }
   }
 }
