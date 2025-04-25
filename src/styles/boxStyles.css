@@ -326,7 +326,6 @@ box component
       top: 0 !important;
       height: 90vh !important;
       padding: 2rem 3rem !important;
-      margin-top: 20px !important;
       position: relative !important;
       display: grid !important;
       grid-template-columns: repeat(2, 1fr) !important;
@@ -367,7 +366,6 @@ box component
     top: 0 !important;
     height: 90vh !important;
     padding: 2rem 3rem !important;
-    margin-top: 20px !important;
     position: relative !important;
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
