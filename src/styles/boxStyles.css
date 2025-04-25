@@ -322,41 +322,80 @@ box component
   /* Firefox en iOS */
   @media (max-width: 480px) {
     .boxes__grid {
-      width: 100%;
-      top: 0;
-      height: 90vh;
-      padding: 2rem 3rem;
-      padding-top: 5rem;
-      margin-top: 20px;
-      position: relative;
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: 100px;
+      width: 100% !important;
+      top: 0 !important;
+      height: 90vh !important;
+      padding: 2rem 3rem !important;
+      padding-top: 5rem !important;
+      margin-top: 20px !important;
+      position: relative !important;
+      display: grid !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-rows: repeat(4, 1fr) !important;
+      gap: 10px !important;
     }
     
     .box__sector {
-      min-height: 60px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      min-height: 60px !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
     }
     
     .background-video {
-      position: fixed;
-      display: none;
-      height: 140vh;
-      transform: translate(-50%, -50%) scale(0.6);
+      position: fixed !important;
+      height: 140vh !important;
+      transform: translate(-50%, -50%) scale(0.6) !important;
     }
     
     .frame-overlay {
-      width: 100%;
-      height: 100vh;
+      width: 100% !important;
+      height: 100vh !important;
     }
     
     #logobox {
-      display: none;
+      display: none !important;
     }
+  }
+}
+
+/* Solución específica para iPhone con Firefox */
+@media (max-width: 480px) and (max-device-width: 926px) {
+  /* Estas reglas se aplicarán a todos los iPhones, incluido el iPhone 16 */
+  .boxes__grid {
+    width: 100% !important;
+    top: 0 !important;
+    height: 90vh !important;
+    padding: 2rem 3rem !important;
+    padding-top: 5rem !important;
+    margin-top: 20px !important;
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(4, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  .box__sector {
+    min-height: 60px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  .background-video {
+    position: fixed !important;
+    height: 140vh !important;
+    transform: translate(-50%, -50%) scale(0.6) !important;
+  }
+  
+  .frame-overlay {
+    width: 100% !important;
+    height: 100vh !important;
+  }
+  
+  #logobox {
+    display: none !important;
   }
 }
 
