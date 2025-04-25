@@ -281,12 +281,10 @@ box component
   @media (max-width: 480px) {
     .boxes__grid {
       width: 100%;
-      top: 0;
       height: 90vh;
       padding: 2rem 3rem;
       padding-top: 5rem;
       margin-top: 20px;
-      position: relative;
     }
     
     .box__sector {
