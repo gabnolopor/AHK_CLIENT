@@ -281,11 +281,12 @@ box component
   @media (max-width: 480px) {
     .boxes__grid {
       width: 100%;
+      top: 0;
       height: 90vh;
       padding: 2rem 3rem;
       padding-top: 5rem;
       margin-top: 20px;
-      outline: 1px solid red;
+      position: relative;
     }
     
     .box__sector {
@@ -315,3 +316,46 @@ box component
     }
   }
 }
+
+/* Estilos específicos para Firefox en iOS */
+@supports (-webkit-touch-callout: none) and (not (translate: none)) {
+  /* Firefox en iOS */
+  @media (max-width: 480px) {
+    .boxes__grid {
+      width: 100%;
+      top: 0;
+      height: 90vh;
+      padding: 2rem 3rem;
+      padding-top: 5rem;
+      margin-top: 20px;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(4, 1fr);
+      gap: 10px;
+    }
+    
+    .box__sector {
+      min-height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .background-video {
+      position: fixed;
+      height: 140vh;
+      transform: translate(-50%, -50%) scale(0.6);
+    }
+    
+    .frame-overlay {
+      width: 100%;
+      height: 100vh;
+    }
+    
+    #logobox {
+      display: none;
+    }
+  }
+}
+
