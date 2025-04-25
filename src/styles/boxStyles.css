@@ -344,6 +344,7 @@ box component
     
     .background-video {
       position: fixed;
+      display: none;
       height: 140vh;
       transform: translate(-50%, -50%) scale(0.6);
     }
