@@ -310,6 +310,7 @@ box component
   @supports (-webkit-touch-callout: none) {
     .boxes__grid {
       margin-top: 0 !important;
+      padding: 0 3rem 2rem 3rem;
     }
   }
 }
