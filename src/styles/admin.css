@@ -119,7 +119,10 @@
 
 /* Dashboard Styles */
 .dashboard-container {
-  min-height: 100vh;
+  min-height: 100%;
+  height: 100%;
+  position: relative;
+  -webkit-overflow-scrolling: touch;
   background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
   padding: 2rem;
 }
@@ -397,8 +400,9 @@
 
 /* File List Styles */
 .file-list-container {
-  height: 300px; /* Altura fija para todas las secciones */
-  overflow-y: auto; /* Habilita el desplazamiento vertical */
+  max-height: 300px; /* Cambiado de height fija a max-height */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Habilita scroll con inercia en iOS */
   border: 1px solid var(--shadowly-maroon);
   border-radius: 6px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -529,6 +533,7 @@
   position: relative;
   animation: modalSlideIn 0.3s ease;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .modal-header {
@@ -1004,4 +1009,35 @@
 .add-new-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+/* Asegura que el body y html tengan scroll habilitado */
+html, body {
+  height: 100%;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Ajustes responsive para móviles */
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0.5rem;
+  }
+  
+  .content-section {
+    padding: 1rem;
+  }
+  
+  .dashboard-header {
+    padding: 1rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .dashboard-controls {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
