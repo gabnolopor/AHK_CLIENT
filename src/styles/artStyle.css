@@ -214,8 +214,7 @@
     }
 
     .painting-container {
-      width: 80%;
-      height: 45%;
+    
       margin: 0 0 2rem 0;
     }
 
@@ -241,10 +240,7 @@
   }
 
   @media screen and (max-width: 480px) {
-    .painting-container {
-      width: 90%;
-      height: 50%;
-    }
+   
 
     .art-card-content h2 {
       font-size: 1.5rem;
@@ -270,10 +266,7 @@
 
   /* Para dispositivos muy pequeños */
   @media screen and (max-width: 320px) {
-    .painting-container {
-      width: 95%;
-      height: 70%;
-    }
+    
 
     .art-card-content h2 {
       font-size: 1.3rem;
