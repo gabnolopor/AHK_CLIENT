@@ -396,119 +396,64 @@ box component
   }
 }
 
-/* Solución específica para Safari en iOS */
+/* Estilos base para dispositivos móviles - aplicados a todos los navegadores */
+@media screen and (max-width: 480px) {
+  .boxes__grid {
+    width: 100%;
+    height: 90vh;
+    padding: 2rem 3rem;
+    position: relative;
+    top: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap: 10px;
+  }
+  
+  .box__sector {
+    min-height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box__sector:nth-child(odd) {
+    margin-right: 0;  
+  }
+  
+  .background-video {
+    position: fixed;
+    height: 140vh;
+    transform: translate(-50%, -50%) scale(0.6);
+  }
+  
+  .frame-overlay {
+    width: 100%;
+    height: 100vh;
+  }
+  
+  #logobox {
+    display: none;
+  }
+}
+
+/* Ajustes específicos para Safari en iOS */
 @supports (-webkit-touch-callout: none) {
-  /* Estas reglas se aplicarán a todos los dispositivos iOS */
-  .boxes__grid {
-    width: 100% !important;
-    top: 0 !important;
-    height: 90vh !important;
-    padding: 2rem 3rem !important;
-    padding-top: 5rem !important;
-    margin-top: 20px !important;
-    position: relative !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    grid-template-rows: repeat(4, 1fr) !important;
-    gap: 10px !important;
-  }
-  
-  .box__sector {
-    min-height: 60px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  
-  .background-video {
-    position: fixed !important;
-    height: 140vh !important;
-    transform: translate(-50%, -50%) scale(0.6) !important;
-  }
-  
-  .frame-overlay {
-    width: 100% !important;
-    height: 100vh !important;
-  }
-  
-  #logobox {
-    display: none !important;
-  }
-  
-  /* Ajustes específicos para iPhone */
-  @media (max-width: 480px) {
+  @media screen and (max-width: 480px) {
     .boxes__grid {
-      padding-top: 3rem !important;
-      margin-top: 10px !important;
-    }
-    
-    .box__sector:nth-child(odd) {
-      margin-right: 0 !important;  
+      padding-top: 2rem !important;
+      margin-top: 0 !important;
     }
   }
 }
 
-/* Solución específica para Safari en macOS */
-@media not all and (min-resolution:.001dpcm) { 
-  @supports (-webkit-appearance:none) and (not (-webkit-touch-callout:none)) {
-    /* Estas reglas se aplicarán solo a Safari en macOS */
+/* Ajustes específicos para Firefox */
+@-moz-document url-prefix() {
+  @media screen and (max-width: 480px) {
     .boxes__grid {
-      width: 25% !important;
-      grid-template-columns: repeat(2, 1fr) !important;
-      grid-template-rows: repeat(4, 1fr) !important;
-      gap: 0 !important;
+      padding-top: 2rem;
+      margin-top: 0;
     }
-    
-    .box__sector {
-      min-height: 70px !important;
-    }
-    
-    @media (max-width: 768px) {
-      .boxes__grid {
-        width: 100% !important;
-        padding: 2rem 3rem !important;
-      }
-    }
-  }
-}
-
-/* Solución específica para iPhone con Safari */
-@media (max-width: 480px) and (max-device-width: 926px) and (-webkit-min-device-pixel-ratio: 2) {
-  /* Estas reglas se aplicarán a todos los iPhones con Safari */
-  .boxes__grid {
-    width: 100% !important;
-    top: 0 !important;
-    height: 90vh !important;
-    padding: 2rem 3rem !important;
-    padding-top: 5rem !important;
-    margin-top: 20px !important;
-    position: relative !important;
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    grid-template-rows: repeat(4, 1fr) !important;
-    gap: 10px !important;
-  }
-  
-  .box__sector {
-    min-height: 60px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-  }
-  
-  .background-video {
-    position: fixed !important;
-    height: 140vh !important;
-    transform: translate(-50%, -50%) scale(0.6) !important;
-  }
-  
-  .frame-overlay {
-    width: 100% !important;
-    height: 100vh !important;
-  }
-  
-  #logobox {
-    display: none !important;
   }
 }
 
