@@ -396,3 +396,119 @@ box component
   }
 }
 
+/* Solución específica para Safari en iOS */
+@supports (-webkit-touch-callout: none) {
+  /* Estas reglas se aplicarán a todos los dispositivos iOS */
+  .boxes__grid {
+    width: 100% !important;
+    top: 0 !important;
+    height: 90vh !important;
+    padding: 2rem 3rem !important;
+    padding-top: 5rem !important;
+    margin-top: 20px !important;
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(4, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  .box__sector {
+    min-height: 60px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  .background-video {
+    position: fixed !important;
+    height: 140vh !important;
+    transform: translate(-50%, -50%) scale(0.6) !important;
+  }
+  
+  .frame-overlay {
+    width: 100% !important;
+    height: 100vh !important;
+  }
+  
+  #logobox {
+    display: none !important;
+  }
+  
+  /* Ajustes específicos para iPhone */
+  @media (max-width: 480px) {
+    .boxes__grid {
+      padding-top: 3rem !important;
+      margin-top: 10px !important;
+    }
+    
+    .box__sector:nth-child(odd) {
+      margin-right: 0 !important;  
+    }
+  }
+}
+
+/* Solución específica para Safari en macOS */
+@media not all and (min-resolution:.001dpcm) { 
+  @supports (-webkit-appearance:none) and (not (-webkit-touch-callout:none)) {
+    /* Estas reglas se aplicarán solo a Safari en macOS */
+    .boxes__grid {
+      width: 25% !important;
+      grid-template-columns: repeat(2, 1fr) !important;
+      grid-template-rows: repeat(4, 1fr) !important;
+      gap: 0 !important;
+    }
+    
+    .box__sector {
+      min-height: 70px !important;
+    }
+    
+    @media (max-width: 768px) {
+      .boxes__grid {
+        width: 100% !important;
+        padding: 2rem 3rem !important;
+      }
+    }
+  }
+}
+
+/* Solución específica para iPhone con Safari */
+@media (max-width: 480px) and (max-device-width: 926px) and (-webkit-min-device-pixel-ratio: 2) {
+  /* Estas reglas se aplicarán a todos los iPhones con Safari */
+  .boxes__grid {
+    width: 100% !important;
+    top: 0 !important;
+    height: 90vh !important;
+    padding: 2rem 3rem !important;
+    padding-top: 5rem !important;
+    margin-top: 20px !important;
+    position: relative !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(4, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  .box__sector {
+    min-height: 60px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+  
+  .background-video {
+    position: fixed !important;
+    height: 140vh !important;
+    transform: translate(-50%, -50%) scale(0.6) !important;
+  }
+  
+  .frame-overlay {
+    width: 100% !important;
+    height: 100vh !important;
+  }
+  
+  #logobox {
+    display: none !important;
+  }
+}
+
