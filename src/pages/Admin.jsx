@@ -168,7 +168,7 @@ function Admin() {
     artwork: { accepts: ".png,.jpg,.jpeg" },
     music: { accepts: ".mp3" },
     photo: { accepts: ".png,.jpg,.jpeg" },
-    writing: { accepts: ".txt, .rtf" },
+    writing: { accepts: ".txt, .pdf" },
     design: { accepts: ".png,.jpg,.jpeg" },
     digitalArt: { accepts: ".png,.jpg,.jpeg" }
   };

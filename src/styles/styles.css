@@ -36,10 +36,28 @@
 }
 
 @font-face {
-    font-family: Monserrat;
+    font-family: Anton-Regular;
     src: url('../fonts/Anton-Regular.ttf')
 }
-  
+
+@font-face {
+    font-family: Book;
+    src: url('../fonts/book.ttf')
+}
+
+@font-face {
+    font-family: PalenkRadney;
+    src: url('../fonts/PalenkRadney-ARw1D.otf')
+}
+
+@font-face {
+    font-family: Cinema;
+    src: url('../fonts/Cinema.ttf')
+}
+
+
+
+
 
 
 

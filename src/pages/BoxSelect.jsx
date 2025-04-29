@@ -3,6 +3,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/boxStyles.css';
 import { useNavigate } from 'react-router-dom';
+import FireText from '../components/FireText';
 
 function BoxSelect() {
   const [isHovering, setIsHovering] = useState(false);
@@ -38,14 +39,14 @@ function BoxSelect() {
     };
   }, [isMobile, selectedBox]);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (index) => {
     if (!isMobile) {
       setIsHovering(true);
       document.querySelector('.video-container').classList.add('blur-active');
     }
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (index) => {
     if (!isMobile) {
       setIsHovering(false);
       document.querySelector('.video-container').classList.remove('blur-active');
@@ -102,6 +103,11 @@ function BoxSelect() {
     }
   };
 
+  // Función para determinar si un box debe mostrar el efecto de fuego
+  const shouldShowFire = (index) => {
+    return selectedBox === index || (isHovering && lastTouchedBox === index);
+  };
+
   return (
     <div 
       className="box__wrapper"
@@ -124,13 +130,16 @@ function BoxSelect() {
             key={index}
             data-index={index}
             className={`box__sector ${selectedBox === index ? 'selected-box' : ''} ${lastTouchedBox === index ? 'touch-active' : ''}`}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => handleMouseEnter(index)}
+            onMouseLeave={() => handleMouseLeave(index)}
             onTouchStart={(e) => handleTouchStart(e, index, text)}
             onClick={() => !isMobile && handleBoxClick(text)}
           >
-            <div className={`hover-modal ${selectedBox === index ? 'selected-visible' : ''}`}>
-              {text}
+            <div className={`hover-modal ${shouldShowFire(index) ? 'fire-visible' : ''}`}>
+              <FireText 
+                text={text} 
+                isVisible={shouldShowFire(index)}
+              />
             </div>
           </div>
         ))}

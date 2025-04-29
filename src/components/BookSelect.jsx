@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { apiService } from '../services/api';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../assets/hand-loading.json';
-
+import { toast } from 'react-hot-toast';
 function BookSelect({ isOpen, onClose, section }) {
   const [writings, setWritings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -87,16 +87,38 @@ function BookSelect({ isOpen, onClose, section }) {
 
   const handleBookClick = async (writing) => {
     try {
-      const response = await fetch(writing.imageUrl);
-      if (!response.ok) {
-        throw new Error('Failed to fetch text content');
+      // Verificar si es un PDF basado en la URL
+      const isPDF = (url) => {
+        // Check if the URL contains .pdf before any query parameters
+        return url.split('?')[0].toLowerCase().endsWith('.pdf');
+      }      
+      if (isPDF(writing.imageUrl)) {
+        
+        // Navega a la página del visor de PDF
+        navigate('/pdf-viewer', { 
+          state: { 
+            writingName: writing.name, 
+            pdfUrl: writing.imageUrl 
+          }
+        });
+      } else {
+        // Para archivos de texto, mantén el comportamiento actual
+        const response = await fetch(writing.imageUrl);
+        if (!response.ok) {
+          throw new Error('Failed to fetch text content');
+        }
+        const textContent = await response.text();
+        navigate('/text-content', { 
+          state: { 
+            writingName: writing.name, 
+            textContent 
+          }
+        });
       }
-      const textContent = await response.text();
-
-      // Navigate to the TextContentPage with the writing name and text content
-      navigate('/text-content', { state: { writingName: writing.name, textContent } });
     } catch (error) {
-      console.error('Error loading text content:', error);
+      console.error('Error loading content:', error);
+      // Mostrar un mensaje de error más amigable al usuario
+      toast.error("No se pudo cargar el documento. Por favor intenta más tarde.");
     }
   };
 

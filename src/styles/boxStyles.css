@@ -396,3 +396,8 @@ box component
   }
 }
 
+.hover-modal.fire-visible {
+  opacity: 1;
+  visibility: visible;
+}
+

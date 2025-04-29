@@ -15,6 +15,7 @@ import PrivateRoute from './components/PrivateRoute';
 import TextContentPage from "./components/TextContentPage";
 import DigitalArt from './pages/DigitalArt';
 import NotFound from './pages/NotFound';
+import PDFViewer from './components/PDFViewer';
 
 function App() {
   return (
@@ -42,7 +43,7 @@ function App() {
           } 
         />
        <Route path="/text-content" element={<TextContentPage />} />
-
+       <Route path="/pdf-viewer" element={<PDFViewer />} />
        <Route path="*" element={<NotFound />} />
 
 
