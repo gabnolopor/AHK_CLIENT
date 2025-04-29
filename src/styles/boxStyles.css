@@ -321,8 +321,7 @@ box component
 @media screen and (max-width: 480px) {
   @-moz-document url-prefix() {
     .boxes__grid {
-      margin-top: 0;
-      position: relative;
+      margin-top: 2rem;
     }
   }
 }
