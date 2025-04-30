@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/writingsStyles.css";
@@ -13,7 +13,7 @@ function PDFViewer() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
   const [isTablet, setIsTablet] = useState(window.innerWidth > 480 && window.innerWidth <= 768);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
       setIsTablet(window.innerWidth > 480 && window.innerWidth <= 768);
@@ -22,8 +22,15 @@ function PDFViewer() {
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
     
+    // Enable scrolling on the body when this component mounts
+    document.body.style.overflow = 'auto';
+    document.body.style.touchAction = 'auto';
+    
     return () => {
       window.removeEventListener('resize', handleResize);
+      // Reset body styles when component unmounts
+      document.body.style.overflow = '';
+      document.body.style.touchAction = '';
     };
   }, []);
 
@@ -43,7 +50,7 @@ function PDFViewer() {
       backgroundPosition: "center",
       backgroundRepeat: "no-repeat",
       position: "relative",
-      overflow: "hidden",
+      overflow: "auto",
     },
     content: {
       width: isMobile ? "95%" : "90%",
@@ -53,6 +60,7 @@ function PDFViewer() {
       alignItems: "center",
       position: "relative",
       boxSizing: "border-box",
+      overflow: "auto",
     },
     title: {
       color: "#FFB80A",
@@ -65,10 +73,12 @@ function PDFViewer() {
       hyphens: "auto",
     },
     pdfFrame: {
-      width: isMobile ? "90%" : "70%",
+      width: isMobile ? "100%" : "70%",
       height: "100%",
       border: "none",
       backgroundColor: "transparent",
+      overflow: "auto",
+      maxWidth: "100%",
     },
     backButton: {
       backgroundColor: "#8b4513",
@@ -88,6 +98,9 @@ function PDFViewer() {
       transition: "opacity 0.3s ease",
     }
   };
+
+  // Construir la URL del PDF con parámetros optimizados para móviles
+  const optimizedPdfUrl = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitW&pagemode=thumbs`;
 
   return (
     <div style={styles.container}>
@@ -109,9 +122,12 @@ function PDFViewer() {
       <div style={styles.content}>
         <h1 style={styles.title}>{writingName}</h1>
         <iframe 
-          src={`${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`} 
+          src={optimizedPdfUrl}
           style={styles.pdfFrame}
           title={writingName}
+          frameBorder="0"
+          allowFullScreen={true}
+          scrolling="auto"
         />
       </div>
     </div>
