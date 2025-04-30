@@ -21,6 +21,14 @@ function PDFViewer() {
                         (/Mac/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
     setIsIOS(isIOSDevice);
     
+    // Si es iOS y móvil, abrir directamente en nueva pestaña
+    if (window.innerWidth <= 768) {
+      window.open(pdfUrl, '_blank');
+      // Volver a la página anterior después de abrir el PDF
+      navigate(-1);
+      return;
+    }
+    
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
       setIsTablet(window.innerWidth > 480 && window.innerWidth <= 768);
@@ -54,15 +62,10 @@ function PDFViewer() {
       document.documentElement.style.overflow = '';
       document.documentElement.style.touchAction = '';
     };
-  }, []);
+  }, [pdfUrl, navigate]);
 
   const handleBackClick = () => {
     navigate(-1);
-  };
-
-  // Función para abrir el PDF en una nueva pestaña (solución alternativa para iOS)
-  const openPDFInNewTab = () => {
-    window.open(pdfUrl, '_blank');
   };
 
   const styles = {
@@ -126,17 +129,6 @@ function PDFViewer() {
       zIndex: "1000",
       opacity: "0.3",
       transition: "opacity 0.3s ease",
-    },
-    openExternalButton: {
-      backgroundColor: "#8b4513",
-      color: "white",
-      border: "none",
-      borderRadius: "5px",
-      padding: "10px 15px",
-      margin: "10px 0",
-      cursor: "pointer",
-      fontSize: "14px",
-      display: isIOS ? "block" : "none", // Solo mostrar en iOS
     }
   };
 
@@ -162,15 +154,6 @@ function PDFViewer() {
       
       <div style={styles.content}>
         <h1 style={styles.title}>{writingName}</h1>
-        
-        {isIOS && (
-          <button 
-            style={styles.openExternalButton}
-            onClick={openPDFInNewTab}
-          >
-            Abrir PDF en nueva pestaña
-          </button>
-        )}
         
         <iframe 
           ref={iframeRef}
