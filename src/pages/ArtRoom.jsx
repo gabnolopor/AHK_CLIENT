@@ -21,10 +21,12 @@ function ArtRoom() {
     const fetchPaintings = async () => {
       try {
         const data = await apiService.getAllPaintings();
-        setPaintings(data);
+        setTimeout(() => {
+          setPaintings(data);
+          setIsLoading(false);
+        }, 3000); 
       } catch (error) {
         console.error('Error fetching paintings:', error);
-      } finally {
         setIsLoading(false);
       }
     };

@@ -1,8 +1,11 @@
+import { useState, useEffect } from 'react';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../assets/hand-loading.json';
 import '../styles/loadingFallback.css';
 
 function LoadingFallback() {
+  const [show, setShow] = useState(true);
+
   return (
     <div className="loading-container">
       <div className="loading-animation">

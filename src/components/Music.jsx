@@ -20,19 +20,7 @@ const Music = () => {
     const [isPlaying, setIsPlaying] = useState(false);
     const audioRef = useRef(null);
     const { loading, error, handleRequest } = useApi();
-
-    const genreColors = {
-        'Electro': '#8B4513',          // Marrón
-        'Pop': '#B8860B',              // Dorado
-        'Rock': '#8B4513',             // Marrón
-        'Film-TV': '#8B4513',          // Marrón
-        'Experimental': '#B8860B',     // Dorado
-    };
-
-    const getCurrentColor = () => {
-        const currentGenre = genres[currentGenreIndex];
-        return genreColors[currentGenre] || '#ff0000';  // Rojo por defecto
-    };
+    const [isLoading, setIsLoading] = useState(true);
 
     const nextGenre = () => {
         setCurrentGenreIndex((prev) => 
@@ -50,9 +38,13 @@ const Music = () => {
         const fetchSongs = async () => {
             try {
                 const allSongs = await handleRequest(apiService.getAllMusic);
-                setSongs(allSongs);
+                setTimeout(() => {
+                    setSongs(allSongs);
+                    setIsLoading(false);
+                }, 2000);
             } catch (error) {
                 console.error('Failed to fetch songs:', error);
+                setIsLoading(false);
             }
         };
 
@@ -108,20 +100,18 @@ const Music = () => {
                         <button 
                             onClick={prevGenre} 
                             className="music__nav-button"
-                            style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
                             disabled={genres.length <= 1}
                         >
                             <IoIosArrowBack size={24} />
                         </button>
                         
-                        <h2 className="music__genre" style={{ color: '#FFFFFF' }}>
+                        <h2 className="music__genre">
                             {currentGenre}
                         </h2>
                         
                         <button 
                             onClick={nextGenre} 
                             className="music__nav-button"
-                            style={{ borderColor: getCurrentColor(), color: getCurrentColor() }}
                             disabled={genres.length <= 1}
                         >
                             <IoIosArrowForward size={24} />
@@ -134,9 +124,9 @@ const Music = () => {
                                 className="music__strip"
                             >
                                 <div className="music__line-box">
-                                    <div className="music__line" style={{ backgroundColor: getCurrentColor() }}>
-                                        <div className="music__white-space" style={{ borderColor: getCurrentColor() }}>
-                                            <p className="music__song-title" style={{ color: getCurrentColor() }}>{song.name}</p>
+                                    <div className="music__line">
+                                        <div className="music__white-space">
+                                            <p className="music__song-title">{song.name}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -144,14 +134,12 @@ const Music = () => {
                                     <button 
                                         onClick={() => handlePlayPause(song)} 
                                         className="music__control-button"
-                                        style={{ backgroundColor: getCurrentColor() }}
                                     >
                                         {isPlaying && currentSong && currentSong._id === song._id ? <IoIosPause size={24} /> : <IoIosPlay size={24} />}
                                     </button>
                                     <button 
                                         onClick={() => handleRestart(song)} 
                                         className="music__control-button"
-                                        style={{ backgroundColor: getCurrentColor() }}
                                     >
                                         <IoIosRefresh size={24} />
                                     </button>

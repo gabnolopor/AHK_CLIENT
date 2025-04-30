@@ -95,7 +95,6 @@ function Credits() {
 
       {showTheEnd && (
         <div className="end-screen-overlay">
-          <h1>THE END</h1>
           <a href="mailto:andrew@zigzagworx.com">andrew@zigzagworx.com</a>
         </div>
       )}

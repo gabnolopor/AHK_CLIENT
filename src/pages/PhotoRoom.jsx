@@ -22,10 +22,12 @@ function PhotoRoom() {
     const fetchPhotos = async () => {
       try {
         const data = await apiService.getAllPhotography();
-        setPhotos(data);
+        setTimeout(() => {
+          setPhotos(data);
+          setIsLoading(false);
+        }, 3000);
       } catch (error) {
         console.error('Error fetching photos:', error);
-      } finally {
         setIsLoading(false);
       }
     };
