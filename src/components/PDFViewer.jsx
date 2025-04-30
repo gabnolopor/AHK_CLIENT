@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import "../styles/writingsStyles.css";
@@ -12,8 +12,15 @@ function PDFViewer() {
   };
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
   const [isTablet, setIsTablet] = useState(window.innerWidth > 480 && window.innerWidth <= 768);
+  const [isIOS, setIsIOS] = useState(false);
+  const iframeRef = useRef(null);
 
   useEffect(() => {
+    // Detectar si es iOS - usando método moderno sin navigator.platform
+    const isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                        (/Mac/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+    setIsIOS(isIOSDevice);
+    
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 480);
       setIsTablet(window.innerWidth > 480 && window.innerWidth <= 768);
@@ -22,20 +29,40 @@ function PDFViewer() {
     handleResize(); // Initial check
     window.addEventListener('resize', handleResize);
     
-    // Enable scrolling on the body when this component mounts
+    // Enable scrolling on the body and all parent elements
     document.body.style.overflow = 'auto';
     document.body.style.touchAction = 'auto';
+    document.documentElement.style.overflow = 'auto';
+    document.documentElement.style.touchAction = 'auto';
+    
+    // For iOS, we need to ensure the iframe can be scrolled
+    if (isIOSDevice && iframeRef.current) {
+      // Force layout recalculation
+      setTimeout(() => {
+        if (iframeRef.current) {
+          iframeRef.current.style.height = '100%';
+          iframeRef.current.style.width = '100%';
+        }
+      }, 500);
+    }
     
     return () => {
       window.removeEventListener('resize', handleResize);
       // Reset body styles when component unmounts
       document.body.style.overflow = '';
       document.body.style.touchAction = '';
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.touchAction = '';
     };
   }, []);
 
   const handleBackClick = () => {
     navigate(-1);
+  };
+
+  // Función para abrir el PDF en una nueva pestaña (solución alternativa para iOS)
+  const openPDFInNewTab = () => {
+    window.open(pdfUrl, '_blank');
   };
 
   const styles = {
@@ -51,6 +78,7 @@ function PDFViewer() {
       backgroundRepeat: "no-repeat",
       position: "relative",
       overflow: "auto",
+      WebkitOverflowScrolling: "touch", // Para mejor desplazamiento en iOS
     },
     content: {
       width: isMobile ? "95%" : "90%",
@@ -61,6 +89,7 @@ function PDFViewer() {
       position: "relative",
       boxSizing: "border-box",
       overflow: "auto",
+      WebkitOverflowScrolling: "touch", // Para mejor desplazamiento en iOS
     },
     title: {
       color: "#FFB80A",
@@ -73,11 +102,12 @@ function PDFViewer() {
       hyphens: "auto",
     },
     pdfFrame: {
-      width: isMobile ? "100%" : "70%",
-      height: "100%",
+      width: "100%",
+      height: isIOS ? "80vh" : "100%", // Altura fija para iOS
       border: "none",
       backgroundColor: "transparent",
       overflow: "auto",
+      WebkitOverflowScrolling: "touch", // Para mejor desplazamiento en iOS
       maxWidth: "100%",
     },
     backButton: {
@@ -96,10 +126,21 @@ function PDFViewer() {
       zIndex: "1000",
       opacity: "0.3",
       transition: "opacity 0.3s ease",
+    },
+    openExternalButton: {
+      backgroundColor: "#8b4513",
+      color: "white",
+      border: "none",
+      borderRadius: "5px",
+      padding: "10px 15px",
+      margin: "10px 0",
+      cursor: "pointer",
+      fontSize: "14px",
+      display: isIOS ? "block" : "none", // Solo mostrar en iOS
     }
   };
 
-  // Construir la URL del PDF con parámetros optimizados para móviles
+  // Construir la URL del PDF con parámetros optimizados
   const optimizedPdfUrl = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitW&pagemode=thumbs`;
 
   return (
@@ -121,7 +162,18 @@ function PDFViewer() {
       
       <div style={styles.content}>
         <h1 style={styles.title}>{writingName}</h1>
+        
+        {isIOS && (
+          <button 
+            style={styles.openExternalButton}
+            onClick={openPDFInNewTab}
+          >
+            Abrir PDF en nueva pestaña
+          </button>
+        )}
+        
         <iframe 
+          ref={iframeRef}
           src={optimizedPdfUrl}
           style={styles.pdfFrame}
           title={writingName}
