@@ -309,6 +309,7 @@ function Admin() {
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("isAdminAuthenticated");
+    localStorage.removeItem("token");
     setIsAuthenticated(false);
     toast.info("Logged out successfully");
   };
