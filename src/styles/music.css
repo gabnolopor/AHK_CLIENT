@@ -17,18 +17,18 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 600px;
+  width: 30rem;
   height: auto;
   z-index: 1;
 }
 
 .music__nav-container {
   position: absolute;
-  top: 222px;
+  top: 200px;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 600px;
+  max-width: 320px;
   z-index: 3;
 }
 
@@ -66,21 +66,26 @@
 
 .music__grid {
   position: absolute;
-  top: 80%;
-  left: 50%;
+  top: 75%;
+  left: 50.2%;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
   gap: 8px;
-  width: 370px;
-  height: 285px;
-  overflow-y: auto;
+  min-width: 300px;
+  max-width: 300px;
+  min-height: 220px;
+  max-height: 220px;
   z-index: 2;
+  overflow-x: hidden;
+  overflow-y: scroll;  
+  scrollbar-width: none;
+  -ms-overflow-style: none;  
 }
 
 .music__strip {
-  background-color: #ffe6e6;
-  border: 1px solid #ff0000;
+  background-color: #ed4c2b;
+  border: 1px solid white;
   padding: 7px 4px;
   width: 100%;
   transition: all 0.3s ease;
@@ -88,6 +93,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  box-sizing: border-box;
 }
 
 .music__line-box {
@@ -100,7 +106,7 @@
 .music__line {
   width: 100%;
   height: 2px;
-  background-color: #ff0000;
+  background-color: white;
   position: relative;
 }
 
@@ -108,15 +114,15 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-  width: 60%;
+  width: 90%;
   height: 20px;
   background-color: white;
   top: -10px;
-  border: 1px solid #ff0000;
+  border: 1px solid white;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff0000;
+  color: black;
   font-size: 12px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -141,7 +147,7 @@
 }
 
 .music__song-title {
-  color: #ff0000;
+  color: black;
   font-size: 14px;
   font-weight: bold;
   letter-spacing: 1px;
@@ -151,16 +157,18 @@
 
 /* Añadir estilos específicos para los botones de control de música */
 .music__control-button {
-  background-color: #ff0000;
+  background-color: black;
   color: #FFFFFF;
   border: none;
-  padding: 8px 15px;
+  padding: 4px 8px;
   cursor: pointer;
-  border-radius: 10%;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
+  width: 30px; 
+  height: 30px;
 }
 
 .music__control-button:hover {
@@ -168,113 +176,211 @@
   box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
 }
 
+.logo {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  width: 60px;
+  height: auto;
+}
+
 /* Pantallas grandes y 4K (>1920px) */
+
 @media screen and (min-width: 1921px) {
+
   .music__jukebox {
-    width: 800px;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 30rem;
   }
 
   .music__nav-container {
-    max-width: 800px;
-    top: -400px;
-  }
-
-  .music__nav-button {
-    width: 60px;
-    height: 60px;
-  }
-
-  .music__genre {
-    font-size: 2.5rem;
-  }
-
-  .music__grid {
-    width: 450px;
-  }
-}
-
-/* Laptops y pantallas medianas (1200px - 1920px) */
-@media screen and (min-width: 1201px) and (max-width: 1920px) {
-  .music__jukebox {
-    width: 600px;
-  }
-
-  .music__nav-container {
-    max-width: 600px;
-  }
-
-  .music__grid {
-    width: 370px;
-  }
-}
-
-/* Tablets grandes y laptops pequeñas (992px - 1200px) */
-@media screen and (min-width: 992px) and (max-width: 1200px) {
-  .music__jukebox {
-    width: 500px;
-  }
-
-  .music__nav-container {
-    max-width: 500px;
-    top: -200px;
-  }
-
-  .music__grid {
-    width: 350px;
-  }
-
-  .music__genre {
-    font-size: 1.8rem;
-  }
-}
-
-/* Tablets (768px - 991px) */
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .music__jukebox {
-    width: 500px;
-  }
-
-  .music__nav-container {
-    max-width: 450px;
-    top: -155px;
-  }
-
-  .music__grid {
-    width: 300px;
-    top: 65%;
-  }
-
-  .music__genre {
-    font-size: 1.6rem;
-  }
-
-  .music__nav-button {
-    width: 45px;
-    height: 45px;
-  }
-}
-
-@media screen and (min-width: 375px) and (max-width: 414px) {
-  .music__jukebox {
-    width: 400px;
-  }
-
-  .music__nav-container {
+    position: absolute;
     max-width: 350px;
-    top: -125px;
+    top: 44%; 
+    left: 50%;
+    transform: translate(-48%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
   }
 
   .music__grid {
-    width: 226px;
-    top: 71%
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 20rem;
+    min-width: 20rem;
+    max-height: 15rem;
+    min-height: 15rem;
   }
 
   .music__genre {
     font-size: 1.2rem;
-    margin: 0 15px;
   }
 
-  .music__nav-button {
+  .music__nav-button {    
+    width: 35px;
+    height: 35px;
+    margin: 0 0.1rem;
+  }
+
+  .music__strip {
+    padding: 1px 4px;
+  }
+
+  .music__strip:hover {
+    transform: scale(1.20);
+  }
+  
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+  
+  .music__jukebox {
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 25rem;
+  }
+
+  .music__nav-container {
+    position: absolute;
+    max-width: 350px;
+    top: 33%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .music__grid {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 15.5rem;
+    min-width: 15.5rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
+  }
+
+  .music__genre {
+    font-size: 1.2rem;
+  }
+
+  .music__nav-button {    
+    width: 35px;
+    height: 35px;
+    margin: 0 0.1rem;
+  }
+
+  .music__strip {
+    padding: 1px 4px;
+  }
+
+  .music__strip:hover {
+    transform: scale(1.20);
+  }
+  
+}
+
+
+
+
+/* Tablets (768px - 991px) */
+@media screen and (min-width: 768px) and (max-width: 991px){
+  .music__jukebox {
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 25rem;
+  }
+
+  .music__nav-container {
+    position: absolute;
+    max-width: 350px;
+    top: 33%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .music__grid {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 15.5rem;
+    min-width: 15.5rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
+  }
+
+  .music__genre {
+    font-size: 1.2rem;
+  }
+
+  .music__nav-button {    
+    width: 35px;
+    height: 35px;
+    margin: 0 0.1rem;
+  }
+
+  .music__strip {
+    padding: 1px 4px;
+  }
+
+  .music__strip:hover {
+    transform: scale(1.20);
+  }
+  
+  
+}
+
+@media screen and (min-width: 481px ) and (max-width: 768px){
+  .music__jukebox {
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 25rem;
+  }
+
+  .music__nav-container {
+    position: absolute;
+    max-width: 350px;
+    top: 33%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .music__grid {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 15.5rem;
+    min-width: 15.5rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
+  }
+
+  .music__genre {
+    font-size: 1.2rem;
+  }
+
+  .music__nav-button {    
     width: 35px;
     height: 35px;
     margin: 0 0.1rem;
@@ -288,35 +394,148 @@
     transform: scale(1.20);
   }
 
-  .music .logo-link,
-  .music .logo {
-    display: none !important;
+}
+
+@media screen and (min-width: 376px) and (max-width: 480px){
+
+  .music__jukebox {
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 21rem;
   }
+
+  .music__nav-container {
+    position: absolute;
+    top: 35%; 
+    width: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .music__grid {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 13rem;
+    min-width: 13rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
+  }
+
+  .music__genre {
+    font-size: 1.2rem;
+  }
+
+  .music__nav-button {    
+    width: 30px;
+    height: 30px;
+    margin: 0 0.1rem;
+  }
+
+  .music__strip {
+    padding: 1px 4px;
+  }
+
+  .music__strip:hover {
+    transform: scale(1.20);
+  }
+  
+}
+
+@media screen and  (min-width: 321px) and (max-width: 375px) {
+  .music__jukebox {
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 21rem;
+  }
+
+  .music__nav-container {
+    position: absolute;
+    max-width: 350px;
+    top: 36%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
+  }
+
+  .music__grid {
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 13rem;
+    min-width: 13rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
+  }
+
+  .music__genre {
+    font-size: 1.2rem;
+  }
+
+  .music__nav-button {    
+    width: 30px;
+    height: 30px;
+    margin: 0 0.1rem;
+  }
+
+  .music__strip {
+    padding: 1px 4px;
+  }
+
+  .music__strip:hover {
+    transform: scale(1.20);
+  }
+
 }
 
 @media screen and (max-width: 320px) {
   .music__jukebox {
-    width: 370px;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 21rem;
   }
 
   .music__nav-container {
+    position: absolute;
     max-width: 350px;
-    top: -120px;
+    top: 35%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 350px;
   }
 
   .music__grid {
-    width: 225px;
-    top: 78%
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 13rem;
+    min-width: 13rem;
+    max-height: 11.5rem;
+    min-height: 11.5rem;
   }
 
   .music__genre {
     font-size: 1.2rem;
-    margin: 0 15px;
   }
 
   .music__nav-button {
-    width: 35px;
-    height: 35px;
+    width: 30px;
+    height: 30px;
     margin: 0 0.1rem;
   }
 
@@ -328,13 +547,4 @@
     transform: scale(1.20);
   }
 
-  .music .logo-link,
-  .music .logo {
-    display: none !important;
-  }
 }
-
-
-
-
-
