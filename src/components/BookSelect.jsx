@@ -91,16 +91,24 @@ function BookSelect({ isOpen, onClose, section }) {
       const isPDF = (url) => {
         // Check if the URL contains .pdf before any query parameters
         return url.split('?')[0].toLowerCase().endsWith('.pdf');
-      }      
+      }
+      
+      // Verificar si es un dispositivo móvil
+      const isMobileDevice = window.innerWidth <= 768;
+      
       if (isPDF(writing.imageUrl)) {
-        
-        // Navega a la página del visor de PDF
-        navigate('/pdf-viewer', { 
-          state: { 
-            writingName: writing.name, 
-            pdfUrl: writing.imageUrl 
-          }
-        });
+        if (isMobileDevice) {
+          // En dispositivos móviles, abrir el PDF directamente en una nueva ventana
+          window.open(writing.imageUrl, '_blank');
+        } else {
+          // En desktop, mantener el comportamiento actual
+          navigate('/pdf-viewer', { 
+            state: { 
+              writingName: writing.name, 
+              pdfUrl: writing.imageUrl 
+            }
+          });
+        }
       } else {
         // Para archivos de texto, mantén el comportamiento actual
         const response = await fetch(writing.imageUrl);
