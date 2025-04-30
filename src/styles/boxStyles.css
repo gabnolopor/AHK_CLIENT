@@ -308,11 +308,7 @@ box component
 @media screen and (max-width: 480px) {
   @supports (-webkit-touch-callout: none) {
     .boxes__grid {
-      margin-top: 0 !important;
-      position: fixed;
-      top: 0;
-      padding: 0 3rem 2rem 3rem;
-      
+      margin-top: 0 !important;   
     }
   }
 }
@@ -321,7 +317,7 @@ box component
 @media screen and (max-width: 480px) {
   @-moz-document url-prefix() {
     .boxes__grid {
-      margin-top: 2rem;
+      margin-top: 0;
     }
   }
 }
