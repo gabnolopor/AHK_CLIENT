@@ -226,8 +226,12 @@
 
     .art-card-content h2 {
       font-size: 1.8rem;
+      margin: 0;
     }
 
+    .art-card-content p {
+      margin: 0;
+    }
     .carousel-buttons {
       bottom: 20px;
     }
