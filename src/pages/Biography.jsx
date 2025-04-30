@@ -43,18 +43,26 @@ const Biography = () => {
         }
 
         const utterance = new SpeechSynthesisUtterance(biography.text);
+        
+        const voices = window.speechSynthesis.getVoices();
+        const englishVoice = voices.find(voice => 
+            voice.lang.includes('en-US') && !voice.lang.includes('es')
+        );
+        
+        // Configuración específica para voz en inglés
+        utterance.voice = englishVoice;
         utterance.lang = 'en-US';
         utterance.rate = 0.8;
         utterance.pitch = 1;
         utterance.volume = 1;
 
         utterance.onend = () => {
-            console.log('Lectura completada');
+            console.log('Reading completed');
             setIsPlaying(false);
         };
 
         utterance.onerror = (event) => {
-            console.error('Error en la reproducción:', event);
+            console.error('Error in playback:', event);
             setIsPlaying(false);
         };
 
