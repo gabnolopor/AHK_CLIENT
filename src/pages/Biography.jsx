@@ -73,18 +73,12 @@ const Biography = () => {
                 <div className="bio__content">
                     <h1>{biography.title}</h1>
                     <div className="bio__scroll-link" 
-                         onClick={() => document.querySelector('.bio__speech-button').scrollIntoView({ behavior: 'smooth' })}>
-                        Listen Bio
+                         onClick={handleSpeech}>
+                        {isPlaying ? 'Stop Reading' : 'Listen Biography'}
                     </div>
                     {biography.text.split('\n').map((paragraph, index) => (
                         paragraph.trim() && <p key={index}>{paragraph}</p>
                     ))}
-                    <button 
-                        className="bio__speech-button"
-                        onClick={handleSpeech}
-                    >
-                        {isPlaying ? 'Stop Reading' : 'Listen Biography'}
-                    </button>
                 </div>
             </div>
             <Link to="/boxselect">

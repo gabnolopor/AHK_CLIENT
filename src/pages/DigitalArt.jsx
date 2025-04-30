@@ -17,10 +17,12 @@ const DigitalArt = () => {
         const fetchDigitalArts = async () => {
             try {
                 const data = await apiService.getAllDigitalArt();
-                setDigitalArts(data);
+                setTimeout(() => {
+                    setDigitalArts(data);
+                    setIsLoading(false);
+                }, 2000);
             } catch (error) {
                 console.error('Error fetching digital art:', error);
-            } finally {
                 setIsLoading(false);
             }
         };
