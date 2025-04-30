@@ -5,8 +5,9 @@ import { FiSettings } from 'react-icons/fi';
 
 const Header = () => {
     const navigate = useNavigate();
-    const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
+    const isAuthenticated = localStorage.getItem('token') !== null;
     const [imagesLoaded, setImagesLoaded] = useState(false);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const palabras = [
         'Works',    // English
@@ -29,6 +30,18 @@ const Header = () => {
         };
 
         landpageImage.src = '/landpagefinal.png';
+        
+        // Detectar si es dispositivo móvil
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
     }, []);
 
     useEffect(() => {
@@ -81,8 +94,16 @@ const Header = () => {
                     <button 
                         className="control-panel-button"
                         onClick={() => navigate('/admin')}
+                        style={{
+                            position: 'fixed',
+                            top: isMobile ? '10px' : '1rem',
+                            right: isMobile ? '10px' : '1rem',
+                            zIndex: 10000,
+                            padding: isMobile ? '0.5rem 1rem' : '0.75rem 1.5rem',
+                            fontSize: isMobile ? '0.9rem' : '1.1rem'
+                        }}
                     >
-                        <FiSettings /> Control Panel
+                        <FiSettings /> {isMobile ? 'Admin' : 'Control Panel'}
                     </button>
                 )}
             </div>
