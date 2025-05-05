@@ -56,16 +56,19 @@ const ThreeDRoom = () => {
     if (isMobile) {
       // Use simpler geometries or lower resolution textures
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      controls.rotateSpeed = 0.7;
-      controls.enableZoom = true;
-      controls.enablePan = false; // Disable panning on mobile
-      controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
     }
 
     // Controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.target.set(0, 0, 0);
     controls.update();
+    
+    if (isMobile) {
+      controls.rotateSpeed = 0.7;
+      controls.enableZoom = true;
+      controls.enablePan = false; // Disable panning on mobile
+      controls.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+    }
 
     // Room dimensions - increased size
     const roomWidth = 16;
