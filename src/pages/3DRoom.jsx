@@ -421,8 +421,16 @@ const ThreeDRoom = () => {
   }
 
   return (
-    <div className="art-container">
-      <div ref={mountRef} style={{ width: '100%', height: '100vh' }}>
+    <div className="art-container" style={{
+      position: 'fixed',  // Use fixed instead of relative
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      overflow: 'hidden',  // Intentionally hidden for the 3D container
+      touchAction: 'none'  // Prevents default touch actions to allow Three.js controls
+    }}>
+      <div ref={mountRef} style={{ width: '100%', height: '100%' }}>
         {/* Three.js canvas will be inserted here */}
       </div>
 
