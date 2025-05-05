@@ -10,16 +10,16 @@ const ThreeDRoom = () => {
   const mountRef = useRef(null);
   const [paintings, setPaintings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [texturesLoaded, setTexturesLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPainting, setSelectedPainting] = useState(null);
 
+  // Fetch paintings data
   useEffect(() => {
-    // Fetch paintings data
     const fetchPaintings = async () => {
       try {
         const data = await apiService.getAllPaintings();
         setPaintings(data);
-        setIsLoading(false);
       } catch (error) {
         console.error('Error fetching paintings:', error);
         setIsLoading(false);
@@ -30,7 +30,45 @@ const ThreeDRoom = () => {
   }, []);
 
   useEffect(() => {
-    if (isLoading || paintings.length === 0) return;
+    if (paintings.length === 0) return;
+
+    // Create a texture loader with a loading manager to track progress
+    const loadingManager = new THREE.LoadingManager();
+    let totalItems = 3; // Wall, floor, ceiling textures
+    totalItems += Math.min(paintings.length, 8); // Add paintings count (max 8)
+    let loadedItems = 0;
+
+    loadingManager.onLoad = () => {
+      setTexturesLoaded(true);
+      setIsLoading(false);
+    };
+
+    loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
+      loadedItems = itemsLoaded;
+      // You could add a progress indicator here if desired
+      console.log(`Loading: ${Math.round((loadedItems / totalItems) * 100)}%`);
+    };
+
+    loadingManager.onError = (url) => {
+      console.error('Error loading texture:', url);
+    };
+
+    const textureLoader = new THREE.TextureLoader(loadingManager);
+
+    // Preload all textures
+    textureLoader.load('/wallTexture.jpg');
+    textureLoader.load('/floorTexture.jpg');
+    textureLoader.load('/ceilingTexture.jpg');
+
+    // Preload painting textures
+    for (let i = 0; i < Math.min(paintings.length, 8); i++) {
+      textureLoader.load(paintings[i].imageUrl);
+    }
+
+  }, [paintings]);
+
+  useEffect(() => {
+    if (isLoading || !texturesLoaded || paintings.length === 0) return;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -408,14 +446,14 @@ const ThreeDRoom = () => {
         }
       });
     };
-  }, [isLoading, paintings]);
+  }, [isLoading, texturesLoaded, paintings]);
 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedPainting(null);
   };
 
-  if (isLoading) {
+  if (isLoading || !texturesLoaded) {
     return <LoadingFallback />;
   }
 
