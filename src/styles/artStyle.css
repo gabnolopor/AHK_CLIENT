@@ -55,8 +55,8 @@
 
 /* Frame overlay */
 .frame-paintingOverlay {
-  width: 135%;
-  height: 120%;
+  width: 100%;
+  height: 90%;
   z-index: 2;
   position: absolute;
 }
@@ -296,10 +296,6 @@
     margin: 0 0.8rem;
   }
 
-  .frame-paintingOverlay {
-    width: 130%;
-    height: 115%;
-  }
 }
 
 /* Para dispositivos muy pequeños */

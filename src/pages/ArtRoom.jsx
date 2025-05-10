@@ -129,7 +129,7 @@ function ArtRoom() {
                   className="painting" 
                 />
                 <img 
-                  src="/frame copy.png" 
+                  src="/frame.webp" 
                   alt="Frame" 
                   className="frame-paintingOverlay"
                 />
