@@ -208,8 +208,8 @@
   }
 
   .painting-container {
-    width: 70%;
-    height: 50%;
+    width: 75%;
+    height: 55%;
   }
 
   .art-card-content {
@@ -238,6 +238,8 @@
   }
 
   .painting-container {
+    width: 85%;
+    height: 60%;
     margin: 0 0 2rem 0;
   }
 
@@ -279,6 +281,10 @@
   .painting-plaque p {
     font-size: 0.9rem;
   }
+  .frame-paintingOverlay {
+    width: 110%;
+    height: 100%;
+  }
 }
 
 @media screen and (max-width: 480px) {
@@ -296,6 +302,15 @@
     margin: 0 0.8rem;
   }
 
+  .painting-container {
+    width: 90%;
+    height: 65%;
+  }
+  
+  .painting {
+    width: 95%;
+    height: 90%;
+  }
 }
 
 /* Para dispositivos muy pequeños */
@@ -324,6 +339,11 @@
     height: 40px;
     margin: 0 0.5rem;
   }
+
+  .painting-container {
+    width: 95%;
+    height: 70%;
+  }
 }
 
 /* Para orientación horizontal en móviles */
@@ -334,6 +354,8 @@
   }
 
   .painting-container {
+    width: 50%;
+    height: 80%;
     margin: 0 2rem 0 0;
   }
 
