@@ -52,8 +52,13 @@ export const apiService = {
         }
     },
     getWritingById: async (id) => {
-        const response = await fetch(`${API_URL}/writings/${id}`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/writings/${id}`);
+            if (!response.ok) throw new Error('Failed to fetch writing');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
 
     // Paintings
@@ -67,28 +72,53 @@ export const apiService = {
         }
     },
     getPaintingById: async (id) => {
-        const response = await fetch(`${API_URL}/paintings/${id}`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/paintings/${id}`);
+            if (!response.ok) throw new Error('Failed to fetch painting');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
 
     // Photography
     getAllPhotography: async () => {
-        const response = await fetch(`${API_URL}/photography`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/photography`);
+            if (!response.ok) throw new Error('Failed to fetch photography');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
     getPhotographyById: async (id) => {
-        const response = await fetch(`${API_URL}/photography/${id}`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/photography/${id}`);
+            if (!response.ok) throw new Error('Failed to fetch photography');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
 
     // Music
     getAllMusic: async () => {
-        const response = await fetch(`${API_URL}/music`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/music`);
+            if (!response.ok) throw new Error('Failed to fetch music');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
     getMusicById: async (id) => {
-        const response = await fetch(`${API_URL}/music/${id}`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/music/${id}`);
+            if (!response.ok) throw new Error('Failed to fetch music');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
 
         // Designs
@@ -113,8 +143,13 @@ export const apiService = {
 
     // Biography
     getAllBiography: async () => {
-        const response = await fetch(`${API_URL}/biography`);
-        return response.json();
+        try {
+            const response = await fetch(`${API_URL}/biography`);
+            if (!response.ok) throw new Error('Failed to fetch biography');
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
+        }
     },
     
      // Generic POST method with file upload
@@ -141,31 +176,39 @@ export const apiService = {
 
     // Generic DELETE method
     deleteContent: async (type, id) => {
-        const endpoint = endpointMap[type] || type;
-        
-        const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
-            method: 'DELETE'
-        });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error || 'Delete failed');
+        try {
+            const endpoint = endpointMap[type] || type;
+            
+            const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
+                method: 'DELETE'
+            });
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Delete failed');
+            }
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
         }
-        return response.json();
     },
 
     // Generic UPDATE method
     updateContent: async (type, id, formData) => {
-        const endpoint = endpointMap[type] || type;
-        
-        const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
-            method: 'PUT',
-            body: formData
-        });
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.error || 'Update failed');
+        try {
+            const endpoint = endpointMap[type] || type;
+            
+            const response = await fetch(`${API_URL}/${endpoint}/${id}`, {
+                method: 'PUT',
+                body: formData
+            });
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Update failed');
+            }
+            return response.json();
+        } catch (error) {
+            handleApiError(error);
         }
-        return response.json();
     },
 
     loginAdmin: async (credentials) => {
