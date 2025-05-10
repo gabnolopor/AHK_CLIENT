@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import '../styles/artStyle.css';
 import { apiService } from '../services/api';
 import { FiX } from 'react-icons/fi';
+import { FaCube } from 'react-icons/fa';
 import LoadingFallback from '../components/LoadingFallback';
 
 function ArtRoom() {
@@ -107,6 +108,12 @@ function ArtRoom() {
       <Link to="/boxselect" className="logo-link">
         <img src="/black-logo.png" className="logo" alt="logo" />
       </Link>
+      
+      <Link to="/3dRoom" className="view-3d-button">
+        <FaCube className="view-3d-icon" />
+        <span className="view-3d-tooltip">View in 3D</span>
+      </Link>
+      
       <div 
         className="carousel-wrapper"
         onTouchStart={onTouchStart}
