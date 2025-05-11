@@ -10,35 +10,35 @@ import { FaImage } from 'react-icons/fa'; // Import image icon for 2D gallery
 
 const ThreeDRoom = () => {
   const mountRef = useRef(null);
-  const [paintings, setPaintings] = useState([]);
+  const [photos, setPhotos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [texturesLoaded, setTexturesLoaded] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedPainting, setSelectedPainting] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState(null);
 
-  // Fetch paintings data
+  // Fetch photos data
   useEffect(() => {
-    const fetchPaintings = async () => {
+    const fetchPhotos = async () => {
       try {
-        const data = await apiService.getAllPaintings();
-        setPaintings(data);
+        const data = await apiService.getAllPhotography();
+        setPhotos(data);
         // No desactivamos isLoading aquí, esperamos a que las texturas también se carguen
       } catch (error) {
-        console.error('Error fetching paintings:', error);
+        console.error('Error fetching photos:', error);
         setIsLoading(false); // En caso de error, sí desactivamos la carga
       }
     };
 
-    fetchPaintings();
+    fetchPhotos();
   }, []);
 
   useEffect(() => {
-    if (paintings.length === 0) return;
+    if (photos.length === 0) return;
 
     // Create a texture loader with a loading manager to track progress
     const loadingManager = new THREE.LoadingManager();
     let totalItems = 3; // Wall, floor, ceiling textures
-    totalItems += Math.min(paintings.length, 8); // Add paintings count (max 8)
+    totalItems += Math.min(photos.length, 8); // Add photos count (max 8)
     let loadedItems = 0;
 
     loadingManager.onProgress = (url, itemsLoaded, itemsTotal) => {
@@ -66,15 +66,15 @@ const ThreeDRoom = () => {
     textureLoader.load('/ceilingTexture.jpg');
     textureLoader.load('/ceilingTexture2.jpg');
 
-    // Preload painting textures
-    for (let i = 0; i < Math.min(paintings.length, 8); i++) {
-      textureLoader.load(paintings[i].imageUrl);
+    // Preload photo textures
+    for (let i = 0; i < Math.min(photos.length, 8); i++) {
+      textureLoader.load(photos[i].imageUrl);
     }
 
-  }, [paintings]);
+  }, [photos]);
 
   useEffect(() => {
-    if (isLoading || !texturesLoaded || paintings.length === 0) return;
+    if (isLoading || !texturesLoaded || photos.length === 0) return;
 
     // Scene setup
     const scene = new THREE.Scene();
@@ -137,15 +137,16 @@ const ThreeDRoom = () => {
       const wallMaterial = new THREE.MeshStandardMaterial({ 
         map: wallTexture,
         side: THREE.BackSide,
-        roughness: 0.5,
+        roughness: 0.4,
         metalness: 0.1,
         bumpMap: wallTexture,
         bumpScale: 0.02,
-        color: 0xB3BDD1  // Color azul Rajkot (equivalente argb(80, 95, 128))
+        color: 0x9C6E6E
       });
       
       // Ajustar la mezcla del color con la textura
       wallMaterial.map.colorSpace = THREE.SRGBColorSpace;
+      
       
       // Create room as a box with BackSide material
       const room = new THREE.Mesh(
@@ -204,10 +205,10 @@ const ThreeDRoom = () => {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-    // Raycaster for detecting clicks on paintings
+    // Raycaster for detecting clicks on photos
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2();
-    const paintingMeshes = []; // Store references to painting meshes
+    const photoMeshes = []; // Store references to photo meshes
 
     
     // Create canvas for text - with improved readability
@@ -295,32 +296,38 @@ const ThreeDRoom = () => {
       return canvas;
     };
     
-    // Function to create a painting with info and frame
-    const createPainting = (painting, position, rotation, index) => {
-      textureLoader.load(painting.imageUrl, (texture) => {
-        // Crear el material para la pintura
-        const paintingMaterial = new THREE.MeshBasicMaterial({ map: texture });
+    // Function to create a photo with info and frame
+    const createPhoto = (photo, position, rotation, index) => {
+      textureLoader.load(photo.imageUrl, (texture) => {
+        // Ajustar la exposición de la textura
+        texture.colorSpace = THREE.SRGBColorSpace;
+        
+        // Crear el material para la foto con menos brillo
+        const photoMaterial = new THREE.MeshBasicMaterial({ 
+          map: texture,
+          color: 0xeeeeee // Añadir un tinte ligeramente grisáceo para reducir el brillo
+        });
         
         // Dimensiones del lienzo (la imagen)
         const canvasWidth = 3.5;
         const canvasHeight = 4.5;
         const canvasGeometry = new THREE.PlaneGeometry(canvasWidth, canvasHeight);
-        const paintingMesh = new THREE.Mesh(canvasGeometry, paintingMaterial);
+        const photoMesh = new THREE.Mesh(canvasGeometry, photoMaterial);
         
-        // Crear un grupo para contener la pintura y su marco
-        const paintingGroup = new THREE.Group();
-        paintingGroup.position.copy(position);
-        paintingGroup.rotation.copy(rotation);
+        // Crear un grupo para contener la foto y su marco
+        const photoGroup = new THREE.Group();
+        photoGroup.position.copy(position);
+        photoGroup.rotation.copy(rotation);
         
-        // Mover la pintura ligeramente hacia adelante para evitar z-fighting con el marco
-        paintingMesh.position.z = 0.02;
-        paintingGroup.add(paintingMesh);
+        // Mover la foto ligeramente hacia adelante para evitar z-fighting con el marco
+        photoMesh.position.z = 0.02;
+        photoGroup.add(photoMesh);
         
         // Crear el marco - usando geometría similar al tragaluz
         const frameThickness = 0.2;
         const frameDepth = 0.05;
         const frameMaterial = new THREE.MeshStandardMaterial({
-          color: 0x888888,
+          color: 0x000000,
           roughness: 0.5,
           metalness: 0.5
         });
@@ -331,7 +338,7 @@ const ThreeDRoom = () => {
           frameMaterial
         );
         topFrame.position.set(0, canvasHeight/2 + frameThickness/2, 0);
-        paintingGroup.add(topFrame);
+        photoGroup.add(topFrame);
         
         // Marco inferior
         const bottomFrame = new THREE.Mesh(
@@ -339,7 +346,7 @@ const ThreeDRoom = () => {
           frameMaterial
         );
         bottomFrame.position.set(0, -canvasHeight/2 - frameThickness/2, 0);
-        paintingGroup.add(bottomFrame);
+        photoGroup.add(bottomFrame);
         
         // Marco izquierdo
         const leftFrame = new THREE.Mesh(
@@ -347,7 +354,7 @@ const ThreeDRoom = () => {
           frameMaterial
         );
         leftFrame.position.set(-canvasWidth/2 - frameThickness/2, 0, 0);
-        paintingGroup.add(leftFrame);
+        photoGroup.add(leftFrame);
         
         // Marco derecho
         const rightFrame = new THREE.Mesh(
@@ -355,26 +362,26 @@ const ThreeDRoom = () => {
           frameMaterial
         );
         rightFrame.position.set(canvasWidth/2 + frameThickness/2, 0, 0);
-        paintingGroup.add(rightFrame);
+        photoGroup.add(rightFrame);
         
         // Mover todo el grupo ligeramente hacia adelante desde la pared
-        paintingGroup.position.add(new THREE.Vector3(
+        photoGroup.position.add(new THREE.Vector3(
           Math.sin(rotation.y) * 0.05,
           0,
           Math.cos(rotation.y) * 0.05
         ));
         
-        // Almacenar los datos de la pintura con el grupo para uso posterior
-        paintingGroup.userData = { 
-          paintingIndex: index,
-          painting: painting
+        // Almacenar los datos de la foto con el grupo para uso posterior
+        photoGroup.userData = { 
+          photoIndex: index,
+          photo: photo
         };
         
-        scene.add(paintingGroup);
-        paintingMeshes.push(paintingGroup); // Añadir el grupo en lugar de solo el mesh
+        scene.add(photoGroup);
+        photoMeshes.push(photoGroup); // Añadir el grupo en lugar de solo el mesh
         
-        // Add info text below painting
-        const infoCanvas = createTextCanvas(painting.name, painting.description);
+        // Add info text below photo
+        const infoCanvas = createTextCanvas(photo.name, photo.description);
         const infoTexture = new THREE.CanvasTexture(infoCanvas);
         const infoGeometry = new THREE.PlaneGeometry(3, 0.6);
         const infoMaterial = new THREE.MeshBasicMaterial({ 
@@ -383,10 +390,10 @@ const ThreeDRoom = () => {
         });
         const infoMesh = new THREE.Mesh(infoGeometry, infoMaterial);
         
-        // Position info panel below the painting with more space
+        // Position info panel below the photo with more space
         infoMesh.position.copy(position);
         infoMesh.rotation.copy(rotation);
-        infoMesh.position.y -= 2.9; // Adjusted position to account for taller paintings
+        infoMesh.position.y -= 2.9; // Adjusted position to account for taller photos
         
         // Move info slightly forward from the wall
         infoMesh.position.add(new THREE.Vector3(
@@ -399,54 +406,54 @@ const ThreeDRoom = () => {
       });
     };
 
-    // Place paintings on each wall (up to 8 paintings, 2 per wall)
+    // Place photos on each wall (up to 8 photos, 2 per wall)
     const wallPositions = [
-      // Front wall (z = -roomDepth/2) - left painting
+      // Front wall (z = -roomDepth/2) - left photo
       { 
         position: new THREE.Vector3(-5, 0, -roomDepth/2 + 0.05), // Movido de -6 a -5
         rotation: new THREE.Euler(0, 0, 0) 
       },
-      // Front wall (z = -roomDepth/2) - right painting
+      // Front wall (z = -roomDepth/2) - right photo
       { 
         position: new THREE.Vector3(5, 0, -roomDepth/2 + 0.05), // Movido de 6 a 5
         rotation: new THREE.Euler(0, 0, 0) 
       },
-      // Right wall (x = roomWidth/2) - front painting
+      // Right wall (x = roomWidth/2) - front photo
       { 
         position: new THREE.Vector3(roomWidth/2 - 0.05, 0, -5), // Movido de -6 a -5
         rotation: new THREE.Euler(0, -Math.PI/2, 0) 
       },
-      // Right wall (x = roomWidth/2) - back painting
+      // Right wall (x = roomWidth/2) - back photo
       { 
         position: new THREE.Vector3(roomWidth/2 - 0.05, 0, 5), // Movido de 6 a 5
         rotation: new THREE.Euler(0, -Math.PI/2, 0) 
       },
-      // Back wall (z = roomDepth/2) - left painting
+      // Back wall (z = roomDepth/2) - left photo
       { 
         position: new THREE.Vector3(-5, 0, roomDepth/2 - 0.05), // Movido de -6 a -5
         rotation: new THREE.Euler(0, Math.PI, 0) 
       },
-      // Back wall (z = roomDepth/2) - right painting
+      // Back wall (z = roomDepth/2) - right photo
       { 
         position: new THREE.Vector3(5, 0, roomDepth/2 - 0.05), // Movido de 6 a 5
         rotation: new THREE.Euler(0, Math.PI, 0) 
       },
-      // Left wall (x = -roomWidth/2) - front painting
+      // Left wall (x = -roomWidth/2) - front photo
       { 
         position: new THREE.Vector3(-roomWidth/2 + 0.05, 0, -5), // Movido de -6 a -5
         rotation: new THREE.Euler(0, Math.PI/2, 0) 
       },
-      // Left wall (x = -roomWidth/2) - back painting
+      // Left wall (x = -roomWidth/2) - back photo
       { 
         position: new THREE.Vector3(-roomWidth/2 + 0.05, 0, 5), // Movido de 6 a 5
         rotation: new THREE.Euler(0, Math.PI/2, 0) 
       }
     ];
 
-    // Add paintings to walls
-    for (let i = 0; i < Math.min(paintings.length, 8); i++) {
-      createPainting(
-        paintings[i],
+    // Add photos to walls
+    for (let i = 0; i < Math.min(photos.length, 8); i++) {
+      createPhoto(
+        photos[i],
         wallPositions[i].position,
         wallPositions[i].rotation,
         i
@@ -454,21 +461,21 @@ const ThreeDRoom = () => {
     }
 
     // Add lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8); // Aumentado de 0.5 a 0.7
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1); // Aumentado de 0.5 a 0.7
     scene.add(ambientLight);
 
-    const pointLight = new THREE.PointLight(0xffffff, 0.8);
+    const pointLight = new THREE.PointLight(0xffffff, 0.8); // Reducido de 1.0 a 0.8
     pointLight.position.set(0, roomHeight/2 - 1, 0);
     scene.add(pointLight);
 
-    // Añade la luz direccional específica para el suelo aquí
-    const floorLight = new THREE.DirectionalLight(0xffffff, 0.3);
+    // Ajustar la luz direccional para el suelo
+    const floorLight = new THREE.DirectionalLight(0xffffff, 0.2); // Reducido de 0.3 a 0.2
     floorLight.position.set(0, 8, 0);
     floorLight.target.position.set(0, -5, 0);
     scene.add(floorLight);
     scene.add(floorLight.target);
 
-    // Add directional lights to illuminate paintings better
+    // Ajustar las luces direccionales para las fotos
     const directions = [
       new THREE.Vector3(0, 0, 1),  // Front
       new THREE.Vector3(-1, 0, 0), // Right
@@ -477,16 +484,16 @@ const ThreeDRoom = () => {
     ];
 
     directions.forEach(dir => {
-      const spotLight = new THREE.SpotLight(0xffffff, 0.8);
+      const spotLight = new THREE.SpotLight(0xffffff, 0.6); // Reducido de 0.8 a 0.6
       spotLight.position.set(dir.x * -2, 1, dir.z * -2);
       spotLight.target.position.set(dir.x * roomWidth/2, 0, dir.z * roomDepth/2);
       scene.add(spotLight);
       scene.add(spotLight.target);
     });
 
-    // Add spotlights for each painting position
+    // Ajustar los spotlights para cada posición de foto
     wallPositions.forEach((wallPos, index) => {
-      const spotLight = new THREE.SpotLight(0xffffff, 0.8);
+      const spotLight = new THREE.SpotLight(0xffffff, 0.6); // Reducido de 0.8 a 0.6
       
       // Posicionar la luz por encima del cuadro
       const lightPos = wallPos.position.clone();
@@ -501,13 +508,13 @@ const ThreeDRoom = () => {
       
       spotLight.position.copy(lightPos);
       
-      // Point light at the painting
+      // Point light at the photo
       spotLight.target.position.copy(wallPos.position);
       
-      // Configure shadow and light properties
+      // Ajustar propiedades de la luz
       spotLight.castShadow = true;
-      spotLight.angle = 0.4; // Ángulo más estrecho para un efecto más focalizado
-      spotLight.penumbra = 0.7;
+      spotLight.angle = 0.35; // Reducido de 0.4 a 0.35 para un haz más estrecho
+      spotLight.penumbra = 0.8; // Aumentado de 0.7 a 0.8 para bordes más suaves
       spotLight.decay = 2;
       spotLight.distance = 10;
       
@@ -672,7 +679,7 @@ const ThreeDRoom = () => {
       scene.add(skylightGlass);
       
       // Añadir luz intensa que viene del tragaluz - con ajustes para evitar sombras en la pared
-      const skylightLight = new THREE.SpotLight(0xFFFFFF, 1.2); // Reducida intensidad
+      const skylightLight = new THREE.SpotLight(0xFFFFFF, 0.9); // Reducido de 1.2 a 0.9
       skylightLight.position.y = roomHeight/2 - 0.2;
       skylightLight.target.position.set(0, -roomHeight/2, 0);
       skylightLight.angle = Math.PI/4; // Ángulo más amplio
@@ -704,19 +711,19 @@ const ThreeDRoom = () => {
       raycaster.setFromCamera(mouse, camera);
 
       // Calculate objects intersecting the picking ray
-      const intersects = raycaster.intersectObjects(paintingMeshes, true); // true para incluir descendientes
+      const intersects = raycaster.intersectObjects(photoMeshes, true); // true para incluir descendientes
 
       if (intersects.length > 0) {
         // Get the first intersected object (closest to camera)
         let object = intersects[0].object;
         
-        // Buscar el grupo padre que contiene los datos de la pintura
-        while (object && !object.userData.painting) {
+        // Buscar el grupo padre que contiene los datos de la foto
+        while (object && !object.userData.photo) {
           object = object.parent;
         }
         
-        if (object && object.userData && object.userData.painting) {
-          setSelectedPainting(object.userData.painting);
+        if (object && object.userData && object.userData.photo) {
+          setSelectedPhoto(object.userData.photo);
           setIsModalOpen(true);
         }
       }
@@ -759,11 +766,11 @@ const ThreeDRoom = () => {
         }
       });
     };
-  }, [isLoading, texturesLoaded, paintings]);
+  }, [isLoading, texturesLoaded, photos]);
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedPainting(null);
+    setSelectedPhoto(null);
   };
 
   // Render loading screen until everything is ready
@@ -771,14 +778,14 @@ const ThreeDRoom = () => {
     return <LoadingFallback />;
   }
 
-  if (paintings.length === 0 && !isLoading) {
-    return <div className="no-content">No artwork available</div>;
+  if (photos.length === 0 && !isLoading) {
+    return <div className="no-content">No photos available</div>;
   }
 
   return (
     <div className="three-d-room-container">
-      {/* Navigation button to 2D Art Room */}
-      <Link to="/artroom" className="view-2d-button">
+      {/* Navigation button to 2D Photo Room */}
+      <Link to="/photoroom" className="view-2d-button">
         <FaImage className="view-2d-icon" />
         <span className="view-2d-tooltip">View in 2D Gallery</span>
       </Link>
@@ -796,20 +803,20 @@ const ThreeDRoom = () => {
           {/* Three.js canvas will be inserted here */}
         </div>
 
-        {isModalOpen && selectedPainting && (
+        {isModalOpen && selectedPhoto && (
           <div className={`painting-modalOverlay ${isModalOpen ? 'open' : ''}`} onClick={closeModal}>
             <div className="painting-modal" onClick={(e) => e.stopPropagation()}>
               <button className="imageClose-button" onClick={closeModal}>
                 <FiX size={24} />
               </button>
               <img 
-                src={selectedPainting.imageUrl} 
-                alt={selectedPainting.name} 
+                src={selectedPhoto.imageUrl} 
+                alt={selectedPhoto.name} 
                 className="painting-modalImage" 
               />
               <div className="painting-plaque">
-                <h3>{selectedPainting.name}</h3>
-                <p>{selectedPainting.description}</p>
+                <h3>{selectedPhoto.name}</h3>
+                <p>{selectedPhoto.description}</p>
               </div>
             </div>
           </div>

@@ -107,19 +107,6 @@
   font-size: 24px;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
-/* Optional: Add responsive design */
-@media (max-width: 768px) {
-  .art-card {
-    height: 90vh;
-  }
-
-  .painting-container {
-    width: 90%;
-    height: 90%;
-  }
-}
-
 .painting-modalOverlay {
   position: fixed;
   top: 0;
@@ -198,6 +185,53 @@
   color: #666;
 }
 
+.view-3d-button, .view-2d-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  z-index: 100;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.view-3d-button:hover, .view-2d-button:hover {
+  transform: rotate(20deg) scale(1.1);
+  background-color: white;
+}
+
+.view-3d-icon, .view-2d-icon {
+  font-size: 24px;
+  color: #333;
+}
+
+.view-3d-tooltip, .view-2d-tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  top: 60px;
+  right: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.view-3d-button:hover .view-3d-tooltip,
+.view-2d-button:hover .view-2d-tooltip {
+  opacity: 1;
+}
+
+
 /* Media Queries */
 @media screen and (max-width: 1024px) {
   .art-card {
@@ -241,6 +275,7 @@
     width: 85%;
     height: 60%;
     margin: 0 0 2rem 0;
+    
   }
 
   .art-card-content {
@@ -365,49 +400,3 @@
   }
 }
 
-/* 3D View Button Styles */
-.view-3d-button, .view-2d-button {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 100;
-  transition: transform 0.3s ease, background-color 0.3s ease;
-}
-
-.view-3d-button:hover, .view-2d-button:hover {
-  transform: rotate(20deg) scale(1.1);
-  background-color: white;
-}
-
-.view-3d-icon, .view-2d-icon {
-  font-size: 24px;
-  color: #333;
-}
-
-.view-3d-tooltip, .view-2d-tooltip {
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  top: 60px;
-  right: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.view-3d-button:hover .view-3d-tooltip,
-.view-2d-button:hover .view-2d-tooltip {
-  opacity: 1;
-}

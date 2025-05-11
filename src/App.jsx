@@ -17,6 +17,7 @@ import DigitalArt from './pages/DigitalArt';
 import NotFound from './pages/NotFound';
 import PDFViewer from './components/PDFViewer';
 import ThreeDRoom from './pages/3DRoom';
+import Photo3DRoom from './pages/photo3DRoom';
 function App() {
   return (
     <Router>
@@ -35,6 +36,7 @@ function App() {
         <Route path="/digitalart" element={<DigitalArt />} />
         <Route path="/admin/login" element={<Admin />} />
         <Route path="/3dRoom" element={<ThreeDRoom />} />
+        <Route path="/photo3DRoom" element={<Photo3DRoom />} />
         <Route 
           path="/admin" 
           element={

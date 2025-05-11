@@ -5,6 +5,7 @@ import { apiService } from '../services/api';
 import { FiX } from 'react-icons/fi';
 import LoadingFallback from '../components/LoadingFallback';
 import { motion, AnimatePresence } from 'framer-motion';
+import { FaCube } from 'react-icons/fa';
 
 function PhotoRoom() {
   const [photos, setPhotos] = useState([]);
@@ -107,6 +108,11 @@ function PhotoRoom() {
     <div className="photo-room">
       <Link to="/boxselect" className="logo-link">
         <img src="/black-logo.png" className="logo" alt="logo" />
+      </Link>
+      
+      <Link to="/photo3DRoom" className="view-3d-button">
+        <FaCube className="view-3d-icon" />
+        <span className="view-3d-tooltip">View in 3D</span>
       </Link>
       
       <AnimatePresence initial={false} custom={direction} mode="wait">
