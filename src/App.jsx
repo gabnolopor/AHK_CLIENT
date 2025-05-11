@@ -17,7 +17,7 @@ import DigitalArt from './pages/DigitalArt';
 import NotFound from './pages/NotFound';
 import PDFViewer from './components/PDFViewer';
 import ThreeDRoom from './pages/3DRoom';
-import Photo3DRoom from './pages/photo3DRoom';
+import Photo3DRoom from './pages/Photo3DRoom';
 function App() {
   return (
     <Router>
