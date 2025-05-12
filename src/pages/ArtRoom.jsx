@@ -105,7 +105,7 @@ function ArtRoom() {
 
   return (
     <div className="art-container">
-      <Link to="/boxselect" className="logo-link">
+      <Link to="/" className="logo-link">
         <img src="/black-logo.png" className="logo" alt="logo" />
       </Link>
       

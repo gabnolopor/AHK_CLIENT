@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandPage from './pages/LandPage';
-import BoxSelect from './pages/BoxSelect';
 import MusicPage from './pages/MusicPage';
 import TestApi from './components/TestApi';
 import ComingSoon from './pages/ComingSoon';
@@ -23,7 +22,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<LandPage />} />
-        <Route path="/boxselect" element={<BoxSelect />} />
         <Route path="/music" element={<MusicPage />} />
         <Route path="/testapi" element={<TestApi />} />
         <Route path="/comingsoon" element={<ComingSoon />} />

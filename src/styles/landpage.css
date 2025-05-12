@@ -48,7 +48,6 @@ body {
     color: var(--brown-background);
     text-transform: uppercase;
     letter-spacing: 0.5rem;
-    cursor: pointer;
     transform: translateY(min(-23vh, -9rem)); 
     margin: 0 0 0 1rem;
 }
@@ -86,7 +85,11 @@ body {
         z-index: 0;
         pointer-events: none;
         will-change: transform, opacity;
+<<<<<<< HEAD
         overflow: hidden; /* Contener la imagen */
+=======
+        overflow: hidden; 
+>>>>>>> 74d6bf2 (judith changes)
     }
 
     .encabezado:hover::before {
@@ -340,3 +343,234 @@ body {
     }
     
 }
+<<<<<<< HEAD
+=======
+
+/* Estilos del Header y Menú */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+/* Botón de menú hamburguesa */
+.menu-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2000;
+}
+
+.menu-button span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: #000; 
+    margin: 8px 0;
+    transition: 0.3s;
+}
+
+
+.menu-button.open span {
+    background-color: #fff; 
+}
+
+.menu-button.open span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.menu-button.open span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-button.open span:nth-child(3) {
+    transform: rotate(-45deg) translate(8px, -8px);
+}
+
+/* Menú de navegación */
+.nav-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 300px;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.25);
+    padding: 4rem 2rem 2rem;
+    overflow: hidden;
+}
+
+/* Video de fondo */
+.nav-menu::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.nav-menu video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+.nav-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: all 0.3s ease;
+}
+
+.intro-message-accordion {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1.5rem;
+    margin-bottom: 0.5rem;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.intro-message-accordion p {
+    color: white;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 0.25rem 0;
+}
+
+.nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    transition: all 0.5s ease;
+}
+
+.nav-list.compact .nav-item {
+    margin: 0.75rem 0;
+}
+
+.nav-item {
+    margin: 1.75rem 0;
+    transition: all 0.5s ease-in-out;
+}
+
+.nav-item button {
+    width: 100%;
+    padding: 0.4rem;
+    border: none;
+    background: transparent;
+    color: white;
+    font-size: 1.2rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.5s ease;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .nav-menu {
+        width: 100%;
+    }
+
+    .menu-button {
+        top: 1rem;
+        left: 1rem;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .nav-menu {
+        width: 250px;
+    }
+}
+
+@media (min-width: 1025px) {
+    .nav-menu {
+        width: 300px;
+    }
+}
+
+.intro-message {
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    transition: all 0.5s ease;
+}
+
+.intro-message p {
+    color: white;
+    margin: 0.25rem 0;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    transition: all 0.5s ease;
+}
+
+.intro-message-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 1.5rem;
+    z-index: 10;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.intro-message-overlay p {
+    color: white;
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.4;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+    text-align: justify;
+}
+
+
+
+
+
+
+
+
+
+  
+   
+      
+   
+  
+       
+ 
+       
+   
+    
+  
+
+    
+
+>>>>>>> 74d6bf2 (judith changes)

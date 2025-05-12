@@ -60,7 +60,7 @@ const Design = () => {
 
     return (
         <div className="design-container">
-            <Link to="/boxselect" className="logo-link">
+            <Link to="/" className="logo-link">
                 <img src="/black-logo.png" alt="Logo" className="logo" />
             </Link>
 

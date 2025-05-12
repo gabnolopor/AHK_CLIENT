@@ -1,13 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/landpage.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { FiSettings } from 'react-icons/fi';
+import '../styles/landpage.css';
 
 const Header = () => {
     const navigate = useNavigate();
+<<<<<<< HEAD
     const isAuthenticated = localStorage.getItem('token') !== null;
     const [imagesLoaded, setImagesLoaded] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+=======
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [showIntro, setShowIntro] = useState(() => {
+        // Verificar si es la primera vez
+        return !localStorage.getItem('hasSeenMenuIntro');
+    });
+    const [currentWordIndex, setCurrentWordIndex] = useState(0);
+    const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
+>>>>>>> 74d6bf2 (judith changes)
 
     const palabras = [
         'Works',    // English
@@ -19,16 +30,14 @@ const Header = () => {
         'कार्य'     // Hindi
     ];
 
-    const [indice, setIndice] = useState(0);
-    const [displayedText, setDisplayedText] = useState('');
-
     useEffect(() => {
-        const landpageImage = new Image();
-        
-        landpageImage.onload = () => {
-            setImagesLoaded(true);
-        };
+        const interval = setInterval(() => {
+            setCurrentWordIndex((prevIndex) => 
+                prevIndex === palabras.length - 1 ? 0 : prevIndex + 1
+            );
+        }, 3000); 
 
+<<<<<<< HEAD
         landpageImage.src = '/landpagefinal.png';
         
         // Detectar si es dispositivo móvil
@@ -42,54 +51,82 @@ const Header = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
         };
+=======
+        return () => clearInterval(interval);
+>>>>>>> 74d6bf2 (judith changes)
     }, []);
 
     useEffect(() => {
-        const changeWord = () => {
-            const nextIndex = (indice + 1) % palabras.length;
-            const nextWord = palabras[nextIndex];
-            let currentText = '';
-            let charIndex = 0;
+        if (showIntro) {
+            const timer = setTimeout(() => {
+                setShowIntro(false);
+                localStorage.setItem('hasSeenMenuIntro', 'true');
+            }, 20000);
+            return () => clearTimeout(timer);
+        }
+    }, [showIntro]);
 
-            const letterInterval = setInterval(() => {
-                currentText += nextWord[charIndex];
-                setDisplayedText(currentText);
-                charIndex++;
+    const menuItems = [
+        { title: 'Art', path: '/artroom' },
+        { title: 'Digital', path: '/digitalart' },
+        { title: 'Music', path: '/music' },
+        { title: 'Photos', path: '/photoroom' },
+        { title: 'Design', path: '/design' },
+        { title: 'Writing', path: '/writing' },
+        { title: 'Bio', path: '/biography' },
+        { title: 'Credits', path: '/credits' }
+    ];
 
-                if (charIndex === nextWord.length) {
-                    clearInterval(letterInterval);
-                    setTimeout(() => {
-                        setIndice(nextIndex);
-                    }, 1000);
-                }
-            }, 100);
-        };
-
-        changeWord();
-    }, [indice]);
-
-    const handleClick = () => {
-        navigate('/boxselect');
+    const handleMenuClick = () => {
+        setIsMenuOpen(!isMenuOpen);
     };
 
     return (
-        <div className="encabezado">
-            <div className="imagen-container">
-                {!imagesLoaded && <div className="loading-placeholder"></div>}
-                <img 
-                    src="/landpagefinal.png" 
-                    className={`encabezado__imagen ${imagesLoaded ? 'loaded' : ''}`}
-                    alt="background with frame"
-                    onClick={() => navigate('/boxselect')} 
-                />
-                <h1 className="encabezado__titulo">
-                    <span 
-                        className="encabezado__texto"
-                        onClick={handleClick}
-                    >
-                        {displayedText}
-                    </span>
-                </h1>
+        <>
+            <header className="header">
+                <button 
+                    className={`menu-button ${isMenuOpen ? 'open' : ''}`}
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+
+                {isMenuOpen && (
+                    <nav className="nav-menu">
+                        <video
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            src="/bgPremier.mp4"
+                        />
+                        
+                        {showIntro && (
+                            <div className="intro-message">
+                                <p>The following pages are a retrospective of my life as a creator.</p>
+                                <p>It includes music, fine art, craftsmanship, writing photography and design etc</p>
+                                <p>Enjoy.</p>
+                                <p>Currently, none of this work is for sale.</p>
+                            </div>
+                        )}
+
+                        <ul className={`nav-list ${showIntro ? 'compact' : ''}`}>
+                            {menuItems.map((item) => (
+                                <li key={item.path} className="nav-item">
+                                    <button onClick={() => {
+                                        navigate(item.path);
+                                        setIsMenuOpen(false);
+                                    }}>
+                                        {item.title}
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </nav>
+                )}
+
                 {isAuthenticated && (
                     <button 
                         className="control-panel-button"
@@ -106,8 +143,32 @@ const Header = () => {
                         <FiSettings /> {isMobile ? 'Admin' : 'Control Panel'}
                     </button>
                 )}
+            </header>
+
+            <div className="encabezado">
+                <div className="imagen-container">
+                    <img 
+                        src="/landpagefinal.png" 
+                        alt="logo" 
+                        className="encabezado__imagen"
+                    />
+                    <h1 className="encabezado__titulo">
+                        <AnimatePresence mode="wait">
+                            <motion.span
+                                key={currentWordIndex}
+                                className="encabezado__texto"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                {palabras[currentWordIndex]}
+                            </motion.span>
+                        </AnimatePresence>
+                    </h1>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 
