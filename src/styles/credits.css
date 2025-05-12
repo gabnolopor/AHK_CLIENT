@@ -39,6 +39,11 @@
     z-index: 100;
 }
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 74d6bf2 (judith changes)
 .end-screen-overlay a {
     font-size: clamp(1rem, 4vw, 2rem);
     color: var(--full-orange);
