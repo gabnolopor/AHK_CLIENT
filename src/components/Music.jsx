@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause, IoIosRefresh } from 'react-icons/io';
+import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause, IoIosRefresh, IoMdHome } from 'react-icons/io';
 import '../styles/music.css';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
@@ -87,6 +87,7 @@ const Music = () => {
 
     return (
         <div className="music">
+<<<<<<< HEAD
             {loading ? (
                 <LoadingFallback />
             ) : (
@@ -146,11 +147,64 @@ const Music = () => {
                                 </div>
                             </div>
                         ))}
+=======
+            <div className="music__container">
+                <div className="music__header">
+                    <Link to="/" className="home-button">
+                        <IoMdHome />
+                    </Link>
+                </div>
+
+                <div className="music__player">
+                    <div className="music__metal-detail"></div>
+                    <div className="music__metal-detail"></div>
+                    
+                    <div className="music__control-panel">
+                        <div className="music__power-light green"></div>
+                        <div className="music__power-light yellow"></div>
                     </div>
-                    <audio ref={audioRef} controls style={{ display: 'none' }} />
-                    <Link to="/boxselect"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
-                </>
-            )}
+
+                    <div className="music__genre-selector">
+                        <button onClick={prevGenre} className="music__nav-button">
+                            <IoIosArrowBack />
+                        </button>
+                        <h2 className="music__genre">{currentGenre}</h2>
+                        <button onClick={nextGenre} className="music__nav-button">
+                            <IoIosArrowForward />
+                        </button>
+                    </div>
+
+                    <div className="music__vinyl-display">
+                        <div className="music__tracks">
+                            {filteredSongs.map((song, index) => (
+                                <div key={index} className="music__track">
+                                    <div className="music__track-info">
+                                        <span className="music__track-number">{index + 1}</span>
+                                        <p className="music__track-title">{song.name}</p>
+                                    </div>
+                                    <div className="music__track-controls">
+                                        <button 
+                                            onClick={() => handlePlayPause(song)} 
+                                            className={`music__control-button ${currentSong?._id === song._id ? 'active' : ''}`}
+                                        >
+                                            {isPlaying && currentSong?._id === song._id ? 
+                                                <IoIosPause /> : <IoIosPlay />}
+                                        </button>
+                                        <button 
+                                            onClick={() => handleRestart(song)} 
+                                            className="music__control-button"
+                                        >
+                                            <IoIosRefresh />
+                                        </button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+>>>>>>> 74d6bf2 (judith changes)
+                    </div>
+                </div>
+            </div>
+            <audio ref={audioRef} controls style={{ display: 'none' }} />
         </div>
     );
 };

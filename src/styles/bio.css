@@ -1,26 +1,49 @@
 .bio__container {
-    width: 100%;
-    height: 100vh;
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/bio.jpg');   
+    min-height: 100vh;
+    padding: 2rem;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/bio.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.bio__frame {
-    position: relative;
-    width: 80%;
+.bio__content-wrapper {
     max-width: 800px;
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 0 auto;
+    padding: 2rem;
+    background-image: url('/papelarrugado.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    position: relative;
+    border: 12px solid #9b7005c3;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }
 
+.bio__content-wrapper::before {
+    content: '';
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    right: -12px;
+    bottom: -12px;
+    border: 1px solid rgba(218, 165, 32, 0.3); 
+    pointer-events: none;
+}
+
+.bio__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+<<<<<<< HEAD
 .bio__frame img {
     width: 100%;
     height: 100%;
@@ -44,14 +67,18 @@
 }
 
 .bio__content h1 {
+=======
+.bio__header h1 {
+    font-size: 2rem;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+>>>>>>> 74d6bf2 (judith changes)
     text-align: center;
-    margin-top: -25px;
-    font-size: 24px;
-    color: black;
-    font-family: box2;
-    letter-spacing: 1.5px;
+    flex-grow: 1;
+    margin: 0 1rem;
 }
 
+<<<<<<< HEAD
 .bio__content p {
     margin-bottom: 15px;
     line-height: 1;
@@ -88,6 +115,16 @@
 .bio__scroll-link {
     text-align: center;
     color: black;
+=======
+.home-button, .play-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+>>>>>>> 74d6bf2 (judith changes)
     cursor: pointer;
     margin: 10px 0 15px 0;
     font-family: box2;
@@ -95,6 +132,7 @@
     letter-spacing: 1.5px;
     font-style: italic;
     transition: all 0.3s ease;
+<<<<<<< HEAD
 }
 
 .bio__scroll-link:hover {
@@ -218,6 +256,97 @@
     .bio__content p {
         font-size: 12px;
         line-height: 1.2;
+=======
+    background: #333;
+    color: white;
+    text-decoration: none;
+}
+
+.home-button:hover, .play-button:hover {
+    transform: scale(1.1);
+    background: #555;
+}
+
+.play-button.playing {
+    background: #e74c3c;
+}
+
+.bio__text-content {
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-right: 1rem;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.bio__text-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.bio__text-content::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+}
+
+.bio__text-content::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+}
+
+.bio__loading, .bio__error {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .bio__container {
+        padding: 1rem;
+    }
+
+    .bio__content-wrapper {
+        padding: 1.5rem;
+    }
+
+    .bio__header h1 {
+        font-size: 1.5rem;
+    }
+
+    .bio__text-content p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .bio__container {
+        padding: 0.5rem;
+    }
+
+    .bio__content-wrapper {
+        padding: 1rem;
+    }
+
+    .bio__header h1 {
+        font-size: 1.2rem;
+    }
+
+    .home-button, .play-button {
+        width: 35px;
+        height: 35px;
+>>>>>>> 74d6bf2 (judith changes)
     }
 }
 

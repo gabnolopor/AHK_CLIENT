@@ -72,7 +72,7 @@ const DigitalArt = () => {
 
     return (
         <div className="digital-container">
-            <Link to="/boxselect" className="logo-link">
+            <Link to="/" className="logo-link">
                 <img src="/black-logo.png" alt="Logo" className="logo" />
             </Link>
 
