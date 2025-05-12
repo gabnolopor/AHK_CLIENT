@@ -747,7 +747,7 @@ function Admin() {
         {showModal && renderModal()}
         {renderChangePasswordModal()}
 
-        <Link to="/boxselect"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
+        <Link to="/"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
 
       </div>
     );

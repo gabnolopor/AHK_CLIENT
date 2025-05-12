@@ -7,7 +7,7 @@ function NotFound() {
     <div style={{ textAlign: 'center', padding: '50px' }}>
       <h1>Page Not Found</h1>
       <p>The page you're looking for doesn't exist or has been moved.</p>
-      <Link to="/boxselect">Return to Home</Link>
+      <Link to="/">Return to Home</Link>
     </div>
   );
 }
