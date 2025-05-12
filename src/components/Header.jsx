@@ -6,11 +6,6 @@ import '../styles/landpage.css';
 
 const Header = () => {
     const navigate = useNavigate();
-<<<<<<< HEAD
-    const isAuthenticated = localStorage.getItem('token') !== null;
-    const [imagesLoaded, setImagesLoaded] = useState(false);
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-=======
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [showIntro, setShowIntro] = useState(() => {
         // Verificar si es la primera vez
@@ -18,7 +13,6 @@ const Header = () => {
     });
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
->>>>>>> 74d6bf2 (judith changes)
 
     const palabras = [
         'Works',    // English
@@ -37,23 +31,8 @@ const Header = () => {
             );
         }, 3000); 
 
-<<<<<<< HEAD
-        landpageImage.src = '/landpagefinal.png';
-        
-        // Detectar si es dispositivo móvil
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 768);
-        };
-        
-        handleResize();
-        window.addEventListener('resize', handleResize);
-        
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-=======
+
         return () => clearInterval(interval);
->>>>>>> 74d6bf2 (judith changes)
     }, []);
 
     useEffect(() => {

@@ -87,67 +87,6 @@ const Music = () => {
 
     return (
         <div className="music">
-<<<<<<< HEAD
-            {loading ? (
-                <LoadingFallback />
-            ) : (
-                <>
-                    <img 
-                        src="/newjukebox.png" 
-                        alt="Jukebox" 
-                        className="music__jukebox"
-                    />
-                    <div className="music__nav-container">
-                        <button 
-                            onClick={prevGenre} 
-                            className="music__nav-button"
-                            disabled={genres.length <= 1}
-                        >
-                            <IoIosArrowBack size={24} />
-                        </button>
-                        
-                        <h2 className="music__genre">
-                            {currentGenre}
-                        </h2>
-                        
-                        <button 
-                            onClick={nextGenre} 
-                            className="music__nav-button"
-                            disabled={genres.length <= 1}
-                        >
-                            <IoIosArrowForward size={24} />
-                        </button>
-                    </div>
-                    <div className="music__grid">
-                        {filteredSongs.map((song, index) => (
-                            <div 
-                                key={index} 
-                                className="music__strip"
-                            >
-                                <div className="music__line-box">
-                                    <div className="music__line">
-                                        <div className="music__white-space">
-                                            <p className="music__song-title">{song.name}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px'}}>
-                                    <button 
-                                        onClick={() => handlePlayPause(song)} 
-                                        className="music__control-button"
-                                    >
-                                        {isPlaying && currentSong && currentSong._id === song._id ? <IoIosPause size={24} /> : <IoIosPlay size={24} />}
-                                    </button>
-                                    <button 
-                                        onClick={() => handleRestart(song)} 
-                                        className="music__control-button"
-                                    >
-                                        <IoIosRefresh size={24} />
-                                    </button>
-                                </div>
-                            </div>
-                        ))}
-=======
             <div className="music__container">
                 <div className="music__header">
                     <Link to="/" className="home-button">
@@ -200,7 +139,6 @@ const Music = () => {
                                 </div>
                             ))}
                         </div>
->>>>>>> 74d6bf2 (judith changes)
                     </div>
                 </div>
             </div>
