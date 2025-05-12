@@ -11,6 +11,7 @@ const Design = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
     const { loading, error, handleRequest } = useApi(); // Destructure the useApi hook
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const loadDesigns = async () => {
@@ -51,6 +52,9 @@ const Design = () => {
         setDirection(newDirection);
         setCurrentIndex((prevIndex) => (prevIndex + newDirection + designs.length) % designs.length);
     };
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     if (loading) return <LoadingFallback />;
     if (error) return <div className="error">{error}</div>;
@@ -96,6 +100,8 @@ const Design = () => {
                                 src={currentDesign.imageUrl} 
                                 alt={currentDesign.name}
                                 className="design-image"
+                                onClick={openModal}
+                                style={{ cursor: "pointer" }}
                             />
                             <div className="design-info">
                                 <h2>{currentDesign.name}</h2>
@@ -124,6 +130,21 @@ const Design = () => {
                         />
                     ))}
                 </div>
+
+                {isModalOpen && (
+                    <div className="photo-modalOverlay open" onClick={closeModal}>
+                        <div className="photo-modal" onClick={e => e.stopPropagation()}>
+                            <button className="photo-close-button" onClick={closeModal}>
+                                ×
+                            </button>
+                            <img
+                                src={currentDesign.imageUrl}
+                                alt={currentDesign.name}
+                                className="photo-modalImage"
+                            />
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );

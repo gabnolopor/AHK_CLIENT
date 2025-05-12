@@ -137,7 +137,7 @@ const Header = () => {
                         src="/landpagefinal.png" 
                         alt="logo" 
                         className="encabezado__imagen"
-                    />
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}                    />
                     <h1 className="encabezado__titulo">
                         <AnimatePresence mode="wait">
                             <motion.span
