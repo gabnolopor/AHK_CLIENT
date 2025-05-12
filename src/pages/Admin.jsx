@@ -281,6 +281,7 @@ function Admin() {
       
       if (response && response.token) {
         localStorage.setItem('token', response.token);
+        localStorage.setItem('isAdminAuthenticated', 'true');
         setIsAuthenticated(true);
         toast.success('Login successful!');
         
