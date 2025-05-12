@@ -282,6 +282,9 @@
   .music__metal-detail {
     width: 20px;
   }
+  .music__genre {
+    font-size: 1.5rem;
+  }
 }
 
 @media (max-width: 480px) {
