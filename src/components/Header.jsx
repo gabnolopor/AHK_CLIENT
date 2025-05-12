@@ -13,6 +13,7 @@ const Header = () => {
     });
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const isAuthenticated = localStorage.getItem('isAdminAuthenticated') === 'true';
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     const palabras = [
         'Works',    // English
@@ -44,6 +45,12 @@ const Header = () => {
             return () => clearTimeout(timer);
         }
     }, [showIntro]);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth <= 768);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const menuItems = [
         { title: 'Art', path: '/artroom' },
