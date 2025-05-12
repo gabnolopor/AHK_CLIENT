@@ -10,14 +10,6 @@
   align-items: center;
 }
 
-<<<<<<< HEAD
-.music__jukebox {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 30rem;
-=======
 .music__container {
   background: rgba(0, 0, 0, 0.85);
   border-radius: 20px;
@@ -36,7 +28,6 @@
 
 .music__home-link img {
   width: 40px;
->>>>>>> 74d6bf2 (judith changes)
   height: auto;
 }
 
@@ -194,16 +185,6 @@
   z-index: 1;
 }
 
-<<<<<<< HEAD
-.music__nav-container {
-  position: absolute;
-  top: 200px;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  max-width: 320px;
-  z-index: 3;
-=======
 .music__tracks {
   display: flex;
   flex-direction: column;
@@ -211,7 +192,6 @@
   max-height: 400px;
   overflow-y: auto;
   padding-right: 1rem;
->>>>>>> 74d6bf2 (judith changes)
 }
 
 .music__track {
@@ -266,181 +246,11 @@
   transition: all 0.3s ease;
 }
 
-<<<<<<< HEAD
-.music__nav-button:hover {
-  background: #ff0000;
-  color: white;
-  box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
-}
-
-.music__genre {
-  color: white;
-  font-size: 2rem;
-  text-align: center;
-  margin: 0 20px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  font-family: 'book';
-  min-width: 7.5rem;
-}
-
-.music__grid {
-  position: absolute;
-  top: 75%;
-  left: 50.2%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 300px;
-  max-width: 300px;
-  min-height: 220px;
-  max-height: 220px;
-  z-index: 2;
-  overflow-x: hidden;
-  overflow-y: scroll;  
-  scrollbar-width: none;
-  -ms-overflow-style: none;  
-}
-
-.music__strip {
-  background-color: #ed4c2b;
-  border: 1px solid white;
-  padding: 7px 4px;
-  width: 100%;
-  transition: all 0.3s ease;
-  cursor: default;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  box-sizing: border-box;
-}
-
-.music__line-box {
-  position: relative;
-  height: 22px;
-  display: flex;
-  align-items: center;
-}
-
-.music__line {
-  width: 100%;
-  height: 2px;
-  background-color: white;
-  position: relative;
-}
-
-.music__white-space {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 90%;
-  height: 20px;
-  background-color: white;
-  top: -10px;
-  border: 1px solid white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: black;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  clip-path: polygon(
-    8px 0,
-    calc(100% - 8px) 0,
-    100% 50%,
-    calc(100% - 8px) 100%,
-    8px 100%,
-    0 50%
-  );
-}
-
-.music__strip:hover {
-  transform: scale(1.1);  
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
-  z-index: 2;  
-}
-
-.music__strip:hover .music__white-space {
-  background-color: #fff5f5;
-}
-
-.music__song-title {
-  color: black;
-  font-size: 14px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  text-align: center;
-  margin-top: 5px;
-}
-
-/* Añadir estilos específicos para los botones de control de música */
-.music__control-button {
-  background-color: black;
-  color: #FFFFFF;
-  border: none;
-  padding: 4px 8px;
-  cursor: pointer;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s ease;
-  width: 30px; 
-  height: 30px;
-}
-
-=======
->>>>>>> 74d6bf2 (judith changes)
 .music__control-button:hover {
   transform: scale(1.1);
   background: #ed4c2b;
 }
 
-<<<<<<< HEAD
-.logo {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 100;
-  width: 60px;
-  height: auto;
-}
-
-/* Pantallas grandes y 4K (>1920px) */
-
-@media screen and (min-width: 1921px) {
-
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 30rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 44%; 
-    left: 50%;
-    transform: translate(-48%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 70%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 20rem;
-    min-width: 20rem;
-    max-height: 15rem;
-    min-height: 15rem;
-=======
 .music__control-button.active {
   background: #ed4c2b;
 }
@@ -467,337 +277,13 @@
 
   .music__container {
     padding: 1rem;
->>>>>>> 74d6bf2 (judith changes)
   }
 
-  .music__genre {
-    font-size: 1.2rem;
-<<<<<<< HEAD
-=======
-    min-width: 100px;
->>>>>>> 74d6bf2 (judith changes)
-  }
-
-  .music__nav-button {    
-    width: 35px;
-    height: 35px;
-    margin: 0 0.1rem;
-  }
-
-  .music__strip {
-    padding: 1px 4px;
-  }
-
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-  
-}
-
-@media screen and (min-width: 1024px) and (max-width: 1440px) {
-  
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 25rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 33%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 15.5rem;
-    min-width: 15.5rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {    
-    width: 35px;
-    height: 35px;
-    margin: 0 0.1rem;
-  }
-
-  .music__strip {
-    padding: 1px 4px;
-  }
-
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-  
-}
-
-
-
-
-/* Tablets (768px - 991px) */
-@media screen and (min-width: 768px) and (max-width: 991px){
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 25rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 33%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 15.5rem;
-    min-width: 15.5rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {    
-    width: 35px;
-    height: 35px;
-    margin: 0 0.1rem;
-  }
-
-  .music__strip {
-    padding: 1px 4px;
-  }
-
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-  
-  
-}
-
-@media screen and (min-width: 481px ) and (max-width: 768px){
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 25rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 33%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 15.5rem;
-    min-width: 15.5rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {    
-    width: 35px;
-    height: 35px;
-  }
-
-  .music__control-panel {
-    padding: 0.75rem;
-  }
-
-<<<<<<< HEAD
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-
-}
-
-@media screen and (min-width: 376px) and (max-width: 480px){
-
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 21rem;
-=======
   .music__metal-detail {
     width: 20px;
->>>>>>> 74d6bf2 (judith changes)
   }
-
-  .music__nav-container {
-    position: absolute;
-    top: 35%; 
-    width: 100%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 13rem;
-    min-width: 13rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {    
-    width: 30px;
-    height: 30px;
-    margin: 0 0.1rem;
-  }
-
-  .music__strip {
-    padding: 1px 4px;
-  }
-
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-  
 }
 
-@media screen and  (min-width: 321px) and (max-width: 375px) {
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 21rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 36%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 13rem;
-    min-width: 13rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {    
-    width: 30px;
-    height: 30px;
-    margin: 0 0.1rem;
-  }
-
-  .music__strip {
-    padding: 1px 4px;
-  }
-
-  .music__strip:hover {
-    transform: scale(1.20);
-  }
-
-}
-
-<<<<<<< HEAD
-@media screen and (max-width: 320px) {
-  .music__jukebox {
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 21rem;
-  }
-
-  .music__nav-container {
-    position: absolute;
-    max-width: 350px;
-    top: 35%; 
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: 350px;
-  }
-
-  .music__grid {
-    position: absolute;
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 13rem;
-    min-width: 13rem;
-    max-height: 11.5rem;
-    min-height: 11.5rem;
-  }
-
-  .music__genre {
-    font-size: 1.2rem;
-  }
-
-  .music__nav-button {
-    width: 30px;
-    height: 30px;
-    margin: 0 0.1rem;
-=======
 @media (max-width: 480px) {
   .music {
     padding: 0.5rem;
@@ -817,7 +303,6 @@
 
   .music__track {
     padding: 0.5rem;
->>>>>>> 74d6bf2 (judith changes)
   }
 
   .music__track-title {
@@ -829,9 +314,6 @@
     height: 30px;
   }
 
-<<<<<<< HEAD
-}
-=======
   .music__control-panel {
     padding: 0.5rem;
   }
@@ -852,4 +334,3 @@
   transform: scale(1.1);
   opacity: 0.8;
 }
->>>>>>> 74d6bf2 (judith changes)
