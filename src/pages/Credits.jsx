@@ -26,7 +26,6 @@ function Credits() {
       <p className="credit-item">Andrew H. King</p>
       
       <h3 className="credit-section-title">THANX TO MY CREATIVE and EMOTIONAL SUPPORT SYSTEM</h3>
-      <p className="credit-item">ABIGAIL SUGAR</p>
       <p className="credit-item">AMES ALLEN-KING</p>
       <p className="credit-item">BOB GRETTON</p>
       <p className="credit-item">ED ALLEN</p>

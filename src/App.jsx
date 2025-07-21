@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import LandPage from './pages/LandPage';
 import MusicPage from './pages/MusicPage';
 import TestApi from './components/TestApi';
@@ -17,9 +18,32 @@ import NotFound from './pages/NotFound';
 import PDFViewer from './components/PDFViewer';
 import ThreeDRoom from './pages/3DRoom';
 import Photo3DRoom from './pages/Photo3DRoom';
-function App() {
+import LoadingFallback from './components/LoadingFallback';
+
+// Component to handle loading logic based on current route
+function AppContent() {
+  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const isRootRoute = location.pathname === '/';
+
+  useEffect(() => {
+    // Skip loading for root route
+    if (isRootRoute) {
+      setIsLoading(false);
+      return;
+    }
+
+    // Simulate app loading time for other routes
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [isRootRoute]);
+
   return (
-    <Router>
+    <>
+      {isLoading && !isRootRoute && <LoadingFallback onLoadingComplete={() => setIsLoading(false)} />}
       <Routes>
         <Route path="/" element={<LandPage />} />
         <Route path="/music" element={<MusicPage />} />
@@ -46,9 +70,15 @@ function App() {
        <Route path="/text-content" element={<TextContentPage />} />
        <Route path="/pdf-viewer" element={<PDFViewer />} />
        <Route path="*" element={<NotFound />} />
-
-
       </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

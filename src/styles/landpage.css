@@ -37,6 +37,7 @@ body {
     height: auto;
     display: block;
     position: relative;
+    cursor: pointer;
 }
 
 .encabezado__titulo {
@@ -50,6 +51,7 @@ body {
     letter-spacing: 0.5rem;
     transform: translateY(min(-23vh, -9rem)); 
     margin: 0 0 0 1rem;
+    cursor: pointer;
 }
 
 .loading-placeholder {
@@ -81,7 +83,7 @@ body {
         background-position: center;
         opacity: 0;
         transform: translateY(100%);
-        transition: all 0.5s ease-out;
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         z-index: 0;
         pointer-events: none;
         will-change: transform, opacity;
@@ -91,6 +93,13 @@ body {
     .encabezado:hover::before {
         opacity: 1;
         transform: translateY(0);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .encabezado:not(:hover)::before {
+        opacity: 0;
+        transform: translateY(100%);
+        transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
     }
 }
 
@@ -400,6 +409,7 @@ body {
     background: rgba(0, 0, 0, 0.25);
     padding: 4rem 2rem 2rem;
     overflow: hidden;
+    transform: translateX(0);
 }
 
 /* Video de fondo */
@@ -483,7 +493,8 @@ body {
 /* Media Queries */
 @media (max-width: 768px) {
     .nav-menu {
-        width: 100%;
+        width: 100vw;
+        left: 0;
     }
 
     .menu-button {

@@ -2,7 +2,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-
 }
 
 .loading-container {
@@ -15,14 +14,54 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    background: white;
+    background: #f5f5f5;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 9999;
+}
+
+.loading-container.visible {
+    opacity: 1;
+    transform: scale(1);
 }
 
 .loading-animation {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 20px;
+    animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@keyframes gentlePulse {
+    0%, 100% { 
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% { 
+        transform: scale(1.02);
+        opacity: 0.95;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .loading-container {
+        background: #f5f5f5;
+    }
+}
+
+/* Fade out animation for when loading ends */
+.loading-container.fade-out {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.loading-container.fade-out .loading-animation {
+    transform: scale(0.9);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 

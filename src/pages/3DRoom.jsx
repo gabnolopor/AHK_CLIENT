@@ -681,7 +681,16 @@ const ThreeDRoom = () => {
       // Ajustar el tamaño de los rayos de luz
       const skylightRaysGeometry = new THREE.CylinderGeometry(roomWidth/6, roomWidth/3, roomHeight, 32, 1, true);
       
-      // ... resto del código ...
+      const skylightRaysMaterial = new THREE.MeshBasicMaterial({
+        color: 0x87CEEB,
+        transparent: true,
+        opacity: 0.1,
+        side: THREE.DoubleSide
+      });
+      
+      const skylightRays = new THREE.Mesh(skylightRaysGeometry, skylightRaysMaterial);
+      skylightRays.position.y = 0;
+      scene.add(skylightRays);
     };
 
     createSkylight();
