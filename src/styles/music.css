@@ -334,6 +334,147 @@
 }
 
 .home-button:hover {
+  background: rgba(255, 255, 255, 0.2);
   transform: scale(1.1);
-  opacity: 0.8;
+}
+
+/* Progress Bar Styles */
+.music__progress-container {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.music__progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #fff;
+  font-weight: 500;
+}
+
+.music__current-time,
+.music__duration {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+}
+
+.music__progress-bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.music__progress-bar:hover {
+  background: rgba(255, 255, 255, 0.3);
+  height: 10px;
+}
+
+.music__progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #2ecc71, #27ae60);
+  border-radius: 4px;
+  transition: width 0.1s ease;
+  box-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+}
+
+.music__progress-handle {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  cursor: grab;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.music__progress-handle:hover {
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.music__progress-handle:active {
+  cursor: grabbing;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Responsive adjustments for progress bar */
+@media (max-width: 768px) {
+  .music__progress-container {
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .music__progress-info {
+    font-size: 0.8rem;
+  }
+  
+  .music__current-time,
+  .music__duration {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .music__progress-bar {
+    height: 6px;
+  }
+  
+  .music__progress-bar:hover {
+    height: 8px;
+  }
+  
+  .music__progress-handle {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .music__progress-container {
+    padding: 0.6rem;
+    margin-bottom: 0.8rem;
+  }
+  
+  .music__progress-info {
+    font-size: 0.7rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .music__current-time,
+  .music__duration {
+    padding: 0.15rem 0.3rem;
+    font-size: 0.6rem;
+  }
+  
+  .music__progress-bar {
+    height: 5px;
+  }
+  
+  .music__progress-bar:hover {
+    height: 7px;
+  }
+  
+  .music__progress-handle {
+    width: 12px;
+    height: 12px;
+  }
 }
