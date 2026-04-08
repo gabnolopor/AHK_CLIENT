@@ -11,6 +11,8 @@ import {
   FiLogOut,
   FiMusic,
   FiFile,
+  FiChevronDown,
+  FiChevronRight,
 } from "react-icons/fi";
 import "../styles/admin.css";
 import { apiService } from "../services/api";
@@ -66,6 +68,20 @@ function Admin() {
     design: { title: "", description: "" },
     digitalArt: { title: "", description: "" }
   });
+
+  const [expandedSections, setExpandedSections] = useState({
+    artwork: false,
+    music: false,
+    photo: false,
+    writing: false,
+    design: false,
+    digitalArt: false,
+    biography: false
+  });
+
+  const toggleSection = (key) => {
+    setExpandedSections((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   const { loading: apiLoading, error: apiError, handleRequest } = useApi();
   const fileInputRef = useRef(null);
@@ -511,27 +527,33 @@ function Admin() {
     );
   };
 
-  const renderFileList = (type) => {
-    // Check if the type exists in dbContent
+  const getSectionLabel = (type) => {
+    const labels = { artwork: "Artwork", digitalArt: "Digital Art" };
+    return labels[type] || type.charAt(0).toUpperCase() + type.slice(1);
+  };
+
+  const renderFileList = (type, options = {}) => {
+    const { showHeaderTitle = true } = options;
     if (!dbContent[type]) {
       console.error(`Type "${type}" is not defined in dbContent.`);
       return null;
     }
 
-    // Calculate if we've reached the limit for this content type
     const hasReachedLimit = CONTENT_LIMITS[type] && dbContent[type].length >= CONTENT_LIMITS[type];
 
     return (
       <>
-        <div className="section-header">
-          <h2 className="section-title">
-            {type.charAt(0).toUpperCase() + type.slice(1)}
-            {CONTENT_LIMITS[type] && (
-              <span className="file-count">
-                {dbContent[type].length}/{CONTENT_LIMITS[type]}
-              </span>
-            )}
-          </h2>
+        <div className={`section-header${!showHeaderTitle ? " section-header--add-only" : ""}`}>
+          {showHeaderTitle && (
+            <h2 className="section-title">
+              {getSectionLabel(type)}
+              {CONTENT_LIMITS[type] && (
+                <span className="file-count">
+                  {dbContent[type].length}/{CONTENT_LIMITS[type]}
+                </span>
+              )}
+            </h2>
+          )}
           <button
             className="add-new-button"
             onClick={() => handleAddNew(type)}
@@ -581,10 +603,11 @@ function Admin() {
     );
   };
 
-  const renderBiography = () => {
+  const renderBiography = (options = {}) => {
+    const { showHeaderTitle = true } = options;
     return (
       <div className="section-header" style={{ display: "block" }}>
-        <h2 className="section-title">Biography</h2>
+        {showHeaderTitle && <h2 className="section-title">Biography</h2>}
         <form
           className="biography-form"
           onSubmit={(e) => handleSubmit(e, "biography")}
@@ -736,19 +759,70 @@ function Admin() {
         </div>
 
         <div className="dashboard-grid">
-          <div className="content-section">{renderFileList("artwork")}</div>
-          <div className="content-section">{renderFileList("music")}</div>
-          <div className="content-section">{renderFileList("photo")}</div>
-          <div className="content-section">{renderFileList("writing")}</div>
-          <div className="content-section">{renderFileList("design")}</div>
-          <div className="content-section">{renderFileList("digitalArt")}</div>
-          <div className="content-section">{renderBiography()}</div>
+          {[
+            "artwork",
+            "music",
+            "photo",
+            "writing",
+            "design",
+            "digitalArt"
+          ].map((key) => (
+            <div key={key} className="content-section content-section--collapsible">
+              <button
+                type="button"
+                className="collapsible-header"
+                onClick={() => toggleSection(key)}
+                aria-expanded={expandedSections[key]}
+              >
+                <span className="collapsible-header-title">
+                  {getSectionLabel(key)}
+                  {CONTENT_LIMITS[key] && (
+                    <span className="file-count">
+                      {" "}{dbContent[key].length}/{CONTENT_LIMITS[key]}
+                    </span>
+                  )}
+                </span>
+                {expandedSections[key] ? (
+                  <FiChevronDown className="collapsible-icon" />
+                ) : (
+                  <FiChevronRight className="collapsible-icon" />
+                )}
+              </button>
+              {expandedSections[key] && (
+                <div className="collapsible-body">
+                  {renderFileList(key, { showHeaderTitle: false })}
+                </div>
+              )}
+            </div>
+          ))}
+          <div className="content-section content-section--collapsible">
+            <button
+              type="button"
+              className="collapsible-header"
+              onClick={() => toggleSection("biography")}
+              aria-expanded={expandedSections.biography}
+            >
+              <span className="collapsible-header-title">Biography</span>
+              {expandedSections.biography ? (
+                <FiChevronDown className="collapsible-icon" />
+              ) : (
+                <FiChevronRight className="collapsible-icon" />
+              )}
+            </button>
+            {expandedSections.biography && (
+              <div className="collapsible-body">
+                {renderBiography({ showHeaderTitle: false })}
+              </div>
+            )}
+          </div>
         </div>
 
         {showModal && renderModal()}
         {renderChangePasswordModal()}
 
-        <Link to="/"><img src="/black-logo.png" className="logo" alt="logo" /></Link>
+        <Link to="/" className="logo-link">
+          <img src="/black-logo.png" className="logo" alt="logo" />
+        </Link>
 
       </div>
     );

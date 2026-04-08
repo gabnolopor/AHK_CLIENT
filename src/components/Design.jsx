@@ -69,7 +69,7 @@ const Design = () => {
             </Link>
 
             <div className="carousel">
-                <AnimatePresence initial={false} custom={direction}>
+                <AnimatePresence initial={false} custom={direction} mode="wait">
                     <motion.div
                         key={currentIndex}
                         custom={direction}
@@ -117,19 +117,6 @@ const Design = () => {
                 <button className="nav-button next" onClick={() => paginate(1)}>
                     &#8250;
                 </button>
-
-                <div className="dots-container">
-                    {designs.map((_, index) => (
-                        <button
-                            key={index}
-                            className={`dot ${index === currentIndex ? 'active' : ''}`}
-                            onClick={() => {
-                                setDirection(index > currentIndex ? 1 : -1);
-                                setCurrentIndex(index);
-                            }}
-                        />
-                    ))}
-                </div>
 
                 {isModalOpen && (
                     <div className="photo-modalOverlay open" onClick={closeModal}>

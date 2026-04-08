@@ -13,7 +13,7 @@
   height: 100vh;
   position: relative;
   overflow: hidden;
-  background: url("/public/floral_wall.jpg") center center;
+  background: url("/public/floral_wall2.jpg") center center;
   background-size: cover;
 }
 
@@ -34,31 +34,112 @@
   align-items: center;
 }
 
-/* Logo and frame container */
+/* Un solo contenedor: no tiene max ni tamaño fijo, se adapta a la imagen */
 .painting-container {
   position: relative;
-  width: 30%;
-  height: 60%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: inline-block;
   margin: 0 0 5rem 0;
-  transition: transform 1s ease-in-out; /* Add transition here */
-  cursor: pointer; /* Ensure the cursor indicates clickability */
+  transition: transform 1s ease-in-out;
+  cursor: pointer;
+  /* Marco estilo barroco + iluminación cenital (luz desde arriba) */
+  padding: 0.5rem;
+  border-radius: 4px;
+  /* Luz que cae de la lámpara: mancha de luz desde arriba + gradiente del marco */
+  background:
+    radial-gradient(
+      ellipse 120% 90% at 50% -15%,
+      rgba(255, 248, 235, 0.28) 0%,
+      rgba(255, 240, 215, 0.12) 35%,
+      transparent 65%
+    ),
+    linear-gradient(
+      180deg,
+      #352e28 0%,
+      #2a2520 18%,
+      #1a1612 50%,
+      #0f0d0b 85%,
+      #151210 100%
+    );
+  box-shadow:
+    /* Luz cenital: brillo sutil en el borde superior del marco */
+    inset 0 2px 6px rgba(255, 255, 255, 0.08),
+    /* Borde interno dorado */
+    inset 0 0 0 1px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    /* Relieve: bisel (más luz arriba-izq) */
+    inset 2px 2px 4px rgba(255, 255, 255, 0.04),
+    inset -2px -2px 6px rgba(0, 0, 0, 0.5),
+    /* Sombra que cae hacia abajo = luz desde arriba (como en exposiciones) */
+    0 4px 8px rgba(0, 0, 0, 0.2),
+    0 14px 45px rgba(0, 0, 0, 0.4),
+    0 24px 60px rgba(0, 0, 0, 0.35);
 }
 
-.painting {
-  width: 85%;
-  height: 80%;
-  box-shadow: 0 70px 60px rgb(0, 0, 0);
-}
-
-/* Frame overlay */
-.frame-paintingOverlay {
-  width: 100%;
-  height: 90%;
-  z-index: 2;
+/* Línea decorativa interior (segundo “grabado”) */
+.painting-container::before {
+  content: "";
   position: absolute;
+  top: 0.25rem;
+  left: 0.25rem;
+  right: 0.25rem;
+  bottom: 0.25rem;
+  border-radius: 2px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  pointer-events: none;
+}
+
+/* Lámpara tipo track/spot: SVG en JSX + halo debajo (la iluminación del marco sigue en .painting-container) */
+.painting-spotlight {
+  position: absolute;
+  left: 50%;
+  bottom: 100%;
+  transform: translateX(-50%);
+  width: clamp(4.5rem, 18vw, 10rem);
+  height: clamp(3.75rem, 15vw, 8.5rem);
+  margin-bottom: 0.15rem;
+  pointer-events: none;
+  z-index: 2;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+}
+
+.painting-spotlight-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cono de luz: origen en la lente (borde inferior del foco), no en el cuerpo del spot */
+.painting-spotlight::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  /* Borde superior del pseudo = límite inferior del SVG (lente); el gradiente sale de ahí hacia abajo */
+  top: 100%;
+  transform: translateX(-50%);
+  width: 220%;
+  height: 210%;
+  background: radial-gradient(
+    ellipse 45% 32% at 50% 0%,
+    rgba(255, 248, 235, 0.42) 0%,
+    rgba(255, 235, 210, 0.2) 38%,
+    rgba(255, 225, 195, 0.08) 58%,
+    transparent 76%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* La imagen tiene los límites (vw/vh); el contenedor crece con ella */
+.painting {
+  display: block;
+  max-width: 30vw;
+  max-height: 60vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  /* Brillo en la parte superior del lienzo = luz que viene de la lámpara */
+  box-shadow: inset 0 2px 8px rgba(255, 248, 240, 0.12);
 }
 
 /* Content container */
@@ -72,10 +153,14 @@
 .art-card-content h2 {
   font-family: Monserrat;
   letter-spacing: 0.1rem;
-  font-size: 2.5rem;
+  font-size: 1.5rem;
   margin-bottom: 0.5rem;
 }
 
+.art-card-content p {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
 .carousel-buttons {
   display: flex;
   justify-content: center;
@@ -241,9 +326,9 @@
     justify-content: center;
   }
 
-  .painting-container {
-    width: 75%;
-    height: 55%;
+  .painting {
+    max-width: 75vw;
+    max-height: 55vh;
   }
 
   .art-card-content {
@@ -258,7 +343,7 @@
     padding: 0;
   }
   .art-card-content p {
-    font-size: 1.6rem;
+    font-size: 1rem;
     margin: 0 0 0 2.3rem;
   }
 }
@@ -272,10 +357,12 @@
   }
 
   .painting-container {
-    width: 85%;
-    height: 60%;
     margin: 0 0 2rem 0;
-    
+  }
+
+  .painting {
+    max-width: 85vw;
+    max-height: 60vh;
   }
 
   .art-card-content {
@@ -316,10 +403,6 @@
   .painting-plaque p {
     font-size: 0.9rem;
   }
-  .frame-paintingOverlay {
-    width: 110%;
-    height: 100%;
-  }
 }
 
 @media screen and (max-width: 480px) {
@@ -337,14 +420,9 @@
     margin: 0 0.8rem;
   }
 
-  .painting-container {
-    width: 90%;
-    height: 65%;
-  }
-  
   .painting {
-    width: 95%;
-    height: 90%;
+    max-width: 90vw;
+    max-height: 65vh;
   }
 }
 
@@ -375,9 +453,9 @@
     margin: 0 0.5rem;
   }
 
-  .painting-container {
-    width: 95%;
-    height: 70%;
+  .painting {
+    max-width: 95vw;
+    max-height: 70vh;
   }
 }
 
@@ -389,9 +467,12 @@
   }
 
   .painting-container {
-    width: 50%;
-    height: 80%;
     margin: 0 2rem 0 0;
+  }
+
+  .painting {
+    max-width: 50vw;
+    max-height: 80vh;
   }
 
   .art-card-content {

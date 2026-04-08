@@ -157,7 +157,7 @@ const Header = () => {
         <div className="imagen-container"
         onClick={() => setIsMenuOpen(!isMenuOpen)} >
           <img
-            src="/landpagefinal.png"
+            src="/ZIGZAGBG.png"
             alt="logo"
             className="encabezado__imagen"
           />

@@ -127,21 +127,23 @@ function PhotoRoom() {
             x: { type: "spring", stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 }
           }}
-          className="photo-container"
+          className="photo-card-stack"
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
         >
-          <div className="photo-text">
-            <div className="photo-title-container">
-              <h2 className="photo-title">{currentPhoto.name}</h2>
+          <div className="photo-container">
+            <div className="photo-text">
+              <div className="photo-title-container">
+                <h2 className="photo-title">{currentPhoto.name}</h2>
+              </div>
+              <div className="photo-description-container">
+                <p className="photo-description">{currentPhoto.description}</p>
+              </div>
             </div>
-            <div className="photo-description-container">
-              <p className="photo-description">{currentPhoto.description}</p>
+            <div className="photo-image">
+              <img src={currentPhoto.imageUrl} alt={currentPhoto.name} onClick={openModal} />
             </div>
-          </div>
-          <div className="photo-image">
-            <img src={currentPhoto.imageUrl} alt={currentPhoto.name} onClick={openModal} />
           </div>
         </motion.div>
       </AnimatePresence>

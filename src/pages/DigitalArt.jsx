@@ -77,7 +77,7 @@ const DigitalArt = () => {
             </Link>
 
             <div className="carousel">
-                <AnimatePresence initial={false} custom={direction}>
+                <AnimatePresence initial={false} custom={direction} mode="wait">
                     <motion.div
                         key={currentIndex}
                         custom={direction}
@@ -129,19 +129,6 @@ const DigitalArt = () => {
                 <button className="nav-button next" onClick={() => paginate(1)}>
                     &#8250;
                 </button>
-
-                <div className="dots-container">
-                    {digitalArts.map((_, index) => (
-                        <button
-                            key={index}
-                            className={`dot ${index === currentIndex ? 'active' : ''}`}
-                            onClick={() => {
-                                setDirection(index > currentIndex ? 1 : -1);
-                                setCurrentIndex(index);
-                            }}
-                        />
-                    ))}
-                </div>
             </div>
 
             {/* Modal for full-size image with digital-specific classes */}

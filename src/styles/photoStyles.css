@@ -9,9 +9,15 @@
   align-items: center;
   justify-content: center;
   }
+
+  .photo-card-stack {
+    position: relative;
+    width: 80%;
+    min-height: 50vh;
+  }
   
   .photo-container {
-    width: 80%;
+    width: 100%;
     min-height: 50vh;
     height: auto;
     display: flex;
@@ -35,7 +41,7 @@
     justify-content: center;
     align-items: center;
     font-family: 'box2', sans-serif;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
     color: var(--color-secondary);
   }
@@ -154,18 +160,22 @@
   
   /* Media Queries */
   @media screen and (max-width: 1024px) {
-    .photo-container {
+    .photo-card-stack {
       width: 90%;
       min-height: 45vh;
     }
 
+    .photo-container {
+      min-height: 45vh;
+    }
+
     .photo-title-container {
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       margin-bottom: 0.4rem;
     }
 
     .photo-description-container {
-      font-size: 1.1rem;
+      font-size: 1rem;
       margin-bottom: 4rem;
     }
 
@@ -179,9 +189,13 @@
   }
 
   @media screen and (max-width: 768px) {
+    .photo-card-stack {
+      width: 95%;
+      min-height: 40vh;
+    }
+
     .photo-container {
       flex-direction: column;
-      width: 95%;
       min-height: 40vh;
     }
 
@@ -200,7 +214,7 @@
     }
 
     .photo-title-container {
-      font-size: 1.4rem;
+      font-size: 1.8rem;
       margin-bottom: 0.3rem;
     }
 
@@ -230,17 +244,49 @@
   }
 
   @media screen and (max-width: 480px) {
-    .photo-container {
+    .photo-card-stack {
       width: 95%;
     }
 
+    /* Suelo: elipse difusa + sombras laterales en la card (móvil ≤480px, no tablet) */
+    .photo-card-stack::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      /* Debajo del borde inferior de la card para que se lea sobre el suelo del fondo */
+      bottom: -0.65rem;
+      transform: translateX(-50%);
+      width: 96%;
+      height: 1rem;
+      background: radial-gradient(
+        ellipse 92% 100% at 50% 0%,
+        rgba(0, 0, 0, 0.52) 0%,
+        rgba(0, 0, 0, 0.52) 58%,
+        transparent 82%
+      );
+      filter: blur(10px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .photo-card-stack .photo-container {
+      position: relative;
+      z-index: 1;
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.16),
+        0 10px 22px rgba(0, 0, 0, 0.22),
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        -16px 26px 38px -18px rgba(0, 0, 0, 0.12),
+        16px 26px 38px -18px rgba(0, 0, 0, 0.12);
+    }
+
     .photo-title-container {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       margin-bottom: 0.2rem;
     }
 
     .photo-description-container {
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
 
     .photo-nav-button {
@@ -252,7 +298,6 @@
   @media screen and (max-height: 480px) and (orientation: landscape) {
     .photo-container {
       flex-direction: row;
-  
     }
 
     .photo-text, .photo-image {
@@ -261,28 +306,34 @@
     }
 
     .photo-title-container {
-      font-size: 1.1rem;
+      font-size: 1.3rem;
       margin-bottom: 0.2rem;
     }
 
     .photo-description-container {
-      font-size: 0.9rem;
+      font-size: 1rem;
       margin-bottom: 1rem;
     }
   }
 
 
   @media screen and (max-width: 375px) {
-    .photo-container {
+    .photo-card-stack {
       width: 95%;
-      
     }
-      
   }
 
   @media screen and (max-width: 320px) {
-    .photo-container {
+    .photo-card-stack {
       width: 95%;
+    }
+
+    .photo-title-container {
+      font-size: 1.3rem;
+    }
+
+    .photo-description-container {
+      font-size: 1rem;
     }
 
     .logo{

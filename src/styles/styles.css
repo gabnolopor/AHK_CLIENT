@@ -55,8 +55,23 @@
     src: url('../fonts/Cinema.ttf')
 }
 
+/* Home logo: slow continuous spin while hovering the link (wheel-like) */
+@keyframes logo-spin-hover {
+    to {
+        transform: rotate(360deg);
+    }
+}
 
+.logo-link:hover .logo {
+    animation: logo-spin-hover 12s linear infinite;
+    transform-origin: center center;
+}
 
+@media (prefers-reduced-motion: reduce) {
+    .logo-link:hover .logo {
+        animation: none;
+    }
+}
 
 
 

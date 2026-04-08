@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause, IoIosRefresh, IoMdHome } from 'react-icons/io';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
+import { IoIosArrowBack, IoIosArrowForward, IoIosPlay, IoIosPause, IoIosRefresh, IoMdHome, IoIosSkipBackward, IoIosSkipForward } from 'react-icons/io';
 import '../styles/music.css';
 import { Link } from 'react-router-dom';
 import { apiService } from '../services/api';
@@ -21,8 +21,14 @@ const Music = () => {
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [isDragging, setIsDragging] = useState(false);
+    const [waveformData, setWaveformData] = useState(null);
+    const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+    const scrollLockRef = useRef(false);
+    const touchStartYRef = useRef(0);
+    const feedRef = useRef(null);
     const audioRef = useRef(null);
     const progressRef = useRef(null);
+    const waveformCacheRef = useRef({});
     const { loading, error, handleRequest } = useApi();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -57,6 +63,63 @@ const Music = () => {
 
     const currentGenre = genres[currentGenreIndex];
     const filteredSongs = songs.filter(song => song.genre === currentGenre);
+
+    /* Sincronizar canción actual con el índice del feed al cambiar género (sin auto-play) */
+    useEffect(() => {
+        if (filteredSongs.length === 0) return;
+        const idx = currentSong ? filteredSongs.findIndex(s => s._id === currentSong._id) : -1;
+        const newIndex = idx >= 0 ? idx : 0;
+        setCurrentTrackIndex(newIndex);
+        if (idx < 0) {
+            setCurrentSong(filteredSongs[0]);
+            setIsPlaying(false);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentGenreIndex, filteredSongs.length]);
+
+    const goToTrack = (index) => {
+        if (index < 0 || index >= filteredSongs.length) return;
+        setCurrentTrackIndex(index);
+        setCurrentSong(filteredSongs[index]);
+        setIsPlaying(true);
+    };
+
+    const handleNextTrack = () => goToTrack(currentTrackIndex + 1);
+    const handlePrevTrack = () => goToTrack(currentTrackIndex - 1);
+
+    const handleNextTrackRef = useRef(handleNextTrack);
+    const handlePrevTrackRef = useRef(handlePrevTrack);
+    handleNextTrackRef.current = handleNextTrack;
+    handlePrevTrackRef.current = handlePrevTrack;
+
+    useEffect(() => {
+        const el = feedRef.current;
+        if (!el) return;
+        const onWheel = (e) => {
+            if (filteredSongs.length <= 1) return;
+            e.preventDefault();
+            if (scrollLockRef.current) return;
+            scrollLockRef.current = true;
+            if (e.deltaY > 0) handleNextTrackRef.current();
+            else handlePrevTrackRef.current();
+            setTimeout(() => { scrollLockRef.current = false; }, 400);
+        };
+        el.addEventListener('wheel', onWheel, { passive: false });
+        return () => el.removeEventListener('wheel', onWheel);
+    }, [filteredSongs.length]);
+
+    const handleTouchStart = (e) => {
+        touchStartYRef.current = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e) => {
+        if (filteredSongs.length <= 1) return;
+        const endY = e.changedTouches[0].clientY;
+        const diff = touchStartYRef.current - endY;
+        if (Math.abs(diff) < 50) return;
+        if (diff > 0) handleNextTrack();
+        else handlePrevTrack();
+    };
 
     const handlePlayPause = (song) => {
         if (currentSong && currentSong._id === song._id) {
@@ -120,11 +183,67 @@ const Music = () => {
     };
 
     useEffect(() => {
-        if (currentSong) {
-            audioRef.current.src = `https://res.cloudinary.com/andrewking/video/upload/f_mp3/${currentSong.filename}.mp4`;
-            audioRef.current.play();
+        if (!currentSong) return;
+        audioRef.current.src = `https://res.cloudinary.com/andrewking/video/upload/f_mp3/${currentSong.filename}.mp4`;
+        if (isPlaying) audioRef.current.play();
+    }, [currentSong, isPlaying]);
+
+    /* Forma de onda real a partir del archivo de audio (Web Audio API) */
+    useEffect(() => {
+        if (!currentSong?.filename) {
+            setWaveformData(null);
+            return;
         }
-    }, [currentSong]);
+        const songId = currentSong._id;
+        const audioUrl = `https://res.cloudinary.com/andrewking/video/upload/f_mp3/${currentSong.filename}.mp4`;
+
+        if (waveformCacheRef.current[songId]) {
+            setWaveformData(waveformCacheRef.current[songId]);
+            return;
+        }
+
+        setWaveformData(null);
+        let cancelled = false;
+
+        const decodeWaveform = async () => {
+            try {
+                const res = await fetch(audioUrl);
+                const arrayBuffer = await res.arrayBuffer();
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const decoded = await ctx.decodeAudioData(arrayBuffer);
+                if (cancelled) {
+                    ctx.close();
+                    return;
+                }
+                const channelData = decoded.getChannelData(0);
+                const barCount = 180;
+                const samplesPerBar = Math.floor(channelData.length / barCount);
+                const bars = [];
+                for (let i = 0; i < barCount; i++) {
+                    const start = i * samplesPerBar;
+                    const end = Math.min(start + samplesPerBar, channelData.length);
+                    let max = 0;
+                    for (let j = start; j < end; j++) {
+                        const abs = Math.abs(channelData[j]);
+                        if (abs > max) max = abs;
+                    }
+                    bars.push(max);
+                }
+                ctx.close();
+                const maxVal = Math.max(...bars) || 1;
+                const normalized = bars.map((v) => Math.round(25 + (v / maxVal) * 70));
+                if (!cancelled) {
+                    waveformCacheRef.current[songId] = normalized;
+                    setWaveformData(normalized);
+                }
+            } catch (err) {
+                if (!cancelled) setWaveformData(null);
+            }
+        };
+
+        decodeWaveform();
+        return () => { cancelled = true; };
+    }, [currentSong?._id, currentSong?.filename]);
 
     useEffect(() => {
         const audio = audioRef.current;
@@ -178,6 +297,13 @@ const Music = () => {
 
     const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
+    /* Fallback: onda genérica si el audio aún no se ha decodificado */
+    const waveformBarsFallback = useMemo(() => {
+        return Array.from({ length: 180 }, (_, i) => 40 + Math.round(50 * (0.5 + 0.5 * Math.sin((i / 180) * Math.PI * 4))));
+    }, []);
+
+    const waveformBars = waveformData ?? waveformBarsFallback;
+
     return (
         <div className="music">
             <div className="music__container">
@@ -214,45 +340,77 @@ const Music = () => {
                                 <span className="music__duration">{formatTime(duration)}</span>
                             </div>
                             <div 
-                                className="music__progress-bar"
+                                className="music__progress-bar music__progress-bar--waveform"
                                 ref={progressRef}
                                 onClick={handleProgressClick}
                                 onMouseDown={handleMouseDown}
                                 onMouseUp={handleMouseUp}
                             >
-                                <div 
-                                    className="music__progress-fill"
-                                    style={{ width: `${progressPercent}%` }}
-                                ></div>
-                                <div 
-                                    className="music__progress-handle"
-                                    style={{ left: `${progressPercent}%` }}
-                                ></div>
+                                <div className="music__progress-wave">
+                                    <div className="music__progress-wave-track">
+                                        <div className="music__progress-wave-bg" aria-hidden="true">
+                                            {waveformBars.map((h, i) => (
+                                                <span key={i} className="music__wave-bar" style={{ height: `${h}%` }} />
+                                            ))}
+                                        </div>
+                                        <div className="music__progress-wave-fill" style={{ width: `${progressPercent}%` }}>
+                                            <div
+                                                className="music__progress-wave-fill-inner"
+                                                style={{ width: progressPercent > 0 ? `${100 / (progressPercent / 100)}%` : '100%' }}
+                                            >
+                                                {waveformBars.map((h, i) => (
+                                                    <span key={i} className="music__wave-bar music__wave-bar--fill" style={{ height: `${h}%` }} />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="music__progress-handle" style={{ left: `${progressPercent}%` }} />
                             </div>
                         </div>
                     )}
 
-                    <div className="music__vinyl-display">
-                        <div className="music__tracks">
+                    {/* Feed vertical tipo TikTok/Reels: una card por canción, scroll = next/prev */}
+                    <div 
+                        ref={feedRef}
+                        className="music__feed"
+                        onTouchStart={handleTouchStart}
+                        onTouchEnd={handleTouchEnd}
+                        style={{ touchAction: 'pan-y' }}
+                    >
+                        <div 
+                            className="music__feed-inner"
+                            style={{ transform: `translateY(-${currentTrackIndex * 100}%)` }}
+                        >
                             {filteredSongs.map((song, index) => (
-                                <div key={index} className="music__track">
-                                    <div className="music__track-info">
-                                        <span className="music__track-number">{index + 1}</span>
-                                        <p className="music__track-title">{song.name}</p>
-                                    </div>
-                                    <div className="music__track-controls">
+                                <div key={song._id} className="music__feed-slide">
+                                    <h3 className="music__feed-slide-title">{song.name}</h3>
+                                    <div className="music__feed-controls">
                                         <button 
-                                            onClick={() => handlePlayPause(song)} 
-                                            className={`music__control-button ${currentSong?._id === song._id ? 'active' : ''}`}
+                                            type="button"
+                                            className="music__feed-control music__feed-control--prev"
+                                            onClick={handlePrevTrack}
+                                            disabled={currentTrackIndex === 0}
+                                            aria-label="Anterior"
                                         >
-                                            {isPlaying && currentSong?._id === song._id ? 
-                                                <IoIosPause /> : <IoIosPlay />}
+                                            <IoIosSkipBackward />
                                         </button>
                                         <button 
-                                            onClick={() => handleRestart(song)} 
-                                            className="music__control-button"
+                                            type="button"
+                                            className={`music__feed-control music__feed-control--play ${currentSong?._id === song._id && isPlaying ? 'active' : ''}`}
+                                            onClick={() => handlePlayPause(song)}
+                                            aria-label={isPlaying && currentSong?._id === song._id ? 'Pausar' : 'Reproducir'}
                                         >
-                                            <IoIosRefresh />
+                                            {isPlaying && currentSong?._id === song._id ? <IoIosPause /> : <IoIosPlay />}
+                                        </button>
+                                        <button 
+                                            type="button"
+                                            className="music__feed-control music__feed-control--next"
+                                            onClick={handleNextTrack}
+                                            disabled={currentTrackIndex === filteredSongs.length - 1}
+                                            aria-label="Siguiente"
+                                        >
+                                            <IoIosSkipForward />
                                         </button>
                                     </div>
                                 </div>

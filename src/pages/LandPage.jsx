@@ -4,7 +4,9 @@ import React from 'react'
 
 function LandPage() {
   return (
-    <Header/>
+    <div className="landpage-page">
+      <Header />
+    </div>
   )
 }
 

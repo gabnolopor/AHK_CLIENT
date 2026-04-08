@@ -130,15 +130,60 @@ function ArtRoom() {
           {paintings.map((painting) => (
             <div key={painting._id} className="art-card">
               <div className="painting-container" onClick={openModal}>
+                <div className="painting-spotlight" aria-hidden="true">
+                  <svg
+                    className="painting-spotlight-svg"
+                    viewBox="0 0 100 93"
+                    xmlns="http://www.w3.org/2000/svg"
+                    preserveAspectRatio="xMidYMax meet"
+                  >
+                    <defs>
+                      <linearGradient id={`spot-ma-${painting._id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#6b6560" />
+                        <stop offset="35%" stopColor="#353230" />
+                        <stop offset="55%" stopColor="#181716" />
+                        <stop offset="100%" stopColor="#4a4540" />
+                      </linearGradient>
+                      <linearGradient id={`spot-mb-${painting._id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#5a5550" />
+                        <stop offset="100%" stopColor="#221f1d" />
+                      </linearGradient>
+                      <radialGradient id={`spot-lens-${painting._id}`} cx="45%" cy="40%" r="55%">
+                        <stop offset="0%" stopColor="#fffaf0" stopOpacity="0.95" />
+                        <stop offset="45%" stopColor="#e8dcc8" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#2a2826" stopOpacity="0.9" />
+                      </radialGradient>
+                      <linearGradient id={`spot-in-${painting._id}`} x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#0d0c0b" />
+                        <stop offset="50%" stopColor="#2e2b28" />
+                        <stop offset="100%" stopColor="#0d0c0b" />
+                      </linearGradient>
+                    </defs>
+                    <rect x="47" y="0" width="6" height="36" rx="1.5" fill={`url(#spot-mb-${painting._id})`} />
+                    <rect x="48.5" y="1" width="3" height="34" rx="1" fill="#3a3835" opacity="0.55" />
+                    <ellipse cx="50" cy="38" rx="8" ry="5" fill={`url(#spot-ma-${painting._id})`} />
+                    <ellipse cx="50" cy="37" rx="5" ry="3" fill="#1a1918" opacity="0.6" />
+                    <path
+                      d="M 34 40 L 66 40 L 72 52 L 70 86 L 30 86 L 28 52 Z"
+                      fill={`url(#spot-ma-${painting._id})`}
+                      stroke="#0a0908"
+                      strokeWidth="0.35"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M 36 42 L 64 42 L 69 52 L 67.5 82 L 32.5 82 L 31 52 Z"
+                      fill={`url(#spot-in-${painting._id})`}
+                      opacity="0.85"
+                    />
+                    <ellipse cx="50" cy="86" rx="21" ry="6.5" fill="#121110" stroke="#2a2826" strokeWidth="0.6" />
+                    <ellipse cx="50" cy="84.5" rx="15" ry="4.5" fill={`url(#spot-lens-${painting._id})`} />
+                    <ellipse cx="46" cy="83" rx="4" ry="2" fill="#ffffff" opacity="0.22" />
+                  </svg>
+                </div>
                 <img 
                   src={painting.imageUrl} 
                   alt={painting.name} 
                   className="painting" 
-                />
-                <img 
-                  src="/frame.webp" 
-                  alt="Frame" 
-                  className="frame-paintingOverlay"
                 />
               </div>
               <div className="art-card-content">
