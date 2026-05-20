@@ -6,7 +6,7 @@ import * as THREE from 'three';
  * yaw:   giro horizontal en grados (0 ≈ centro de la imagen; positivo ≈ derecha)
  * pitch: inclinación vertical en grados (positivo = arriba, negativo = abajo)
  *
- * Colocar posiciones:
+ * Colocar posiciones (requiere reactivar ?edit=1 en PanoramaRoom.jsx):
  * 1. Abre /panorama?edit=1
  * 2. Arrastra cada punto sobre el objeto en la escena
  * 3. Pulsa "Copiar config" y pega el resultado aquí (o pásamelo)

@@ -181,6 +181,22 @@
   border-color: rgba(255, 255, 255, 0.75);
 }
 
+/* Móvil: solo el punto clicable (88×88 bloquea el drag del panorama) */
+@media (hover: none), (pointer: coarse), (max-width: 768px) {
+  .panorama-room:not(.panorama-room--edit) .panorama-hotspot {
+    padding: 0;
+    min-width: 0;
+    min-height: 0;
+    width: auto;
+    height: auto;
+    gap: 0;
+  }
+
+  .panorama-room:not(.panorama-room--edit) .panorama-hotspot__label {
+    display: none;
+  }
+}
+
 @keyframes panorama-pulse {
   0% {
     box-shadow:

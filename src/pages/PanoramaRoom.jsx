@@ -57,7 +57,9 @@ const PanoramaRoom = () => {
   };
 
   const searchParams = new URLSearchParams(window.location.search);
-  const isEdit = searchParams.get('edit') === '1';
+  // Modo colocación (?edit=1) desactivado para producción. Para dev local, descomenta:
+  // const isEdit = searchParams.get('edit') === '1';
+  const isEdit = false;
   const isDebug = searchParams.get('debug') === '1';
 
   const updateExport = useCallback((hotspots) => {
