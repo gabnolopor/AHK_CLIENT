@@ -5,6 +5,7 @@
 
 # Testing
 /coverage
+scripts
 
 # Production
 /build
@@ -12,6 +13,9 @@
 
 # Misc
 .DS_Store
+
+# Assets archivados localmente (scripts/archive-unused-public.sh)
+/public/_archive/
 .env
 .env.local
 .env.development.local

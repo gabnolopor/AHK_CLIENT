@@ -5,7 +5,7 @@ import { apiService } from '../services/api';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../assets/hand-loading.json';
 import { toast } from 'react-hot-toast';
-function BookSelect({ isOpen, onClose, section }) {
+function BookSelect({ isOpen, onClose, section, onBack }) {
   const [writings, setWritings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState(new Set());
@@ -135,8 +135,20 @@ function BookSelect({ isOpen, onClose, section }) {
   return (
     <div className="book-modal-overlay" onClick={onClose}>
       <div className="book-modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="close-button" onClick={onClose}>&times;</button>
-        
+        {onBack && (
+          <button
+            type="button"
+            className="book-modal-back-button"
+            onClick={onBack}
+            aria-label="Back to categories"
+          >
+            ← Back
+          </button>
+        )}
+        <button type="button" className="close-button" onClick={onClose}>
+          &times;
+        </button>
+
         <h2 className="modal-genre-title">{displayTitle}</h2>
         
         {loading && (

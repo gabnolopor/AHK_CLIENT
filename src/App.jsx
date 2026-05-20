@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import LandPage from './pages/LandPage';
 import MusicPage from './pages/MusicPage';
 import TestApi from './components/TestApi';
 import ComingSoon from './pages/ComingSoon';
@@ -18,17 +17,18 @@ import NotFound from './pages/NotFound';
 import PDFViewer from './components/PDFViewer';
 import ThreeDRoom from './pages/3DRoom';
 import Photo3DRoom from './pages/Photo3DRoom';
+import PanoramaRoom from './pages/PanoramaRoom';
 import LoadingFallback from './components/LoadingFallback';
 
 // Component to handle loading logic based on current route
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-  const isRootRoute = location.pathname === '/';
+  const skipGlobalLoading =
+    location.pathname === '/' || location.pathname === '/panorama';
 
   useEffect(() => {
-    // Skip loading for root route
-    if (isRootRoute) {
+    if (skipGlobalLoading) {
       setIsLoading(false);
       return;
     }
@@ -39,13 +39,13 @@ function AppContent() {
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [isRootRoute]);
+  }, [skipGlobalLoading]);
 
   return (
     <>
-      {isLoading && !isRootRoute && <LoadingFallback onLoadingComplete={() => setIsLoading(false)} />}
+      {isLoading && !skipGlobalLoading && <LoadingFallback onLoadingComplete={() => setIsLoading(false)} />}
       <Routes>
-        <Route path="/" element={<LandPage />} />
+        <Route path="/" element={<PanoramaRoom />} />
         <Route path="/music" element={<MusicPage />} />
         <Route path="/testapi" element={<TestApi />} />
         <Route path="/comingsoon" element={<ComingSoon />} />
@@ -59,6 +59,7 @@ function AppContent() {
         <Route path="/admin/login" element={<Admin />} />
         <Route path="/3dRoom" element={<ThreeDRoom />} />
         <Route path="/photo3DRoom" element={<Photo3DRoom />} />
+        <Route path="/panorama" element={<PanoramaRoom />} />
         <Route 
           path="/admin" 
           element={

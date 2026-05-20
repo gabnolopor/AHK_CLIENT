@@ -189,6 +189,23 @@
   border: 2px solid var(--color-secondary);
 }
 
+.book-modal-back-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  border: none;
+  background: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--goldish-brown, #60450c);
+  padding: 0.25rem 0.5rem;
+}
+
+.book-modal-back-button:hover {
+  color: var(--dark-maroon, #260101);
+}
+
 .close-button {
   position: absolute;
   top: 10px;

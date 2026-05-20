@@ -1,32 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { FiSettings } from "react-icons/fi";
+import SiteNavMenu from "./SiteNavMenu";
+import "../styles/artStyle.css";
 import "../styles/landpage.css";
 
 const Header = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showIntro, setShowIntro] = useState(() => {
-    // Verificar si es la primera vez
-    return !localStorage.getItem("hasSeenMenuIntro");
-  });
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const isAuthenticated =
     localStorage.getItem("isAdminAuthenticated") === "true";
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [menuWidth, setMenuWidth] = useState(
-    window.innerWidth <= 768 ? -window.innerWidth : -300
-  );
 
   const palabras = [
-    "Works", // English
-    "Obras", // Spanish
-    "Œuvres", // French
-    "作品", // Chinese
-    "작품", // Korean
-    "أعمال", // Arabic
-    "कार्य", // Hindi
+    "Works",
+    "Obras",
+    "Œuvres",
+    "作品",
+    "작품",
+    "أعمال",
+    "कार्य",
   ];
 
   useEffect(() => {
@@ -40,102 +35,30 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    if (showIntro) {
-      const timer = setTimeout(() => {
-        setShowIntro(false);
-        localStorage.setItem("hasSeenMenuIntro", "true");
-      }, 20000);
-      return () => clearTimeout(timer);
-    }
-  }, [showIntro]);
-
-  useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768;
-      setIsMobile(mobile);
-      setMenuWidth(mobile ? -window.innerWidth : -300);
+      setIsMobile(window.innerWidth <= 768);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const menuItems = [
-    { title: "Art", path: "/artroom" },
-    { title: "Digital", path: "/digitalart" },
-    { title: "Music", path: "/music" },
-    { title: "Photos", path: "/photoroom" },
-    { title: "Design", path: "/design" },
-    { title: "Writing", path: "/writing" },
-    { title: "Bio", path: "/biography" },
-    { title: "Credits", path: "/credits" },
-  ];
-
-  const handleMenuClick = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
     <>
       <header className="header">
         <button
+          type="button"
           className={`menu-button ${isMenuOpen ? "open" : ""}`}
           onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label={isMenuOpen ? "Cerrar menú" : "Abrir menú"}
         >
           <span></span>
           <span></span>
           <span></span>
         </button>
 
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.nav
-              className="nav-menu"
-              initial={{ x: menuWidth }}
-              animate={{ x: 0 }}
-              exit={{ x: menuWidth }}
-              transition={{
-                type: "spring",
-                stiffness: isMobile ? 200 : 300,
-                damping: isMobile ? 25 : 30,
-                duration: isMobile ? 0.4 : 0.3,
-              }}
-            >
-              <video autoPlay muted loop playsInline src="/bgPremier.mp4" />
+        <SiteNavMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
 
-              {showIntro && (
-                <div className="intro-message">
-                  <p>
-                    The following pages are a retrospective of my life as a
-                    creator.
-                  </p>
-                  <p>
-                    It includes music, fine art, craftsmanship, writing
-                    photography and design etc
-                  </p>
-                  <p>Enjoy.</p>
-                  <p>Currently, none of this work is for sale.</p>
-                </div>
-              )}
-
-              <ul className={`nav-list ${showIntro ? "compact" : ""}`}>
-                {menuItems.map((item) => (
-                  <li key={item.path} className="nav-item">
-                    <button
-                      onClick={() => {
-                        navigate(item.path);
-                        setIsMenuOpen(false);
-                      }}
-                    >
-                      {item.title}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </motion.nav>
-          )}
-        </AnimatePresence>
-
-        {isAuthenticated && (
+        {isAuthenticated && !isMenuOpen && (
           <button
             className="control-panel-button"
             onClick={() => navigate("/admin")}
@@ -154,8 +77,10 @@ const Header = () => {
       </header>
 
       <div className="encabezado">
-        <div className="imagen-container"
-        onClick={() => setIsMenuOpen(!isMenuOpen)} >
+        <div
+          className="imagen-container"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
           <img
             src="/ZIGZAGBG.png"
             alt="logo"

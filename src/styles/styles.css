@@ -55,6 +55,33 @@
     src: url('../fonts/Cinema.ttf')
 }
 
+/* Home logo (ArtRoom, PhotoRoom, Panorama, etc.) */
+.logo-link {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100;
+    display: block;
+    width: fit-content;
+    height: fit-content;
+    max-width: 80px;
+    line-height: 0;
+}
+
+.logo-link .logo {
+    position: static;
+    width: 80px;
+    height: auto;
+    display: block;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    pointer-events: auto;
+}
+
+.logo-link:hover .logo {
+    opacity: 1;
+}
+
 /* Home logo: slow continuous spin while hovering the link (wheel-like) */
 @keyframes logo-spin-hover {
     to {
