@@ -32,7 +32,7 @@
     "react-router-dom": "^7.0.1",
     "react-scroll": "^1.9.0",
     "react-spinners": "^0.15.0",
-    "three": "^0.176.0",
+    "three": "^0.184.0",
     "vite": "^6.0.1",
     "yet-another-react-lightbox": "^3.21.7",
     "yup": "^1.4.0"

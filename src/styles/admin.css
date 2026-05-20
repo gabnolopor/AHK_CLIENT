@@ -119,9 +119,10 @@
 
 /* Dashboard Styles */
 .dashboard-container {
-  min-height: 100%;
-  height: 100%;
+  min-height: 100vh;
+  height: auto;
   position: relative;
+  overflow: visible;
   -webkit-overflow-scrolling: touch;
   background: linear-gradient(135deg, #1a1a1a, #4a4a4a);
   padding: 2rem;
@@ -1077,9 +1078,14 @@
   cursor: not-allowed;
 }
 
-/* Asegura que el body y html tengan scroll habilitado */
-html, body {
-  height: 100%;
+/* Scroll de página en admin (por si otros CSS globales fijan body) */
+html:has(.dashboard-container),
+html:has(.login-container),
+body:has(.dashboard-container),
+body:has(.login-container) {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
