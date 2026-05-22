@@ -211,14 +211,14 @@ export const apiService = {
         }
     },
 
-    loginAdmin: async (credentials) => {
+    loginAdmin: async ({ username, password, rememberMe = false }) => {
         try {
             const response = await fetch(`${API_URL}/admin/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(credentials)
+                body: JSON.stringify({ username, password, rememberMe })
             });
 
             if (!response.ok) {

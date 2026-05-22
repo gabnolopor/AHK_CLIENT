@@ -29,6 +29,24 @@ const WRITING_GENRES = [
   "Treatments"
 ];
 const MUSIC_GENRES = ["Film-TV", "Pop", "Rock", "Electro", "Experimental"];
+const REMEMBERED_USERNAME_KEY = "adminRememberedUsername";
+
+function validateLoginForm({ username, password }) {
+  const errors = {};
+  const trimmedUsername = username.trim();
+
+  if (!trimmedUsername) {
+    errors.username = "El usuario es obligatorio.";
+  } else if (trimmedUsername.length < 2) {
+    errors.username = "El usuario debe tener al menos 2 caracteres.";
+  }
+
+  if (!password) {
+    errors.password = "La contraseña es obligatoria.";
+  }
+
+  return errors;
+}
 
 function Admin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -90,6 +108,8 @@ function Admin() {
     username: "",
     password: "",
   });
+  const [loginErrors, setLoginErrors] = useState({});
+  const [rememberMe, setRememberMe] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Add this constant for file limits
@@ -134,6 +154,13 @@ function Admin() {
 
     fetchAllContent();
   }, [isAuthenticated, handleRequest]);
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem(REMEMBERED_USERNAME_KEY);
+    if (savedUsername) {
+      setLoginData((prev) => ({ ...prev, username: savedUsername }));
+    }
+  }, []);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -285,19 +312,29 @@ function Admin() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const errors = validateLoginForm(loginData);
+    setLoginErrors(errors);
+    if (Object.keys(errors).length > 0) {
+      return;
+    }
+
     setIsLoading(true);
 
     try {
       const response = await handleRequest(() => 
         apiService.loginAdmin({
-          username: loginData.username,
+          username: loginData.username.trim(),
           password: loginData.password,
+          rememberMe,
         })
       );
       
       if (response && response.token) {
-        localStorage.setItem('token', response.token);
         localStorage.setItem('isAdminAuthenticated', 'true');
+        localStorage.setItem(REMEMBERED_USERNAME_KEY, loginData.username.trim());
+        setLoginErrors({});
+        setLoginData((prev) => ({ ...prev, password: "" }));
         setIsAuthenticated(true);
         toast.success('Login successful!');
         
@@ -326,7 +363,6 @@ function Admin() {
   const handleLogout = () => {
     localStorage.removeItem("adminToken");
     localStorage.removeItem("isAdminAuthenticated");
-    localStorage.removeItem("token");
     setIsAuthenticated(false);
     toast.info("Logged out successfully");
   };
@@ -833,40 +869,68 @@ function Admin() {
       <Toaster position="top-right" />
       <div className="login-card">
         <h1 className="login-title">Admin Login</h1>
-        <form onSubmit={handleLogin} className="login-form">
-          <div className="login-input-group">
-            <FiUser className="login-form-icon" />
-            <input
-              type="text"
-              className="login-form-input"
-              placeholder="Username"
-              value={loginData.username}
-              onChange={(e) =>
-                setLoginData({ ...loginData, username: e.target.value })
-              }
-              required
-            />
+        <form onSubmit={handleLogin} className="login-form" autoComplete="on">
+          <div>
+            <div className="login-input-group">
+              <FiUser className="login-form-icon" />
+              <input
+                id="admin-username"
+                name="username"
+                type="text"
+                className={`login-form-input${loginErrors.username ? " input-error" : ""}`}
+                placeholder="Username"
+                autoComplete="username"
+                value={loginData.username}
+                onChange={(e) => {
+                  setLoginData({ ...loginData, username: e.target.value });
+                  if (loginErrors.username) {
+                    setLoginErrors({ ...loginErrors, username: undefined });
+                  }
+                }}
+              />
+            </div>
+            {loginErrors.username && (
+              <p className="login-field-error">{loginErrors.username}</p>
+            )}
           </div>
-          <div className="login-input-group">
-            <FiLock className="login-form-icon" />
-            <input
-              type={showPassword ? "text" : "password"}
-              className="login-form-input"
-              placeholder="Password"
-              value={loginData.password}
-              onChange={(e) =>
-                setLoginData({ ...loginData, password: e.target.value })
-              }
-              required
-            />
-            <button
-              type="button"
-              className="password-toggle-button"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FiEyeOff /> : <FiEye />}
-            </button>
+          <div>
+            <div className="login-input-group">
+              <FiLock className="login-form-icon" />
+              <input
+                id="admin-password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                className={`login-form-input${loginErrors.password ? " input-error" : ""}`}
+                placeholder="Password"
+                autoComplete="current-password"
+                value={loginData.password}
+                onChange={(e) => {
+                  setLoginData({ ...loginData, password: e.target.value });
+                  if (loginErrors.password) {
+                    setLoginErrors({ ...loginErrors, password: undefined });
+                  }
+                }}
+              />
+              <button
+                type="button"
+                className="password-toggle-button"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <FiEyeOff /> : <FiEye />}
+              </button>
+            </div>
+            {loginErrors.password && (
+              <p className="login-field-error">{loginErrors.password}</p>
+            )}
           </div>
+          <label className="login-remember-row">
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={(e) => setRememberMe(e.target.checked)}
+            />
+            Remember me (30-day session)
+          </label>
           <button type="submit" className="login-button" disabled={isLoading}>
             {isLoading ? (
               <motion.div
