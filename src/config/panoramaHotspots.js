@@ -6,38 +6,67 @@ import * as THREE from 'three';
  * yaw:   giro horizontal en grados (0 ≈ centro de la imagen; positivo ≈ derecha)
  * pitch: inclinación vertical en grados (positivo = arriba, negativo = abajo)
  *
- * Colocar posiciones (requiere reactivar ?edit=1 en PanoramaRoom.jsx):
- * 1. Abre /panorama?edit=1
- * 2. Arrastra cada punto sobre el objeto en la escena
- * 3. Pulsa "Copiar config" y pega el resultado aquí (o pásamelo)
- * 4. En uso normal (/panorama) los puntos quedan fijos, sin arrastre
+ * Colocar posiciones y tamaños: /panorama?edit=1
+ * 1. Arrastra cada hotspot sobre el objeto en la escena
+ * 2. Selecciónalo y ajusta ancho/alto (o arrastra la esquina amarilla)
+ * 3. Pulsa "Copiar config" y pega el resultado aquí
  */
 export const HOTSPOT_RADIUS = 490;
+export const DEFAULT_HOTSPOT_HIT = { w: 88, h: 88 };
+
+/** Tamaño del área clicable (px). En móvil sin medidas custom → solo el punto (14×14). */
+export function getHotspotHitSize(hotspot, { compactMobile = false } = {}) {
+  if (hotspot.hitW != null || hotspot.hitH != null) {
+    return {
+      w: hotspot.hitW ?? DEFAULT_HOTSPOT_HIT.w,
+      h: hotspot.hitH ?? DEFAULT_HOTSPOT_HIT.h,
+    };
+  }
+  if (compactMobile) return { w: 14, h: 14 };
+  return { ...DEFAULT_HOTSPOT_HIT };
+}
+
+export function applyHotspotDimensions(element, hotspot, options = {}) {
+  const { w, h } = getHotspotHitSize(hotspot, options);
+  element.style.width = `${w}px`;
+  element.style.height = `${h}px`;
+  element.style.minWidth = `${w}px`;
+  element.style.minHeight = `${h}px`;
+  element.style.padding = '0';
+}
+
+function formatHotspotSize(h) {
+  if (h.hitW == null && h.hitH == null) return '';
+  const w = h.hitW ?? DEFAULT_HOTSPOT_HIT.w;
+  const ht = h.hitH ?? DEFAULT_HOTSPOT_HIT.h;
+  return `, hitW: ${w}, hitH: ${ht}`;
+}
+
 export const PANORAMA_HOTSPOTS = [
-  { id: 'music', label: 'Music', path: '/music', yaw: -149, pitch: -23.6 },
-  { id: 'music-2', label: 'Music', path: '/music', yaw: -25.4, pitch: 12.6 },
-  { id: 'photos', label: 'Photos', path: '/photoroom', yaw: 72.8, pitch: -25 },
-  { id: 'photos-2', label: 'Photos', path: '/photoroom', yaw: -20.4, pitch: -3.9 },
-  { id: 'photos-3', label: 'Photos', path: '/photoroom', yaw: 85.4, pitch: 34 },
-  { id: 'photos-4', label: 'Photos', path: '/photoroom', yaw: 120.8, pitch: -25.5 },
-  { id: 'art', label: 'Art', path: '/artroom', yaw: 62.1, pitch: -13.2 },
-  { id: 'art-2', label: 'Art', path: '/artroom', yaw: 113.6, pitch: -6.3 },
-  { id: 'art-3', label: 'Art', path: '/artroom', yaw: 64.4, pitch: 26.1 },
-  { id: 'art-4', label: 'Art', path: '/artroom', yaw: 112.3, pitch: 19.9 },
-  { id: 'writing', label: 'Writing', action: 'writing', yaw: -26.1, pitch: -33 },
-  { id: 'writing-2', label: 'Writing', action: 'writing', yaw: -137, pitch: -33.1 },
-  { id: 'writing-3', label: 'Writing', action: 'writing', yaw: -110.4, pitch: -1.8 },
-  { id: 'writing-4', label: 'Writing', action: 'writing', yaw: 48.6, pitch: -24.4 },
-  { id: 'writing-5', label: 'Writing', action: 'writing', yaw: -26, pitch: -22.5 },
-  { id: 'writing-6', label: 'Writing', action: 'writing', yaw: 159.3, pitch: -40.8 },
-  { id: 'writing-7', label: 'Writing', action: 'writing', yaw: 134.6, pitch: -31.8 },
-  { id: 'digital', label: 'Digital', path: '/digitalart', yaw: 99.6, pitch: -14.3 },
-  { id: 'design', label: 'Design', path: '/design', yaw: 132, pitch: -0.2 },
-  { id: 'bio', label: 'Bio', path: '/biography', yaw: 68.1, pitch: -32.6 },
-  { id: 'credits', label: 'Credits', path: '/credits', yaw: -179.6, pitch: -29.4 },
-  { id: 'menu', label: 'Menu', action: 'menu', yaw: 87, pitch: 15 },
-  { id: 'home-2', label: 'Home', action: 'menu', yaw: -71.6, pitch: -13.1 },
-  { id: 'home-3', label: 'Home', action: 'menu', yaw: -49.2, pitch: 34.5 },
+  { id: 'music', label: 'Music', path: '/music', yaw: -155.2, pitch: -19, hitW: 193, hitH: 139 },
+  { id: 'music-2', label: 'Music', path: '/music', yaw: -24.3, pitch: 18.1, hitW: 154, hitH: 106 },
+  { id: 'photos', label: 'Photos', path: '/photoroom', yaw: 73.3, pitch: -21.8, hitW: 88, hitH: 54 },
+  { id: 'photos-2', label: 'Photos', path: '/photoroom', yaw: -21.3, pitch: -0.2, hitW: 97, hitH: 96 },
+  { id: 'photos-3', label: 'Photos', path: '/photoroom', yaw: 85.4, pitch: 41.1, hitW: 106, hitH: 125 },
+  { id: 'photos-4', label: 'Photos', path: '/photoroom', yaw: 120.6, pitch: -20.9, hitW: 61, hitH: 70 },
+  { id: 'art', label: 'Art', path: '/artroom', yaw: 61.8, pitch: -7.8, hitW: 63, hitH: 89 },
+  { id: 'art-2', label: 'Art', path: '/artroom', yaw: 114.3, pitch: 3.4, hitW: 122, hitH: 136 },
+  { id: 'art-3', label: 'Art', path: '/artroom', yaw: 63.6, pitch: 33, hitW: 84, hitH: 115 },
+  { id: 'art-4', label: 'Art', path: '/artroom', yaw: 111.3, pitch: 28.6, hitW: 156, hitH: 172 },
+  { id: 'writing', label: 'Writing', action: 'writing', yaw: -25, pitch: -29.5, hitW: 128, hitH: 82 },
+  { id: 'writing-2', label: 'Writing', action: 'writing', yaw: -137.2, pitch: -31.3, hitW: 105, hitH: 63 },
+  { id: 'writing-3', label: 'Writing', action: 'writing', yaw: -109.7, pitch: 2.4, hitW: 225, hitH: 353 },
+  { id: 'writing-4', label: 'Writing', action: 'writing', yaw: 48.5, pitch: -22.6, hitW: 96, hitH: 72 },
+  { id: 'writing-5', label: 'Writing', action: 'writing', yaw: -25.3, pitch: -15, hitW: 123, hitH: 84 },
+  { id: 'writing-6', label: 'ZigZagShop', path: '/zigzagshop', yaw: 159.3, pitch: -37.5, hitW: 154, hitH: 64 },
+  { id: 'writing-7', label: 'Writing', action: 'writing', yaw: 135.4, pitch: -28.5, hitW: 103, hitH: 63 },
+  { id: 'digital', label: 'Digital', path: '/digitalart', yaw: 99.3, pitch: -12.6, hitW: 196, hitH: 126 },
+  { id: 'design', label: 'Design', path: '/design', yaw: 132.7, pitch: -2.8, hitW: 98, hitH: 225 },
+  { id: 'bio', label: 'Bio', path: '/biography', yaw: 68.2, pitch: -28.6, hitW: 110, hitH: 63 },
+  { id: 'credits', label: 'Credits', path: '/credits', yaw: 179.8, pitch: -27.8, hitW: 105, hitH: 62 },
+  { id: 'menu', label: 'Menu', action: 'menu', yaw: 86.6, pitch: 18.1, hitW: 124, hitH: 179 },
+  { id: 'home-2', label: 'Home', action: 'menu', yaw: -72.8, pitch: -3.2, hitW: 175, hitH: 394 },
+  { id: 'home-3', label: 'Home', action: 'menu', yaw: -48.9, pitch: 38 },
 ];
 
 /** Convierte yaw/pitch (grados) a posición 3D sobre la esfera del panorama. */
@@ -65,13 +94,14 @@ export function vector3ToHotspotAngles(vector) {
 export function formatHotspotsForConfig(hotspots) {
   return hotspots
     .map((h) => {
+      const size = formatHotspotSize(h);
       if (h.action === 'menu') {
-        return `  { id: '${h.id}', label: '${h.label}', action: 'menu', yaw: ${h.yaw}, pitch: ${h.pitch} },`;
+        return `  { id: '${h.id}', label: '${h.label}', action: 'menu', yaw: ${h.yaw}, pitch: ${h.pitch}${size} },`;
       }
       if (h.action === 'writing') {
-        return `  { id: '${h.id}', label: '${h.label}', action: 'writing', yaw: ${h.yaw}, pitch: ${h.pitch} },`;
+        return `  { id: '${h.id}', label: '${h.label}', action: 'writing', yaw: ${h.yaw}, pitch: ${h.pitch}${size} },`;
       }
-      return `  { id: '${h.id}', label: '${h.label}', path: '${h.path}', yaw: ${h.yaw}, pitch: ${h.pitch} },`;
+      return `  { id: '${h.id}', label: '${h.label}', path: '${h.path}', yaw: ${h.yaw}, pitch: ${h.pitch}${size} },`;
     })
     .join('\n');
 }

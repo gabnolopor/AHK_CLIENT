@@ -18,6 +18,7 @@ import PDFViewer from './components/PDFViewer';
 import ThreeDRoom from './pages/3DRoom';
 import Photo3DRoom from './pages/Photo3DRoom';
 import PanoramaRoom from './pages/PanoramaRoom';
+import ZigZagShop from './pages/ZigZagShop';
 import LoadingFallback from './components/LoadingFallback';
 
 // Component to handle loading logic based on current route
@@ -55,6 +56,7 @@ function AppContent() {
         <Route path="/photoroom" element={<PhotoRoom />} />
         <Route path="/artroom" element={<ArtRoom />} />
         <Route path="/writing" element={<Writings />} />
+        <Route path="/zigzagshop" element={<ZigZagShop />} />
         <Route path="/digitalart" element={<DigitalArt />} />
         <Route path="/admin/login" element={<Admin />} />
         <Route path="/3dRoom" element={<ThreeDRoom />} />
