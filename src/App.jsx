@@ -26,7 +26,9 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
   const skipGlobalLoading =
-    location.pathname === '/' || location.pathname === '/panorama';
+    location.pathname === '/' ||
+    location.pathname === '/panorama' ||
+    location.pathname === '/zigzagshop';
 
   useEffect(() => {
     if (skipGlobalLoading) {
