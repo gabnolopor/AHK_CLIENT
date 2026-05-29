@@ -46,7 +46,7 @@
 .bio__header h1 {
     font-size: 2rem;
     color: #333;
-    font-family: 'Montserrat', sans-serif;
+    font-family: var(--font-app);
     text-align: center;
     flex-grow: 1;
     margin: 0 1rem;
@@ -62,7 +62,7 @@
     justify-content: center;
     cursor: pointer;
     margin: 10px 0 15px 0;
-    font-family: box2;
+    font-family: var(--font-app);
     font-size: 16px;
     letter-spacing: 1.5px;
     font-style: italic;

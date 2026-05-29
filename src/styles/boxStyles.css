@@ -108,7 +108,7 @@ box component
   padding: 0;
   text-align: center;
   font-size: 1rem;
-  font-family: Monserrat;
+  font-family: var(--font-app);
   transition: opacity 2s ease, visibility 2s ease;
   opacity: 0;
   visibility: hidden;

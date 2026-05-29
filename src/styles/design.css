@@ -99,7 +99,7 @@
 }
 
 .design-info h2 {
-    font-family: 'box2';   
+    font-family: var(--font-app);   
     font-size: 2rem;
     margin: 0 0 10px 0;
     color: #fff;
@@ -112,7 +112,7 @@
     color: #e0e0e0;
     line-height: 1.4;
     margin: 0;
-    font-family: 'system-ui', sans-serif;   
+    font-family: var(--font-app);   
 
 }
 

@@ -14,6 +14,9 @@ import * as THREE from 'three';
 export const HOTSPOT_RADIUS = 490;
 export const DEFAULT_HOTSPOT_HIT = { w: 88, h: 88 };
 
+/** Ángulo inicial del tour (photos-5). */
+export const PANORAMA_INITIAL_VIEW = { yaw: 87, pitch: 0.2 };
+
 /** Tamaño del área clicable (px). En móvil sin medidas custom → solo el punto (14×14). */
 export function getHotspotHitSize(hotspot, { compactMobile = false } = {}) {
   if (hotspot.hitW != null || hotspot.hitH != null) {
@@ -49,10 +52,13 @@ export const PANORAMA_HOTSPOTS = [
   { id: 'photos-2', label: 'Photos', path: '/photoroom', yaw: -21.3, pitch: -0.2, hitW: 97, hitH: 96 },
   { id: 'photos-3', label: 'Photos', path: '/photoroom', yaw: 85.4, pitch: 41.1, hitW: 106, hitH: 125 },
   { id: 'photos-4', label: 'Photos', path: '/photoroom', yaw: 120.6, pitch: -20.9, hitW: 61, hitH: 70 },
+  { id: 'photos-5', label: 'Photos', path: '/photoroom', yaw: 87, pitch: 0.2, hitW: 251, hitH: 51 },
   { id: 'art', label: 'Art', path: '/artroom', yaw: 61.8, pitch: -7.8, hitW: 63, hitH: 89 },
   { id: 'art-2', label: 'Art', path: '/artroom', yaw: 114.3, pitch: 3.4, hitW: 122, hitH: 136 },
   { id: 'art-3', label: 'Art', path: '/artroom', yaw: 63.6, pitch: 33, hitW: 84, hitH: 115 },
   { id: 'art-4', label: 'Art', path: '/artroom', yaw: 111.3, pitch: 28.6, hitW: 156, hitH: 172 },
+  { id: 'art-5', label: 'Art', path: '/artroom', yaw: 90.3, pitch: 20.1, hitW: 97, hitH: 131 },
+  { id: 'design-2', label: 'Design', path: '/design', yaw: 66.2, pitch: 15.6, hitW: 98, hitH: 125 },
   { id: 'writing', label: 'Writing', action: 'writing', yaw: -25, pitch: -29.5, hitW: 128, hitH: 82 },
   { id: 'writing-2', label: 'Writing', action: 'writing', yaw: -137.2, pitch: -31.3, hitW: 105, hitH: 63 },
   { id: 'writing-3', label: 'Writing', action: 'writing', yaw: -109.7, pitch: 2.4, hitW: 225, hitH: 353 },
@@ -64,7 +70,7 @@ export const PANORAMA_HOTSPOTS = [
   { id: 'design', label: 'Design', path: '/design', yaw: 132.7, pitch: -2.8, hitW: 98, hitH: 225 },
   { id: 'bio', label: 'Bio', path: '/biography', yaw: 68.2, pitch: -28.6, hitW: 110, hitH: 63 },
   { id: 'credits', label: 'Credits', path: '/credits', yaw: 179.8, pitch: -27.8, hitW: 105, hitH: 62 },
-  { id: 'menu', label: 'Menu', action: 'menu', yaw: 86.6, pitch: 18.1, hitW: 124, hitH: 179 },
+  { id: 'menu', label: 'Menu', action: 'menu', yaw: 31.7, pitch: 23.2, hitW: 236, hitH: 347 },
   { id: 'home-2', label: 'Home', action: 'menu', yaw: -72.8, pitch: -3.2, hitW: 175, hitH: 394 },
   { id: 'home-3', label: 'Home', action: 'menu', yaw: -48.9, pitch: 38 },
 ];

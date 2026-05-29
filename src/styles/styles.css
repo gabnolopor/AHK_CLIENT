@@ -4,7 +4,16 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-family: 'SneakyTimes';
+    src: url('/Sneaky-Times.otf') format('opentype');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
+    --font-app: 'SneakyTimes', ui-serif, Georgia, 'Times New Roman', serif;
     --color-primary: #000000;
     --color-secondary: #f0f0f0;
     /*Full Color*/
@@ -33,6 +42,18 @@
    --x-move: 0px;
    --y-move: 0px;
 
+}
+
+html,
+body {
+    font-family: var(--font-app);
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
 }
 
 @font-face {

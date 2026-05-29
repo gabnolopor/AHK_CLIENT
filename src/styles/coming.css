@@ -13,7 +13,7 @@
 
 .coming__content{
     text-align: center;
-    font-family: Monserrat;
+    font-family: var(--font-app);
     background-color: white;
     padding: 2rem;
     border-radius: 1rem;

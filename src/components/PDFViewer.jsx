@@ -96,7 +96,7 @@ function PDFViewer() {
       marginBottom: "15px",
       fontSize: isMobile ? "1.5rem" : isTablet ? "1.8rem" : "2.5rem",
       textTransform: "uppercase",
-      fontFamily: "Cinema",
+      fontFamily: 'var(--font-app)',
       textShadow: "1px 1px 2px rgba(0, 0, 0, 0.2)",
       wordWrap: "break-word",
       hyphens: "auto",

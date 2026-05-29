@@ -155,7 +155,7 @@
   flex-grow: 1;
   color: white;
   font-size: 3rem;
-  font-family: 'book';
+  font-family: var(--font-app);
   text-align: center;
   padding: 0.5rem 1rem;
   margin: 0 1rem;
@@ -214,7 +214,7 @@
 }
 
 .music__feed-slide-title {
-  font-family: Monserrat, sans-serif;
+  font-family: var(--font-app);
   font-size: 1.1rem;
   color: white;
   margin: 0;
@@ -395,7 +395,7 @@
   background: rgba(255, 255, 255, 0.1);
   padding: 0.3rem 0.6rem;
   border-radius: 5px;
-  font-family: 'Courier New', monospace;
+  font-family: var(--font-app);
   font-size: 0.8rem;
 }
 

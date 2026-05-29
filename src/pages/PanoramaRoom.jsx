@@ -6,6 +6,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import { CSS2DRenderer, CSS2DObject } from 'three/examples/jsm/renderers/CSS2DRenderer';
 import {
   PANORAMA_HOTSPOTS,
+  PANORAMA_INITIAL_VIEW,
   HOTSPOT_RADIUS,
   hotspotToVector3,
   vector3ToHotspotAngles,
@@ -177,13 +178,12 @@ const PanoramaRoom = () => {
     controls.enablePan = false;
     controls.rotateSpeed = -0.35;
 
-    const menuHotspot = PANORAMA_HOTSPOTS.find((h) => h.id === 'menu');
-    if (menuHotspot) {
-      const viewDirection = hotspotToVector3(menuHotspot.yaw, menuHotspot.pitch, 1);
-      camera.position.copy(viewDirection.clone().multiplyScalar(-0.1));
-    } else {
-      camera.position.set(0, 0, 0.1);
-    }
+    const viewDirection = hotspotToVector3(
+      PANORAMA_INITIAL_VIEW.yaw,
+      PANORAMA_INITIAL_VIEW.pitch,
+      1
+    );
+    camera.position.copy(viewDirection.clone().multiplyScalar(-0.1));
     controls.target.set(0, 0, 0);
     controls.update();
 

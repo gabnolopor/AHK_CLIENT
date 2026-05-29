@@ -34,17 +34,18 @@ function WritingCategoryModal({ isOpen, onClose, onSelectCategory }) {
         <button type="button" className="close-button" onClick={onClose}>
           &times;
         </button>
-        <h2 className="modal-genre-title">Writing</h2>
+        <h2 className="writing-category-modal__title">Writing</h2>
         <p className="writing-category-modal__hint">Choose a category</p>
-        <ul className="writing-category-list">
+        <ul className="writing-category-shelf" aria-label="Writing categories">
           {categories.map((category) => (
-            <li key={category}>
+            <li key={category} className="writing-category-shelf__item">
               <button
                 type="button"
-                className="writing-category-list__btn"
+                className="writing-category-spine"
                 onClick={() => onSelectCategory(category)}
               >
-                {category}
+                <span className="writing-category-spine__lines" aria-hidden="true" />
+                <span className="writing-category-spine__label">{category}</span>
               </button>
             </li>
           ))}
