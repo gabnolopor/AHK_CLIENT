@@ -1,0 +1,54 @@
+.privacy-page .bio__content-wrapper {
+  max-width: 760px;
+  width: 100%;
+  max-height: calc(100vh - 4rem);
+  display: flex;
+  flex-direction: column;
+}
+
+.privacy-page__content {
+  overflow: hidden;
+}
+
+.privacy-page__header-spacer {
+  width: 40px;
+  flex-shrink: 0;
+}
+
+.privacy-page__text {
+  overflow-y: auto;
+  padding-right: 0.35rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.35) transparent;
+}
+
+.privacy-page__section {
+  margin-bottom: 1.75rem;
+}
+
+.privacy-page__section:last-child {
+  margin-bottom: 0.5rem;
+}
+
+.privacy-page__section h2 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-app);
+  font-size: 1.15rem;
+  color: #222;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.privacy-page__section p {
+  white-space: pre-wrap;
+}
+
+.privacy-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.privacy-link:hover {
+  opacity: 0.85;
+}

@@ -611,6 +611,18 @@ function Admin() {
     return value.length > max ? `${value.slice(0, max)}…` : value;
   };
 
+  const formatLocation = (visit) => {
+    const parts = [visit.city, visit.region, visit.country].filter(Boolean);
+    if (parts.length === 0 && visit.timezone) {
+      return visit.timezone;
+    }
+    if (parts.length === 0) {
+      return "—";
+    }
+    const location = parts.join(", ");
+    return visit.timezone ? `${location} · ${visit.timezone}` : location;
+  };
+
   const getBreakdownTitle = (unit) => {
     if (unit === "hour") return "Visits by hour";
     if (unit === "month") return "Visits by month";
@@ -620,6 +632,7 @@ function Admin() {
   const renderAnalytics = () => {
     const summary = analytics?.summary;
     const breakdownItems = analytics?.breakdown?.items ?? [];
+    const topCountries = analytics?.topCountries ?? [];
     const visitList = analytics?.visits ?? [];
 
     return (
@@ -676,6 +689,20 @@ function Admin() {
               </div>
             )}
 
+            {topCountries.length > 0 && (
+              <div className="analytics-breakdown-section">
+                <h3 className="analytics-subtitle">Top countries</h3>
+                <div className="analytics-breakdown-list">
+                  {topCountries.map((item) => (
+                    <div key={item.country} className="analytics-breakdown-row analytics-breakdown-row--two-cols">
+                      <span>{item.country}</span>
+                      <span>{item.visits} visits</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             <div className="analytics-visits-section">
               <h3 className="analytics-subtitle">
                 Visit log ({visitList.length})
@@ -687,6 +714,7 @@ function Admin() {
                       <tr>
                         <th>Date</th>
                         <th>IP</th>
+                        <th>Location</th>
                         <th>Referer</th>
                         <th>User-Agent</th>
                       </tr>
@@ -696,8 +724,9 @@ function Admin() {
                         <tr key={`${visit.visitedAt}-${visit.ip}-${index}`}>
                           <td>{formatVisitDate(visit.visitedAt)}</td>
                           <td>{visit.ip}</td>
-                          <td title={visit.referer}>{truncateText(visit.referer, 40)}</td>
-                          <td title={visit.userAgent}>{truncateText(visit.userAgent, 50)}</td>
+                          <td title={formatLocation(visit)}>{truncateText(formatLocation(visit), 36)}</td>
+                          <td title={visit.referer}>{truncateText(visit.referer, 32)}</td>
+                          <td title={visit.userAgent}>{truncateText(visit.userAgent, 40)}</td>
                         </tr>
                       ))}
                     </tbody>

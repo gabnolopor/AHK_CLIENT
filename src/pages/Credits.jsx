@@ -77,7 +77,11 @@ function Credits() {
       </p>
 
       <p className="credit-text">
-        &copy; 2025 ZigZag
+        &copy; 2026 ZigZag
+      </p>
+
+      <p className="credit-text credit-text--legal">
+        <Link to="/privacy" className="privacy-link">Privacy Policy</Link>
       </p>
     </>
   );

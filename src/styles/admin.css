@@ -1271,6 +1271,10 @@ body:has(.login-container) {
   font-size: 0.88rem;
 }
 
+.analytics-breakdown-row--two-cols {
+  grid-template-columns: 1fr auto;
+}
+
 .analytics-visits-section {
   margin-bottom: 0.25rem;
 }

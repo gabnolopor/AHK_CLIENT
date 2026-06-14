@@ -6,6 +6,7 @@ import ComingSoon from './pages/ComingSoon';
 import Design from './components/Design';
 import Biography from './pages/Biography';
 import Credits from './pages/Credits';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 import PhotoRoom from './pages/PhotoRoom';
 import ArtRoom from './pages/ArtRoom';
 import Writings from './pages/Writings';
@@ -29,7 +30,8 @@ function AppContent() {
   const skipGlobalLoading =
     location.pathname === '/' ||
     location.pathname === '/panorama' ||
-    location.pathname === '/zigzagshop';
+    location.pathname === '/zigzagshop' ||
+    location.pathname === '/privacy';
 
   useEffect(() => {
     const isAdminRoute = location.pathname.startsWith('/admin');
@@ -63,6 +65,7 @@ function AppContent() {
         <Route path="/design" element={<Design />} />
         <Route path="/biography" element={<Biography />} />
         <Route path="/credits" element={<Credits />} />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/photoroom" element={<PhotoRoom />} />
         <Route path="/artroom" element={<ArtRoom />} />
         <Route path="/writing" element={<Writings />} />

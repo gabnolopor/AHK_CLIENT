@@ -112,6 +112,21 @@ h2 { font-size: clamp(1.5rem, 6vw, 3rem); }
     line-height: 1.4;
 }
 
+.credit-text--legal {
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.credit-text--legal .privacy-link {
+    color: var(--full-orange);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.credit-text--legal .privacy-link:hover {
+    opacity: 0.85;
+}
+
 /* Desktop Styles */
 @media screen and (min-width: 1025px) {
     .simulation__content {

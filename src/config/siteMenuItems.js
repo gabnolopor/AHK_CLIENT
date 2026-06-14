@@ -7,4 +7,5 @@ export const SITE_MENU_ITEMS = [
   { title: 'Writing', path: '/writing' },
   { title: 'Bio', path: '/biography' },
   { title: 'Credits', path: '/credits' },
+  { title: 'Privacy', path: '/privacy' },
 ];
