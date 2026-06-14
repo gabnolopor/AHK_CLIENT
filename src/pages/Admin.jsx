@@ -13,6 +13,7 @@ import {
   FiFile,
   FiChevronDown,
   FiChevronRight,
+  FiBarChart2,
 } from "react-icons/fi";
 import "../styles/admin.css";
 import { apiService } from "../services/api";
@@ -30,6 +31,12 @@ const WRITING_GENRES = [
 ];
 const MUSIC_GENRES = ["Film-TV", "Pop", "Rock", "Electro", "Experimental"];
 const REMEMBERED_USERNAME_KEY = "adminRememberedUsername";
+const ANALYTICS_PERIODS = [
+  { id: "day", label: "Day" },
+  { id: "week", label: "Week" },
+  { id: "month", label: "Month" },
+  { id: "year", label: "Year" },
+];
 
 function validateLoginForm({ username, password }) {
   const errors = {};
@@ -94,7 +101,8 @@ function Admin() {
     writing: false,
     design: false,
     digitalArt: false,
-    biography: false
+    biography: false,
+    analytics: true,
   });
 
   const toggleSection = (key) => {
@@ -111,6 +119,9 @@ function Admin() {
   const [loginErrors, setLoginErrors] = useState({});
   const [rememberMe, setRememberMe] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [analytics, setAnalytics] = useState(null);
+  const [analyticsLoading, setAnalyticsLoading] = useState(false);
+  const [analyticsPeriod, setAnalyticsPeriod] = useState("week");
 
   // Add this constant for file limits
   const CONTENT_LIMITS = {
@@ -154,6 +165,25 @@ function Admin() {
 
     fetchAllContent();
   }, [isAuthenticated, handleRequest]);
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      if (!isAuthenticated) return;
+
+      setAnalyticsLoading(true);
+      try {
+        const data = await apiService.getAnalyticsStats(analyticsPeriod);
+        setAnalytics(data);
+      } catch (error) {
+        console.error("Error fetching analytics:", error);
+        toast.error("Failed to load visit analytics");
+      } finally {
+        setAnalyticsLoading(false);
+      }
+    };
+
+    fetchAnalytics();
+  }, [isAuthenticated, analyticsPeriod]);
 
   useEffect(() => {
     const savedUsername = localStorage.getItem(REMEMBERED_USERNAME_KEY);
@@ -568,6 +598,121 @@ function Admin() {
     return labels[type] || type.charAt(0).toUpperCase() + type.slice(1);
   };
 
+  const formatVisitDate = (value) => {
+    if (!value) return "—";
+    return new Date(value).toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+  };
+
+  const truncateText = (value, max = 60) => {
+    if (!value) return "—";
+    return value.length > max ? `${value.slice(0, max)}…` : value;
+  };
+
+  const getBreakdownTitle = (unit) => {
+    if (unit === "hour") return "Visits by hour";
+    if (unit === "month") return "Visits by month";
+    return "Visits by day";
+  };
+
+  const renderAnalytics = () => {
+    const summary = analytics?.summary;
+    const breakdownItems = analytics?.breakdown?.items ?? [];
+    const visitList = analytics?.visits ?? [];
+
+    return (
+      <div className={`analytics-panel${analyticsLoading ? " analytics-panel--loading" : ""}`}>
+        <div className="analytics-period-filters" role="tablist" aria-label="Visit period">
+          {ANALYTICS_PERIODS.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              role="tab"
+              aria-selected={analyticsPeriod === id}
+              className={`analytics-period-button${analyticsPeriod === id ? " analytics-period-button--active" : ""}`}
+              onClick={() => setAnalyticsPeriod(id)}
+              disabled={analyticsLoading}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        {analyticsLoading && !analytics ? (
+          <p className="analytics-loading">Loading visit stats…</p>
+        ) : (
+          <>
+            <div className="analytics-summary-grid">
+              <div className="analytics-stat-card">
+                <span className="analytics-stat-label">Visits</span>
+                <strong className="analytics-stat-value">{summary?.visits ?? 0}</strong>
+              </div>
+              <div className="analytics-stat-card">
+                <span className="analytics-stat-label">Unique IPs</span>
+                <strong className="analytics-stat-value">{summary?.uniqueIps ?? 0}</strong>
+              </div>
+            </div>
+
+            <p className="analytics-retention-note">
+              Records are automatically deleted after {analytics?.retentionDays ?? 30} days (MongoDB TTL).
+            </p>
+
+            {breakdownItems.length > 0 && (
+              <div className="analytics-breakdown-section">
+                <h3 className="analytics-subtitle">
+                  {getBreakdownTitle(analytics?.breakdown?.unit)}
+                </h3>
+                <div className="analytics-breakdown-list">
+                  {breakdownItems.map((item) => (
+                    <div key={item.label} className="analytics-breakdown-row">
+                      <span>{item.label}</span>
+                      <span>{item.visits} visits</span>
+                      <span>{item.uniqueIps} IPs</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div className="analytics-visits-section">
+              <h3 className="analytics-subtitle">
+                Visit log ({visitList.length})
+              </h3>
+              {visitList.length > 0 ? (
+                <div className="analytics-table-scroll">
+                  <table className="analytics-table">
+                    <thead>
+                      <tr>
+                        <th>Date</th>
+                        <th>IP</th>
+                        <th>Referer</th>
+                        <th>User-Agent</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {visitList.map((visit, index) => (
+                        <tr key={`${visit.visitedAt}-${visit.ip}-${index}`}>
+                          <td>{formatVisitDate(visit.visitedAt)}</td>
+                          <td>{visit.ip}</td>
+                          <td title={visit.referer}>{truncateText(visit.referer, 40)}</td>
+                          <td title={visit.userAgent}>{truncateText(visit.userAgent, 50)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <p className="analytics-empty">No visits in this period.</p>
+              )}
+            </div>
+          </>
+        )}
+      </div>
+    );
+  };
+
   const renderFileList = (type, options = {}) => {
     const { showHeaderTitle = true } = options;
     if (!dbContent[type]) {
@@ -795,6 +940,29 @@ function Admin() {
         </div>
 
         <div className="dashboard-grid">
+          <div className="content-section content-section--collapsible content-section--analytics">
+            <button
+              type="button"
+              className="collapsible-header"
+              onClick={() => toggleSection("analytics")}
+              aria-expanded={expandedSections.analytics}
+            >
+              <span className="collapsible-header-title">
+                <FiBarChart2 className="collapsible-title-icon" /> Visits
+              </span>
+              {expandedSections.analytics ? (
+                <FiChevronDown className="collapsible-icon" />
+              ) : (
+                <FiChevronRight className="collapsible-icon" />
+              )}
+            </button>
+            {expandedSections.analytics && (
+              <div className="collapsible-body">
+                {renderAnalytics()}
+              </div>
+            )}
+          </div>
+
           {[
             "artwork",
             "music",

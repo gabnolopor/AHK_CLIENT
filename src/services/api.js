@@ -274,6 +274,29 @@ export const apiService = {
         }
     },
 
+    getAnalyticsStats: async (period = 'week') => {
+        try {
+            const token = localStorage.getItem('adminToken');
+            if (!token) throw new Error('Not authenticated');
+
+            const response = await fetch(`${API_URL}/admin/analytics?period=${period}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json().catch(() => ({}));
+                throw new Error(errorData.error || 'Failed to load analytics');
+            }
+
+            return response.json();
+        } catch (error) {
+            console.error('Analytics error:', error);
+            throw error;
+        }
+    },
+
     changePassword: async (currentPassword, newPassword) => {
         try {
             const token = localStorage.getItem('adminToken');

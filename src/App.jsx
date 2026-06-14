@@ -20,6 +20,7 @@ import Photo3DRoom from './pages/Photo3DRoom';
 import PanoramaRoom from './pages/PanoramaRoom';
 import ZigZagShop from './pages/ZigZagShop';
 import LoadingFallback from './components/LoadingFallback';
+import { trackSiteVisit } from './services/analytics';
 
 // Component to handle loading logic based on current route
 function AppContent() {
@@ -29,6 +30,13 @@ function AppContent() {
     location.pathname === '/' ||
     location.pathname === '/panorama' ||
     location.pathname === '/zigzagshop';
+
+  useEffect(() => {
+    const isAdminRoute = location.pathname.startsWith('/admin');
+    if (!isAdminRoute) {
+      trackSiteVisit();
+    }
+  }, []);
 
   useEffect(() => {
     if (skipGlobalLoading) {
