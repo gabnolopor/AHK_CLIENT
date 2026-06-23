@@ -123,10 +123,11 @@ function Admin() {
   const [analyticsLoading, setAnalyticsLoading] = useState(false);
   const [analyticsPeriod, setAnalyticsPeriod] = useState("week");
 
-  // Add this constant for file limits
+  // Photos + paintings share a fixed total; photos are 2/3, paintings 1/3
+  const VISUAL_ART_TOTAL = 30;
   const CONTENT_LIMITS = {
-    photo: 15,
-    artwork: 15,
+    photo: Math.floor(VISUAL_ART_TOTAL * 2 / 3),
+    artwork: Math.floor(VISUAL_ART_TOTAL / 3),
     writing: 50,
     music: 30,
     design: 15,
