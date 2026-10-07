@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import MusicPage from './pages/MusicPage';
-import TestApi from './components/TestApi';
 import ComingSoon from './pages/ComingSoon';
 import Design from './components/Design';
 import Biography from './pages/Biography';
@@ -60,7 +59,6 @@ function AppContent() {
       <Routes>
         <Route path="/" element={<PanoramaRoom />} />
         <Route path="/music" element={<MusicPage />} />
-        <Route path="/testapi" element={<TestApi />} />
         <Route path="/comingsoon" element={<ComingSoon />} />
         <Route path="/design" element={<Design />} />
         <Route path="/biography" element={<Biography />} />

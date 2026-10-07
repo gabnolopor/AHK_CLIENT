@@ -6,10 +6,6 @@ import * as THREE from 'three';
  * yaw:   giro horizontal en grados (0 ≈ centro de la imagen; positivo ≈ derecha)
  * pitch: inclinación vertical en grados (positivo = arriba, negativo = abajo)
  *
- * Colocar posiciones y tamaños: /panorama?edit=1
- * 1. Arrastra cada hotspot sobre el objeto en la escena
- * 2. Selecciónalo y ajusta ancho/alto (o arrastra la esquina amarilla)
- * 3. Pulsa "Copiar config" y pega el resultado aquí
  */
 export const HOTSPOT_RADIUS = 490;
 export const DEFAULT_HOTSPOT_HIT = { w: 88, h: 88 };
