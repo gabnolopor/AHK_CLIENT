@@ -119,7 +119,6 @@ const ThreeDRoom = () => {
 
   return (
     <div className="three-d-room-container">
-      <p className="gallery-nav-hint gallery-room-title">Sala de pinturas · máx. {MAX_PAINTINGS_3D}</p>
       <p className="gallery-nav-hint gallery-nav-controls-hint">
         Drag to look · Arrows to walk · Click artwork · R to reset
       </p>

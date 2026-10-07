@@ -124,7 +124,6 @@ const Photo3DRoom = () => {
 
   return (
     <div className="three-d-room-container">
-      <p className="gallery-nav-hint gallery-room-title">Sala de fotos · máx. {MAX_PHOTOS_3D}</p>
       <p className="gallery-nav-hint gallery-nav-controls-hint">
         Drag to look · Arrows to walk · Click photo · R to reset
       </p>
